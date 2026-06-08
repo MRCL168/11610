@@ -1207,8 +1207,9 @@ const App = (() => {
 
       const manifest = await fetchThemeManifest(activeTheme);
 
-      state.themePanel = { themes, activeTheme, manifest, savedOptions };
+      state.themePanel = { themes, activeTheme, manifest, savedOptions, profile: (cfg.profile && typeof cfg.profile === "object") ? cfg.profile : {} };
       hideLoader();
+      buildProfileEditors();
       renderThemePanel();
     } catch (err) {
       hideLoader();
@@ -1238,6 +1239,7 @@ const App = (() => {
       : "";
 
     renderThemeOptions();
+    updateProfileEditorVisibility(tp.manifest);
   }
 
   // Bangun field input untuk tiap opsi di manifest.options.
@@ -1339,6 +1341,302 @@ const App = (() => {
     // Selaraskan state lokal agar render berikutnya konsisten.
     tp.activeTheme = theme;
     tp.savedOptions = themeOptions;
+  }
+
+  /* ============================================================
+     EDITOR PROFIL (Home & Sidebar)
+     Muncul untuk tema yang mendeklarasikan "editors" di theme.json.
+     Semua data disimpan ke config.profile (lewat saveSiteConfig).
+     ============================================================ */
+  const PROFILE_ICONS = ["spark", "layers", "chart", "shield", "chat", "rocket", "globe", "gear", "pen", "target", "clock", "users", "check"];
+  const SIDEBAR_TYPES = [
+    ["text", "Teks / HTML"], ["cta", "Ajakan (CTA)"], ["links", "Daftar Tautan"],
+    ["recent-posts", "Artikel Terbaru"], ["contact", "Kontak"], ["image", "Gambar"], ["social", "Media Sosial"],
+  ];
+
+  function profGet() { return (state.themePanel && state.themePanel.profile) || {}; }
+  function pval(id) { const el = $("#" + id); return el ? String(el.value).trim() : ""; }
+  function fval(row, name) { const el = row.querySelector('[data-field="' + name + '"]'); return el ? String(el.value).trim() : ""; }
+
+  // Snippet builders
+  function pfSec(t) { return '<div class="prof-section-title">' + escapeHtml(t) + "</div>"; }
+  function pfField(label, control) { return '<div class="field"><label>' + escapeHtml(label) + "</label>" + control + "</div>"; }
+  function pfInput(id, v) { return '<input type="text" id="' + id + '" value="' + escapeHtml(v || "") + '" />'; }
+  function pfTextarea(id, v, rows) { return '<textarea id="' + id + '" rows="' + (rows || 2) + '">' + escapeHtml(v || "") + "</textarea>"; }
+  function pfAddBtn(kind, label) { return '<button type="button" class="btn btn-ghost btn-small" onclick="App.profileAdd(\'' + kind + '\')">' + escapeHtml(label) + "</button>"; }
+  function pfImage(id, v) {
+    const val = v || "";
+    return '<div class="prof-image">' +
+      '<img id="' + id + '-prev" class="prof-image-prev' + (val ? "" : " hidden") + '" src="' + escapeHtml(val ? imagePreviewUrl(val) : "") + '" alt="" />' +
+      '<input type="text" id="' + id + '" value="' + escapeHtml(val) + '" placeholder="/public/images/..." oninput="App.refreshProfileImage(\'' + id + '\')" />' +
+      '<div class="prof-image-actions">' +
+        '<button type="button" class="btn btn-ghost btn-small" onclick="App.pickProfileImage(\'' + id + '\')">Pilih dari Media</button>' +
+        '<button type="button" class="btn btn-ghost btn-small" onclick="App.uploadProfileImage(\'' + id + '\')">Upload</button>' +
+      "</div></div>";
+  }
+
+  // Bangun isi form sekali (saat panel Tema dimuat)
+  function buildProfileEditors() {
+    const p = profGet();
+    state.profileDraft = {
+      stats: Array.isArray(p.stats) ? p.stats.slice() : [],
+      services: Array.isArray(p.services) ? p.services.slice() : [],
+      points: (p.about && Array.isArray(p.about.points)) ? p.about.points.slice() : [],
+      sidebar: Array.isArray(p.sidebar) ? p.sidebar.slice() : [],
+    };
+    const pc = p.primaryCta || {}, sc = p.secondaryCta || {}, about = p.about || {}, band = p.ctaBand || {}, bandBtn = band.button || {};
+    const body = $("#editor-home-body");
+    if (body) {
+      body.innerHTML =
+        pfSec("Hero") +
+        pfField("Eyebrow (label kecil)", pfInput("prof-eyebrow", p.eyebrow)) +
+        pfField("Judul (headline)", pfInput("prof-headline", p.headline)) +
+        pfField("Sub-judul", pfTextarea("prof-subheadline", p.subheadline, 2)) +
+        pfField("Foto latar hero (background)", pfImage("prof-heroBackground", p.heroBackground)) +
+        pfField("Foto samping hero (dipakai bila latar kosong)", pfImage("prof-heroImage", p.heroImage)) +
+        '<div class="prof-grid">' + pfField("Tombol utama — teks", pfInput("prof-pc-text", pc.text)) + pfField("Tombol utama — URL", pfInput("prof-pc-url", pc.url)) + "</div>" +
+        '<div class="prof-grid">' + pfField("Tombol kedua — teks", pfInput("prof-sc-text", sc.text)) + pfField("Tombol kedua — URL", pfInput("prof-sc-url", sc.url)) + "</div>" +
+        pfSec("Statistik") + '<div id="prof-stats"></div>' + pfAddBtn("stats", "+ Tambah Statistik") +
+        pfSec("Layanan") +
+        pfField("Eyebrow seksi", pfInput("prof-services-eyebrow", p.servicesEyebrow)) +
+        pfField("Judul seksi", pfInput("prof-services-title", p.servicesTitle)) +
+        pfField("Pengantar seksi", pfTextarea("prof-services-intro", p.servicesIntro, 2)) +
+        '<div id="prof-services"></div>' + pfAddBtn("services", "+ Tambah Layanan") +
+        pfSec("Tentang") +
+        pfField("Eyebrow", pfInput("prof-about-eyebrow", about.eyebrow)) +
+        pfField("Judul", pfInput("prof-about-title", about.title)) +
+        pfField("Teks", pfTextarea("prof-about-text", about.text, 4)) +
+        pfField("Foto (opsional)", pfImage("prof-about-image", about.image)) +
+        '<label class="prof-mini-label">Poin-poin</label><div id="prof-points"></div>' + pfAddBtn("points", "+ Tambah Poin") +
+        pfSec("CTA Band (ajakan di bagian bawah)") +
+        pfField("Judul", pfInput("prof-band-title", band.title)) +
+        pfField("Teks", pfTextarea("prof-band-text", band.text, 2)) +
+        '<div class="prof-grid">' + pfField("Tombol — teks", pfInput("prof-band-btn-text", bandBtn.text)) + pfField("Tombol — URL", pfInput("prof-band-btn-url", bandBtn.url)) + "</div>";
+    }
+    renderRows("stats"); renderRows("services"); renderRows("points"); renderRows("sidebar");
+  }
+
+  // Repeater generik
+  function rowShell(kind, i, inner) {
+    return '<div class="repeat-row" data-kind="' + kind + '">' +
+      '<div class="repeat-row-head"><span class="repeat-row-label">#' + (i + 1) + "</span>" +
+      '<div class="repeat-row-actions">' +
+        '<button type="button" class="btn btn-ghost btn-icon" title="Naik" onclick="App.profileMove(\'' + kind + "'," + i + ',-1)">↑</button>' +
+        '<button type="button" class="btn btn-ghost btn-icon" title="Turun" onclick="App.profileMove(\'' + kind + "'," + i + ',1)">↓</button>' +
+        '<button type="button" class="btn btn-ghost btn-icon" title="Hapus" onclick="App.profileRemove(\'' + kind + "'," + i + ')">🗑</button>' +
+      "</div></div>" + inner + "</div>";
+  }
+  function rowInner(kind, item, i) {
+    item = item || {};
+    if (kind === "stats") {
+      return '<div class="prof-grid">' +
+        '<div class="field"><label>Angka</label><input type="text" data-field="value" value="' + escapeHtml(item.value || "") + '" placeholder="120+" /></div>' +
+        '<div class="field"><label>Label</label><input type="text" data-field="label" value="' + escapeHtml(item.label || "") + '" placeholder="Proyek Selesai" /></div></div>';
+    }
+    if (kind === "services") {
+      const opts = PROFILE_ICONS.map((ic) => '<option value="' + ic + '"' + (item.icon === ic ? " selected" : "") + ">" + ic + "</option>").join("");
+      return '<div class="field"><label>Ikon</label><select data-field="icon">' + opts + "</select></div>" +
+        '<div class="field"><label>Judul</label><input type="text" data-field="title" value="' + escapeHtml(item.title || "") + '" /></div>' +
+        '<div class="field"><label>Teks</label><textarea data-field="text" rows="2">' + escapeHtml(item.text || "") + "</textarea></div>";
+    }
+    if (kind === "points") {
+      const v = typeof item === "string" ? item : (item.point || "");
+      return '<div class="field"><input type="text" data-field="point" value="' + escapeHtml(v) + '" placeholder="Poin keunggulan" /></div>';
+    }
+    if (kind === "sidebar") return sidebarRowInner(item, i);
+    return "";
+  }
+  function renderRows(kind) {
+    const wrap = $("#prof-" + kind);
+    if (!wrap) return;
+    const list = state.profileDraft[kind] || [];
+    if (!list.length) {
+      const e = { stats: "Belum ada statistik.", services: "Belum ada layanan.", points: "Belum ada poin.", sidebar: "Belum ada blok sidebar." };
+      wrap.innerHTML = '<p class="repeat-empty">' + (e[kind] || "Belum ada item.") + "</p>";
+      return;
+    }
+    wrap.innerHTML = list.map((item, i) => rowShell(kind, i, rowInner(kind, item, i))).join("");
+  }
+  function readRows(kind) {
+    const wrap = $("#prof-" + kind);
+    if (!wrap) return [];
+    return Array.from(wrap.querySelectorAll(":scope > .repeat-row")).map((row) => {
+      if (kind === "stats") return { value: fval(row, "value"), label: fval(row, "label") };
+      if (kind === "services") return { icon: fval(row, "icon"), title: fval(row, "title"), text: fval(row, "text") };
+      if (kind === "points") return fval(row, "point");
+      if (kind === "sidebar") return readSidebarRow(row);
+      return null;
+    });
+  }
+  function profileAdd(kind) {
+    state.profileDraft[kind] = readRows(kind);
+    const blank = { stats: { value: "", label: "" }, services: { icon: "spark", title: "", text: "" }, sidebar: { type: "text", title: "", content: "" } };
+    state.profileDraft[kind].push(kind === "points" ? "" : Object.assign({}, blank[kind]));
+    renderRows(kind);
+  }
+  function profileRemove(kind, i) { state.profileDraft[kind] = readRows(kind); state.profileDraft[kind].splice(i, 1); renderRows(kind); }
+  function profileMove(kind, i, dir) {
+    state.profileDraft[kind] = readRows(kind);
+    const a = state.profileDraft[kind], j = i + dir;
+    if (j < 0 || j >= a.length) return;
+    const t = a[i]; a[i] = a[j]; a[j] = t; renderRows(kind);
+  }
+
+  // Sidebar: field per tipe
+  function sidebarRowInner(item, i) {
+    item = item || {};
+    const type = item.type || "text";
+    const typeOpts = SIDEBAR_TYPES.map((t) => '<option value="' + t[0] + '"' + (type === t[0] ? " selected" : "") + ">" + t[1] + "</option>").join("");
+    const head = '<div class="field"><label>Tipe blok</label><select data-field="type" onchange="App.profileSidebarType(' + i + ', this)">' + typeOpts + "</select></div>";
+    const titleField = '<div class="field"><label>Judul</label><input type="text" data-field="title" value="' + escapeHtml(item.title || "") + '" /></div>';
+    let bdy = "";
+    if (type === "text") {
+      bdy = '<div class="field"><label>Konten (HTML)</label><textarea data-field="content" rows="3">' + escapeHtml(item.content || "") + "</textarea></div>";
+    } else if (type === "cta") {
+      const b = item.button || {};
+      bdy = '<div class="field"><label>Teks</label><textarea data-field="text" rows="2">' + escapeHtml(item.text || "") + "</textarea></div>" +
+        '<div class="prof-grid"><div class="field"><label>Tombol — teks</label><input type="text" data-field="btnText" value="' + escapeHtml(b.text || "") + '" /></div>' +
+        '<div class="field"><label>Tombol — URL</label><input type="text" data-field="btnUrl" value="' + escapeHtml(b.url || "") + '" /></div></div>';
+    } else if (type === "links") {
+      const lines = (Array.isArray(item.items) ? item.items : []).map((it) => (it.label || "") + " | " + (it.url || "")).join("\n");
+      bdy = '<div class="field"><label>Tautan (satu per baris: Label | URL)</label><textarea data-field="items" rows="4" placeholder="Layanan | /#layanan">' + escapeHtml(lines) + "</textarea></div>";
+    } else if (type === "recent-posts") {
+      bdy = '<div class="field"><label>Jumlah artikel</label><input type="number" min="1" max="12" data-field="count" value="' + escapeHtml(String(item.count || 4)) + '" /></div>';
+    } else if (type === "contact") {
+      bdy = '<div class="field"><label>Teks</label><textarea data-field="text" rows="2">' + escapeHtml(item.text || "") + "</textarea></div>";
+    } else if (type === "image") {
+      bdy = '<div class="field"><label>Gambar</label>' + pfImage("prof-sb-img-" + i, item.src) + "</div>" +
+        '<div class="field"><label>Alt</label><input type="text" data-field="alt" value="' + escapeHtml(item.alt || "") + '" /></div>' +
+        '<div class="field"><label>Keterangan</label><input type="text" data-field="caption" value="' + escapeHtml(item.caption || "") + '" /></div>' +
+        '<div class="field"><label>Tautan (opsional)</label><input type="text" data-field="link" value="' + escapeHtml(item.link || "") + '" /></div>';
+    } else if (type === "social") {
+      bdy = '<p class="field-hint">Menampilkan ikon dari Pengaturan Situs → Media Sosial.</p>';
+    }
+    return head + titleField + bdy;
+  }
+  function readSidebarRow(row) {
+    const type = fval(row, "type") || "text";
+    const b = { type: type };
+    const title = fval(row, "title"); if (title) b.title = title;
+    if (type === "text") { const el = row.querySelector('[data-field="content"]'); b.content = el ? el.value : ""; }
+    else if (type === "cta") { b.text = fval(row, "text"); b.button = { text: fval(row, "btnText"), url: fval(row, "btnUrl") }; }
+    else if (type === "links") {
+      const el = row.querySelector('[data-field="items"]'); const raw = el ? el.value : "";
+      b.items = raw.split("\n").map((l) => { const pr = l.split("|"); return { label: (pr[0] || "").trim(), url: (pr[1] || "").trim() }; }).filter((it) => it.label);
+    } else if (type === "recent-posts") { b.count = parseInt(fval(row, "count"), 10) || 4; }
+    else if (type === "contact") { b.text = fval(row, "text"); }
+    else if (type === "image") {
+      const img = row.querySelector('.prof-image input[type="text"]');
+      b.src = img ? String(img.value).trim() : "";
+      b.alt = fval(row, "alt"); b.caption = fval(row, "caption");
+      const link = fval(row, "link"); if (link) b.link = link;
+    }
+    return b;
+  }
+  function profileSidebarType(i, sel) {
+    state.profileDraft.sidebar = readRows("sidebar");
+    if (state.profileDraft.sidebar[i]) state.profileDraft.sidebar[i].type = sel.value;
+    renderRows("sidebar");
+  }
+  function addSidebarBlock() { profileAdd("sidebar"); }
+
+  // Field gambar (pilih dari Media / upload langsung)
+  function refreshProfileImage(id) {
+    const input = $("#" + id), prev = $("#" + id + "-prev");
+    if (!input || !prev) return;
+    const v = input.value.trim();
+    if (v) { prev.src = imagePreviewUrl(v); prev.classList.remove("hidden"); }
+    else { prev.removeAttribute("src"); prev.classList.add("hidden"); }
+  }
+  function setProfileImage(id, path) { const input = $("#" + id); if (input) { input.value = path; refreshProfileImage(id); } }
+  function pickProfileImage(id) { openMediaPicker((path) => setProfileImage(id, path)); }
+  function uploadProfileImage(id) { state.profileUploadTarget = id; const fi = $("#profile-image-upload"); if (fi) { fi.value = ""; fi.click(); } }
+  async function onProfileImageUpload(e) {
+    const file = e.target.files[0], id = state.profileUploadTarget;
+    e.target.value = "";
+    if (!file || !id) return;
+    const ok = /^image\/(png|jpe?g|gif|webp|svg\+xml)$/i.test(file.type || "") || /\.(png|jpe?g|gif|webp|svg)$/i.test(file.name || "");
+    if (!ok) { toast("File harus berupa gambar.", "error"); return; }
+    if (file.size > 5 * 1024 * 1024) { toast("Ukuran gambar maksimal 5 MB.", "error"); return; }
+    showLoader("Mengunggah gambar…");
+    try {
+      const base64 = await fileToBase64(file);
+      const safe = sanitizeFileName(file.name);
+      const path = MEDIA_PATH + "/" + Date.now() + "-" + safe;
+      const res = await API.uploadBinary(path, base64, "Upload gambar: " + safe);
+      hideLoader();
+      if (!res || res.notFound) { toast("Upload gagal. Periksa pengaturan & token GitHub.", "error"); return; }
+      setProfileImage(id, normalizeImagePath(path));
+      toast("Gambar diunggah & dipasang.", "success");
+    } catch (err) { hideLoader(); toast("Gagal upload: " + err.message, "error"); }
+  }
+
+  // Modal pemilih Media
+  async function openMediaPicker(onPick) {
+    state.mediaPickCb = onPick;
+    const grid = $("#media-picker-grid");
+    grid.innerHTML = '<p class="repeat-empty" style="grid-column:1/-1;">Memuat…</p>';
+    $("#modal-media-picker").classList.remove("hidden");
+    try {
+      const files = await API.listFiles(MEDIA_PATH);
+      const imgs = files.filter((f) => f.type === "file" && /\.(png|jpe?g|gif|webp|svg)$/i.test(f.name));
+      state.mediaPickList = imgs;
+      if (!imgs.length) { grid.innerHTML = '<p class="repeat-empty" style="grid-column:1/-1;">Belum ada gambar. Unggah lewat menu Media.</p>'; return; }
+      grid.innerHTML = imgs.map((f, i) => {
+        const src = f.download_url || imagePreviewUrl(f.path);
+        return '<button type="button" class="media-picker-item" onclick="App.mediaPick(' + i + ')"><img src="' + escapeHtml(src) + '" alt="" loading="lazy" /><span>' + escapeHtml(f.name) + "</span></button>";
+      }).join("");
+    } catch (err) {
+      grid.innerHTML = '<p class="repeat-empty" style="grid-column:1/-1;">Gagal memuat media: ' + escapeHtml(err.message) + "</p>";
+    }
+  }
+  function mediaPick(i) {
+    const f = state.mediaPickList && state.mediaPickList[i];
+    closeMediaPicker();
+    if (f && state.mediaPickCb) state.mediaPickCb(normalizeImagePath(f.path));
+  }
+  function closeMediaPicker() { $("#modal-media-picker").classList.add("hidden"); }
+
+  // Tampil/sembunyikan editor sesuai tema terpilih
+  function updateProfileEditorVisibility(manifest) {
+    const editors = (manifest && Array.isArray(manifest.editors)) ? manifest.editors : [];
+    const home = editors.indexOf("home") !== -1, side = editors.indexOf("sidebar") !== -1;
+    pfToggle("#editor-home-card", home);
+    pfToggle("#editor-sidebar-card", side);
+    pfToggle("#editor-save-bar", home || side);
+  }
+  function pfToggle(sel, show) { const el = $(sel); if (el) el.classList.toggle("hidden", !show); }
+
+  // Kumpulkan profile dari form & simpan ke config.profile
+  async function saveProfile() {
+    const base = Object.assign({}, profGet());
+    const homeVisible = !$("#editor-home-card").classList.contains("hidden");
+    const sideVisible = !$("#editor-sidebar-card").classList.contains("hidden");
+    if (homeVisible) {
+      base.eyebrow = pval("prof-eyebrow");
+      base.headline = pval("prof-headline");
+      base.subheadline = pval("prof-subheadline");
+      base.heroBackground = pval("prof-heroBackground");
+      base.heroImage = pval("prof-heroImage");
+      base.primaryCta = { text: pval("prof-pc-text"), url: pval("prof-pc-url") };
+      if (pval("prof-sc-text") || pval("prof-sc-url")) base.secondaryCta = { text: pval("prof-sc-text"), url: pval("prof-sc-url") };
+      else delete base.secondaryCta;
+      base.stats = readRows("stats").filter((s) => s.value || s.label);
+      base.servicesEyebrow = pval("prof-services-eyebrow");
+      base.servicesTitle = pval("prof-services-title");
+      base.servicesIntro = pval("prof-services-intro");
+      base.services = readRows("services").filter((s) => s.title || s.text);
+      const about = { eyebrow: pval("prof-about-eyebrow"), title: pval("prof-about-title"), text: pval("prof-about-text"), image: pval("prof-about-image"), points: readRows("points").filter(Boolean) };
+      if (about.title || about.text || about.image || about.points.length) base.about = about; else delete base.about;
+      const band = { title: pval("prof-band-title"), text: pval("prof-band-text"), button: { text: pval("prof-band-btn-text"), url: pval("prof-band-btn-url") } };
+      if (band.title || band.text) base.ctaBand = band; else delete base.ctaBand;
+    }
+    if (sideVisible) {
+      const sb = readRows("sidebar").filter((b) => b && b.type);
+      if (sb.length) base.sidebar = sb; else delete base.sidebar;
+    }
+    const saved = await saveSiteConfig({ profile: base }, "Perbarui halaman home & sidebar via CMS");
+    if (saved) { state.themePanel = state.themePanel || {}; state.themePanel.profile = base; }
   }
 
   /* ============================================================
@@ -1821,6 +2119,13 @@ const App = (() => {
     $("#btn-save-theme").addEventListener("click", saveTheme);
     $("#theme-select").addEventListener("change", onThemeSelectChange);
 
+    // Editor profil (Home & Sidebar) + pemilih Media
+    $("#btn-save-profile").addEventListener("click", saveProfile);
+    $("#btn-add-sidebar").addEventListener("click", addSidebarBlock);
+    $("#profile-image-upload").addEventListener("change", onProfileImageUpload);
+    $("#media-picker-close").addEventListener("click", closeMediaPicker);
+    $("#modal-media-picker").addEventListener("click", (e) => { if (e.target.id === "modal-media-picker") closeMediaPicker(); });
+
     // Logo & Favicon (upload / hapus / preview)
     $("#btn-upload-logo").addEventListener("click", () => $("#logo-upload").click());
     $("#logo-upload").addEventListener("change", (e) => {
@@ -1890,6 +2195,15 @@ const App = (() => {
     mediaDelete,
     // Featured image (dipakai internal upload editor)
     setFeaturedImage,
+    // Editor profil (Home & Sidebar)
+    profileAdd,
+    profileRemove,
+    profileMove,
+    profileSidebarType,
+    pickProfileImage,
+    uploadProfileImage,
+    refreshProfileImage,
+    mediaPick,
   };
 })();
 

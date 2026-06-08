@@ -345,6 +345,36 @@
             </p>
             <div id="theme-options"><!-- diisi oleh JS --></div>
           </div>
+
+          <div class="meta-card hidden" id="editor-home-card">
+            <h3 class="meta-card-title">Edit Halaman Home</h3>
+            <p class="field-hint" style="margin-bottom:14px;">Atur teks &amp; foto beranda. Foto memakai gambar dari panel <strong>Media</strong>.</p>
+            <div id="editor-home-body"><!-- diisi oleh JS --></div>
+          </div>
+
+          <div class="meta-card hidden" id="editor-sidebar-card">
+            <h3 class="meta-card-title">Sidebar Halaman Dalam</h3>
+            <p class="field-hint" style="margin-bottom:14px;">Muncul di halaman selain beranda (halaman statis, artikel, arsip). Kosongkan agar halaman tampil lebar penuh.</p>
+            <div id="prof-sidebar"><!-- diisi oleh JS --></div>
+            <button type="button" class="btn btn-ghost btn-small" id="btn-add-sidebar" style="margin-top:12px;">+ Tambah Blok</button>
+          </div>
+
+          <div class="editor-save-bar hidden" id="editor-save-bar">
+            <button class="btn btn-primary" id="btn-save-profile" type="button">Simpan Halaman &amp; Sidebar</button>
+            <span class="field-hint">Tersimpan ke <code>config.profile</code> — situs dibangun ulang otomatis.</span>
+          </div>
+        </div>
+      </div>
+
+      <input type="file" id="profile-image-upload" class="visually-hidden-file" accept="image/png,image/jpeg,image/gif,image/webp,image/svg+xml" />
+      <div id="modal-media-picker" class="modal-overlay hidden">
+        <div class="modal modal-wide">
+          <h3 id="media-picker-title">Pilih Gambar dari Media</h3>
+          <p class="field-hint" style="margin:-4px 0 14px;">Klik gambar untuk memilih. Unggah gambar baru lewat menu <strong>Media</strong>.</p>
+          <div id="media-picker-grid" class="media-picker-grid"></div>
+          <div class="modal-actions">
+            <button class="btn btn-ghost" id="media-picker-close" type="button">Tutup</button>
+          </div>
         </div>
       </div>
 

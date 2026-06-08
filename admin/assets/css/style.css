@@ -695,3 +695,35 @@ textarea { resize: vertical; line-height: 1.5; }
   font-size: 13px;
   text-transform: lowercase;
 }
+
+/* ============================================================
+   EDITOR PROFIL (Home & Sidebar) di panel Tema
+   ============================================================ */
+.editor-save-bar { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 4px; }
+.prof-section-title {
+  font-size: 0.9rem; font-weight: 700; color: var(--ink);
+  margin: 22px 0 12px; padding-top: 16px; border-top: 1px dashed var(--line);
+}
+.prof-section-title:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+.prof-mini-label { display: block; font-weight: 600; font-size: 0.85rem; margin: 8px 0 8px; color: var(--ink); }
+.prof-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 560px) { .prof-grid { grid-template-columns: 1fr; } }
+
+.repeat-row { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper); padding: 14px; margin-bottom: 10px; }
+.repeat-row-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+.repeat-row-label { font-size: 0.78rem; font-weight: 700; color: var(--ink-mute); letter-spacing: 0.04em; }
+.repeat-row-actions { display: flex; gap: 6px; }
+.repeat-empty { color: var(--ink-mute); font-size: 0.9rem; margin: 0 0 6px; }
+.repeat-row .field { margin-bottom: 10px; }
+.repeat-row .field:last-child { margin-bottom: 0; }
+
+.prof-image { display: flex; flex-direction: column; gap: 8px; }
+.prof-image-prev { width: 100%; max-height: 150px; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--line); background: var(--surface); }
+.prof-image-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.modal.modal-wide { max-width: 680px; width: calc(100% - 40px); }
+.media-picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 10px; max-height: 58vh; overflow-y: auto; padding: 2px; }
+.media-picker-item { border: 1px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; cursor: pointer; background: var(--paper); padding: 0; text-align: left; transition: border-color 0.15s, transform 0.15s; }
+.media-picker-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+.media-picker-item img { width: 100%; height: 90px; object-fit: cover; display: block; }
+.media-picker-item span { display: block; font-size: 0.72rem; color: var(--ink-mute); padding: 5px 7px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
