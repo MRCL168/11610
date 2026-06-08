@@ -1224,15 +1224,15 @@ const App = (() => {
     // Dropdown tema
     const sel = $("#theme-select");
     sel.innerHTML = tp.themes
-      .map((name) => `<option value="${esc(name)}"${name === tp.activeTheme ? " selected" : ""}>${esc(name)}</option>`)
+      .map((name) => `<option value="${escapeHtml(name)}"${name === tp.activeTheme ? " selected" : ""}>${escapeHtml(name)}</option>`)
       .join("");
 
     // Meta tema (nama, versi, author) dari manifest
     const m = tp.manifest || {};
     const metaBits = [];
-    if (m.name) metaBits.push(`<strong>${esc(m.name)}</strong>`);
-    if (m.version) metaBits.push(`v${esc(m.version)}`);
-    if (m.author) metaBits.push(`oleh ${esc(m.author)}`);
+    if (m.name) metaBits.push(`<strong>${escapeHtml(m.name)}</strong>`);
+    if (m.version) metaBits.push(`v${escapeHtml(m.version)}`);
+    if (m.author) metaBits.push(`oleh ${escapeHtml(m.author)}`);
     $("#theme-meta").innerHTML = metaBits.length
       ? `<p class="field-hint">${metaBits.join(" · ")}</p>`
       : "";
@@ -1258,31 +1258,31 @@ const App = (() => {
     wrap.innerHTML = keys
       .map((key) => {
         const opt = options[key] || {};
-        const label = esc(opt.label || key);
+        const label = escapeHtml(opt.label || key);
         const def = opt.default != null ? String(opt.default) : "";
         const saved = Object.prototype.hasOwnProperty.call(tp.savedOptions, key)
           ? String(tp.savedOptions[key])
           : def;
-        const id = `themeopt-${esc(key)}`;
+        const id = `themeopt-${escapeHtml(key)}`;
         let control = "";
 
         if (opt.type === "color") {
           const val = saved || "#000000";
           control =
             `<div class="theme-color-row">` +
-            `<input type="color" id="${id}" data-key="${esc(key)}" data-default="${esc(def)}" value="${esc(val)}" />` +
-            `<input type="text" class="theme-color-hex" data-for="${id}" value="${esc(val)}" spellcheck="false" />` +
+            `<input type="color" id="${id}" data-key="${escapeHtml(key)}" data-default="${escapeHtml(def)}" value="${escapeHtml(val)}" />` +
+            `<input type="text" class="theme-color-hex" data-for="${id}" value="${escapeHtml(val)}" spellcheck="false" />` +
             `</div>`;
         } else if (opt.type === "select" && Array.isArray(opt.choices)) {
           const opts = opt.choices
-            .map((c) => `<option value="${esc(String(c))}"${String(c) === saved ? " selected" : ""}>${esc(String(c))}</option>`)
+            .map((c) => `<option value="${escapeHtml(String(c))}"${String(c) === saved ? " selected" : ""}>${escapeHtml(String(c))}</option>`)
             .join("");
-          control = `<select id="${id}" data-key="${esc(key)}" data-default="${esc(def)}">${opts}</select>`;
+          control = `<select id="${id}" data-key="${escapeHtml(key)}" data-default="${escapeHtml(def)}">${opts}</select>`;
         } else {
-          control = `<input type="text" id="${id}" data-key="${esc(key)}" data-default="${esc(def)}" value="${esc(saved)}" />`;
+          control = `<input type="text" id="${id}" data-key="${escapeHtml(key)}" data-default="${escapeHtml(def)}" value="${escapeHtml(saved)}" />`;
         }
 
-        const hint = def ? `<small class="field-hint">Bawaan: <code>${esc(def)}</code></small>` : "";
+        const hint = def ? `<small class="field-hint">Bawaan: <code>${escapeHtml(def)}</code></small>` : "";
         return `<div class="field"><label for="${id}">${label}</label>${control}${hint}</div>`;
       })
       .join("");
