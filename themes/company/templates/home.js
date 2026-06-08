@@ -55,10 +55,17 @@ module.exports = function home(ctx) {
   var heroMedia = profile.heroImage
     ? '<div class="hero-media"><img src="' + attr(U.url(profile.heroImage)) + '" alt="' + attr(profile.headline) + '"></div>'
     : "";
+  var hasBg = !!profile.heroBackground;
+  // Mode latar foto > mode gambar samping > hero polos (radial halus).
+  var heroClass = hasBg ? " has-bg" : (profile.heroImage ? " has-media" : "");
+  var bgStyle = hasBg ? ' style="background-image:url(\'' + attr(U.url(profile.heroBackground)) + '\')"' : "";
+  var overlay = hasBg ? '\n      <div class="hero-bg-overlay" aria-hidden="true"></div>' : "";
+  var heroInner = hasBg ? heroText : (heroText + heroMedia);
   var hero =
-    '\n    <section class="hero' + (profile.heroImage ? " has-media" : "") + '">' +
+    '\n    <section class="hero' + heroClass + '"' + bgStyle + ">" +
+    overlay +
     '\n      <div class="container">' +
-    '\n        <div class="hero-inner">' + heroText + heroMedia + "</div>" +
+    '\n        <div class="hero-inner">' + heroInner + "</div>" +
     "\n      </div>" +
     "\n    </section>";
 

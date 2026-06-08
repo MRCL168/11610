@@ -1,9 +1,11 @@
 /* ============================================================
    templates/post.js — Artikel tunggal (TEMA)
+   Menampilkan sidebar bila config.profile.sidebar diisi.
    ctx: { config, U, lib, site, seo, themeVars, post, related }
    ============================================================ */
 
 var layout = require("./partials/layout");
+var sidebar = require("./partials/sidebar");
 
 module.exports = function post(ctx) {
   var config = ctx.config, U = ctx.U, lib = ctx.lib, post = ctx.post, related = ctx.related;
@@ -19,9 +21,20 @@ module.exports = function post(ctx) {
         .join("") + "</div>"
     : "";
 
-  var featured = post.ogImage
-    ? '\n      <div class="container"><figure class="post-hero-img"><img src="' + attr(U.url(post.featuredImage)) + '" alt="' + attr(post.meta.title) + '"></figure></div>'
+  var featuredFig = post.ogImage
+    ? '<figure class="post-hero-img"><img src="' + attr(U.url(post.featuredImage)) + '" alt="' + attr(post.meta.title) + '"></figure>'
     : "";
+
+  var meta =
+    '<div class="post-meta">' +
+    (post.meta.author ? "<span>oleh " + esc(post.meta.author) + '</span><span class="dot">·</span>' : "") +
+    '<time datetime="' + attr(post.meta.date) + '">' + esc(formatDate(post.meta.date, config.language)) + "</time>" +
+    '<span class="dot">·</span>' +
+    "<span>" + post.readingTime + " menit baca</span>" +
+    "</div>";
+
+  var header = '<header class="post-header">' + cat + '<h1 class="post-title">' + esc(post.meta.title) + "</h1>" + meta + "</header>";
+  var body = '<div class="post-content">\n' + post.html + "\n</div>" + (tags ? "\n" + tags : "");
 
   var relatedHtml = (related && related.length)
     ? '\n    <section class="related"><div class="container">' +
@@ -36,26 +49,24 @@ module.exports = function post(ctx) {
       "</div></div></section>"
     : "";
 
-  var meta =
-    '<div class="post-meta">' +
-    (post.meta.author ? "<span>oleh " + esc(post.meta.author) + '</span><span class="dot">·</span>' : "") +
-    '<time datetime="' + attr(post.meta.date) + '">' + esc(formatDate(post.meta.date, config.language)) + "</time>" +
-    '<span class="dot">·</span>' +
-    "<span>" + post.readingTime + " menit baca</span>" +
-    "</div>";
+  var blocks = sidebar.getSidebar(ctx);
+  var article;
+  if (blocks.length) {
+    article =
+      '\n    <article class="post">' +
+      '\n      <div class="container"><div class="layout-sidebar">' +
+      '\n        <div class="post-main">' + header + featuredFig + body + "</div>" +
+      "\n        " + sidebar.render(ctx, blocks) +
+      "\n      </div></div>" +
+      "\n    </article>";
+  } else {
+    article =
+      '\n    <article class="post">' +
+      '\n      <div class="container post-narrow">' + header + "</div>" +
+      (featuredFig ? '\n      <div class="container">' + featuredFig + "</div>" : "") +
+      '\n      <div class="container post-narrow">' + body + "</div>" +
+      "\n    </article>";
+  }
 
-  var content =
-    '\n    <article class="post">' +
-    '\n      <div class="container post-narrow">' +
-    '\n        <header class="post-header">' + cat + '<h1 class="post-title">' + esc(post.meta.title) + "</h1>" + meta + "</header>" +
-    "\n      </div>" +
-    featured +
-    '\n      <div class="container post-narrow">' +
-    '\n        <div class="post-content">\n' + post.html + "\n        </div>" +
-    "\n        " + tags +
-    "\n      </div>" +
-    "\n    </article>" +
-    relatedHtml;
-
-  return layout(ctx, content);
+  return layout(ctx, article + relatedHtml);
 };

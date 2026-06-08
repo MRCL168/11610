@@ -49,6 +49,7 @@ function getProfile(ctx) {
     headline: p.headline || config.title || "",
     subheadline: p.subheadline || config.description || config.tagline || "",
     heroImage: p.heroImage || "",
+    heroBackground: p.heroBackground || "",
 
     primaryCta: {
       text: pc.text || "Hubungi Kami",
