@@ -10,8 +10,8 @@
   "basePath": "",
   "postsPerPage": 10,
   "defaultOgImage": "",
-  "logo": "",
-  "favicon": "",
+  "logo": "/public/images/1780941017844-akularis-com-300x113.png",
+  "favicon": "/public/images/1780941032611-akularis-com-icon.png",
   "footerCopyright": "",
   "social": {
     "github": "username",
