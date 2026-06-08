@@ -4,8 +4,10 @@
   "description": "Blog pribadi berisi tutorial, opini, dan catatan seputar pengembangan web, SEO, dan teknologi terkini.",
   "author": "Nama Anda",
   "language": "id",
-  "theme": "default",
-  "themeOptions": {},
+  "theme": "company",
+  "themeOptions": {
+    "accent": "#c82d78"
+  },
   "baseUrl": "https://blog.akularis.com",
   "basePath": "",
   "postsPerPage": 10,
