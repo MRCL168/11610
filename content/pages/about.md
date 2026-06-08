@@ -1,7 +1,8 @@
 ---
-title: "Tentang"
+title: Tentang
 slug: about
-excerpt: "Tentang penulis dan blog ini."
+status: published
+excerpt: Tentang penulis dan blog ini.
 ---
 
 Halo! Saya seorang praktisi pengembangan web dan SEO. Blog ini adalah tempat saya berbagi catatan, tutorial, dan pemikiran seputar dunia digital.
