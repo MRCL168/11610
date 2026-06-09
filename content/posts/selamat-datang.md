@@ -7,7 +7,6 @@ category: Pengumuman
 author: Nama Anda
 tags: ["getting-started", "blog"]
 excerpt: Artikel pembuka yang menjelaskan tentang blog ini dan apa saja yang akan Anda temukan di sini.
-faq: [{"q":"Tes 1","a":"Jawaban 1"},{"q":"Tes 2","a":"Jawaban 2"},{"q":"tes 3","a":"jawaban 3"}]
 ---
 
 Halo dan selamat datang! Ini adalah artikel pertama di blog yang dibangun sepenuhnya di atas **GitHub** — tanpa database, tanpa server, dan tanpa biaya hosting.
