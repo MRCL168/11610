@@ -61,9 +61,9 @@
       "url": "#layanan"
     },
     "headerCta": {
+      "show": true,
       "text": "Konsultasi Gratis",
-      "url": "/about/",
-      "show": true
+      "url": "/about/"
     },
     "heroImage": "",
     "heroBackground": "/public/images/hero-sample.svg",
@@ -79,6 +79,10 @@
       {
         "value": "4.9/5",
         "label": "Kepuasan Klien"
+      },
+      {
+        "value": "24 Jam",
+        "label": "Support"
       }
     ],
     "servicesEyebrow": "Apa yang kami lakukan",
