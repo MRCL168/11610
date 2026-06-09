@@ -31,6 +31,19 @@ const Editor = (() => {
         let value = line.slice(idx + 1).trim();
         if (!key) return;
 
+        // FAQ disimpan sebagai JSON satu baris (valid sebagai YAML flow):
+        //   faq: [{"q":"Pertanyaan?","a":"Jawaban."}]
+        // Ditangani khusus sebelum logika array/kutip generik di bawah.
+        if (key === "faq") {
+          try {
+            const arr = JSON.parse(value);
+            meta.faq = Array.isArray(arr) ? arr : [];
+          } catch (_) {
+            meta.faq = [];
+          }
+          return;
+        }
+
         // Array sederhana: [a, b, c]
         if (value.startsWith("[") && value.endsWith("]")) {
           value = value
@@ -58,13 +71,25 @@ const Editor = (() => {
   function serialize(meta, body) {
     const lines = ["---"];
 
-    const order = ["title", "slug", "date", "status", "category", "author", "tags", "excerpt", "featured_image"];
+    const order = ["title", "slug", "date", "status", "category", "author", "tags", "excerpt", "featured_image", "faq"];
     const keys = [...order, ...Object.keys(meta).filter((k) => !order.includes(k))];
 
     keys.forEach((key) => {
       if (!(key in meta)) return;
       const val = meta[key];
       if (val === "" || val == null) return;
+
+      // FAQ → JSON satu baris. Tetap valid sebagai YAML flow sehingga
+      // gray-matter (build) membacanya sebagai array objek { q, a }.
+      if (key === "faq") {
+        if (!Array.isArray(val)) return;
+        const clean = val
+          .map((f) => ({ q: String((f && f.q) || "").trim(), a: String((f && f.a) || "").trim() }))
+          .filter((f) => f.q && f.a);
+        if (!clean.length) return;
+        lines.push(`faq: ${JSON.stringify(clean)}`);
+        return;
+      }
 
       if (Array.isArray(val)) {
         if (val.length === 0) return;

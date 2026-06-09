@@ -135,6 +135,9 @@
         <button class="nav-item" data-nav="widgets">
           <span class="nav-icon">▥</span> Widget
         </button>
+        <button class="nav-item" data-nav="plugins">
+          <span class="nav-icon">⊕</span> Plugin
+        </button>
         <button class="nav-item" data-nav="media">
           <span class="nav-icon">▣</span> Media
         </button>
@@ -286,6 +289,14 @@
                 <input type="file" id="featured-image-upload" class="visually-hidden-file" accept="image/png,image/jpeg,image/gif,image/webp,image/svg+xml" />
                 <small class="field-hint">Gambar akan diupload ke <code>public/images/</code> dan path-nya otomatis masuk ke frontmatter <code>featured_image</code>.</small>
               </div>
+            </div>
+
+            <div class="meta-card meta-card-plugin hidden" id="editor-faq-card" data-plugin="faq">
+              <h3 class="meta-card-title">FAQ <span class="plugin-chip">Plugin</span></h3>
+              <p class="field-hint" style="margin:-4px 0 12px;">Tanya-jawab yang tampil di bawah konten. Schema <code>FAQPage</code> otomatis aktif bila ada <strong>3 pertanyaan atau lebih</strong>.</p>
+              <div id="faq-rows" class="faq-rows"></div>
+              <button type="button" class="btn btn-ghost btn-small btn-block" id="btn-add-faq" style="margin-top:4px;">+ Tambah Pertanyaan</button>
+              <div class="faq-schema-status" id="faq-schema-status"></div>
             </div>
 
             <div class="meta-card meta-card-muted">
@@ -643,6 +654,29 @@
 
           <div class="meta-card meta-card-muted">
             <p class="settings-note">💡 Disimpan di <code id="widget-file-hint">content/widgets.json</code>. Widget tampil sebagai kolom di footer; tipe "Media Sosial" memakai akun dari Pengaturan Situs.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---- PANEL: PLUGIN ---- -->
+      <div id="panel-plugins" class="panel hidden">
+        <header class="panel-header">
+          <div>
+            <h2 class="panel-title">Plugin</h2>
+            <p class="panel-sub">Aktifkan atau nonaktifkan fitur tambahan — status tersimpan di <code>content/plugins.json</code></p>
+          </div>
+          <div class="panel-actions">
+            <button class="btn btn-ghost btn-icon" id="btn-refresh-plugins" title="Muat ulang">↻</button>
+          </div>
+        </header>
+
+        <div class="settings-wrap">
+          <div id="plugin-list" class="plugin-list">
+            <!-- diisi oleh JS -->
+          </div>
+
+          <div class="meta-card meta-card-muted">
+            <p class="settings-note">💡 Plugin yang diaktifkan langsung berlaku setelah situs dibangun ulang oleh GitHub Actions. Plugin <strong>FAQ</strong> menambahkan kolom FAQ pada editor artikel &amp; halaman. Plugin <strong>WhatsApp Overlay</strong> menampilkan tombol chat mengambang di seluruh halaman.</p>
           </div>
         </div>
       </div>

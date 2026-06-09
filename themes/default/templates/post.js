@@ -57,6 +57,7 @@ module.exports = function post(ctx) {
 ${post.html}
         </div>
         ${tags}
+        ${(ctx.plugins && ctx.plugins.contentAfter) ? ctx.plugins.contentAfter(ctx) : ""}
       </div>
     </article>
     ${relatedHtml}`;

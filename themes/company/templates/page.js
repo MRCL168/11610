@@ -16,7 +16,9 @@ module.exports = function page(ctx) {
     ? '<p class="page-lead">' + esc(page.meta.excerpt) + "</p>"
     : "";
   var header = '<header class="post-header"><h1 class="post-title">' + esc(page.meta.title) + "</h1>" + lead + "</header>";
-  var body = '<div class="post-content">\n' + page.html + "\n</div>";
+  // HTML tambahan dari plugin setelah isi (mis. blok FAQ).
+  var pluginAfter = (ctx.plugins && ctx.plugins.contentAfter) ? ctx.plugins.contentAfter(ctx) : "";
+  var body = '<div class="post-content">\n' + page.html + "\n</div>" + pluginAfter;
 
   var blocks = sidebar.getSidebar(ctx);
   var content;

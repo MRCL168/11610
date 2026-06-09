@@ -12,6 +12,9 @@ module.exports = function layout(ctx, content) {
   var config = ctx.config, U = ctx.U, lib = ctx.lib;
   var attr = lib.attr;
 
+  // HTML tambahan dari plugin sebelum </body> (mis. tombol WhatsApp).
+  var pluginBody = (ctx.plugins && ctx.plugins.bodyEnd) ? ctx.plugins.bodyEnd(ctx) : "";
+
   return '<!DOCTYPE html>\n<html lang="' + attr(config.language || "id") + '">\n' +
     head(ctx) +
     "\n<body>\n" +
@@ -20,5 +23,7 @@ module.exports = function layout(ctx, content) {
     content +
     "\n  </main>\n" +
     footer(ctx) +
-    '\n  <script src="' + attr(U.url("/theme/script.js")) + '" defer></script>\n</body>\n</html>';
+    '\n  <script src="' + attr(U.url("/theme/script.js")) + '" defer></script>' +
+    pluginBody +
+    '\n</body>\n</html>';
 };

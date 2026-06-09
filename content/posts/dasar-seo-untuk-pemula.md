@@ -8,6 +8,7 @@ author: "Nama Anda"
 tags: ["seo", "tutorial", "konten"]
 excerpt: "Panduan ringkas memahami fondasi SEO modern: dari riset kata kunci, struktur konten, hingga tren Answer Engine Optimization (AEO)."
 featured_image: ""
+faq: [{"q": "Apa itu SEO dan mengapa penting?", "a": "SEO (Search Engine Optimization) adalah praktik mengoptimasi situs agar mudah ditemukan di Google. Penting karena trafik organik bersifat \"gratis\", berkelanjutan, dan menjangkau orang yang sedang mencari solusi Anda."}, {"q": "Berapa lama hasil SEO terlihat?", "a": "Umumnya 3–6 bulan, tergantung tingkat persaingan kata kunci dan kualitas konten. SEO adalah strategi jangka panjang, bukan instan."}, {"q": "Apakah saya butuh tools berbayar?", "a": "Tidak wajib di awal. Google Search Console dan Google Analytics sudah cukup untuk memulai. Tools berbayar membantu saat skala bertambah."}]
 ---
 
 SEO (Search Engine Optimization) terus berevolusi. Di tahun 2026, fondasinya tetap sama, tetapi cara mesin pencari memahami konten semakin canggih. Berikut hal-hal dasar yang perlu Anda kuasai.

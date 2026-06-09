@@ -34,7 +34,9 @@ module.exports = function post(ctx) {
     "</div>";
 
   var header = '<header class="post-header">' + cat + '<h1 class="post-title">' + esc(post.meta.title) + "</h1>" + meta + "</header>";
-  var body = '<div class="post-content">\n' + post.html + "\n</div>" + (tags ? "\n" + tags : "");
+  // HTML tambahan dari plugin setelah isi (mis. blok FAQ).
+  var pluginAfter = (ctx.plugins && ctx.plugins.contentAfter) ? ctx.plugins.contentAfter(ctx) : "";
+  var body = '<div class="post-content">\n' + post.html + "\n</div>" + (tags ? "\n" + tags : "") + pluginAfter;
 
   var relatedHtml = (related && related.length)
     ? '\n    <section class="related"><div class="container">' +

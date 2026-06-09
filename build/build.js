@@ -18,6 +18,7 @@ const { marked } = require("marked");
 const util = require("./util");
 const seo = require("./seo");
 const { loadTheme } = require("./theme");
+const { loadPlugins } = require("./plugins");
 const { esc, attr, slugify } = util;
 
 /* ---------- Path dasar ---------- */
@@ -211,6 +212,12 @@ function build() {
   const theme = loadTheme(config, ROOT);
   console.log(`→ Tema aktif: "${theme.name}"${theme.manifest.version ? " v" + theme.manifest.version : ""}`);
 
+  /* ---- Muat plugin aktif (plugins/ + content/plugins.json) ---- */
+  const plugins = loadPlugins(config, ROOT);
+  if (plugins.activeIds.length) {
+    console.log(`→ Plugin aktif: ${plugins.activeIds.join(", ")}`);
+  }
+
   // Helper bersama yang diteruskan ke setiap template (bagian core).
   const lib = {
     esc: util.esc,
@@ -290,7 +297,7 @@ function build() {
   /* ---- Pabrik konteks: gabungkan dasar (core) + data khusus halaman ---- */
   function makeCtx(extra) {
     return Object.assign(
-      { config, U, lib, site, themeVars: theme.vars },
+      { config, U, lib, site, themeVars: theme.vars, plugins },
       extra
     );
   }
@@ -308,6 +315,8 @@ function build() {
       .slice(0, 3);
 
     const ctx = makeCtx({ post, related, seo: seo.postSeo({ config, U, post }) });
+    // Beri kesempatan plugin memperkaya SEO (mis. FAQ → schema FAQPage).
+    ctx.seo = plugins.filterSeo(ctx.seo, ctx);
 
     // URL bersih: tulis ke _site/{slug}/index.html
     writePage(post.slug + "/", theme.templates.post(ctx));
@@ -355,6 +364,7 @@ function build() {
   /* ---- Halaman statis ---- */
   pages.forEach((page) => {
     const ctx = makeCtx({ page, seo: seo.pageSeo({ config, U, page }) });
+    ctx.seo = plugins.filterSeo(ctx.seo, ctx);
     writePage(page.slug + "/", theme.templates.page(ctx));
   });
   console.log(`→ ${pages.length} halaman statis`);

@@ -48,6 +48,9 @@ const App = (() => {
     themePanel: null,                 // { themes:[], activeTheme, manifest, savedOptions }
     siteConfig: null,
     siteConfigSha: null,
+    plugins: {},                      // status plugin { id: { active, settings } }
+    pluginsSha: null,
+    faqRows: [],                      // salinan kerja baris FAQ di editor
     confirmCallback: null,
   };
 
@@ -104,7 +107,7 @@ const App = (() => {
     });
   }
 
-  const PANELS = ["posts", "pages", "categories", "menu", "widgets", "editor", "media", "theme", "settings"];
+  const PANELS = ["posts", "pages", "categories", "menu", "widgets", "plugins", "editor", "media", "theme", "settings"];
   function showPanel(name) {
     PANELS.forEach((p) => {
       const el = $(`#panel-${p}`);
@@ -235,6 +238,7 @@ const App = (() => {
     // Preload agar dropdown kategori & prefill penulis siap saat menulis
     loadSiteConfig().catch(() => {});
     loadCategories({ silent: true }).catch(() => {});
+    loadPlugins({ silent: true }).catch(() => {});
   }
 
   /* ============================================================
@@ -442,6 +446,10 @@ const App = (() => {
     updateSlugPreview();
     Editor.setValue("");
 
+    state.faqRows = [];
+    applyFaqCardVisibility();
+    renderFaqRows();
+
     showPanel("editor");
   }
 
@@ -469,6 +477,14 @@ const App = (() => {
     updateFeaturedImagePreview();
     updateSlugPreview();
     Editor.setValue(parsed.body);
+
+    state.faqRows = Array.isArray(meta.faq)
+      ? meta.faq
+          .map((f) => ({ q: (f && f.q) || "", a: (f && f.a) || "" }))
+          .filter((f) => f.q || f.a)
+      : [];
+    applyFaqCardVisibility();
+    renderFaqRows();
 
     showPanel("editor");
   }
@@ -518,6 +534,13 @@ const App = (() => {
     }
 
     const body = Editor.getValue();
+
+    // Sisipkan FAQ ke frontmatter bila plugin FAQ aktif & ada isinya.
+    if (pluginActive("faq")) {
+      const faq = collectFaq();
+      if (faq.length) meta.faq = faq;
+    }
+
     const fileContent = Editor.serialize(meta, body);
 
     let path, sha, message;
@@ -1116,6 +1139,323 @@ const App = (() => {
         toast(`Gagal menyimpan: ${err.message}`, "error");
       }
     }
+  }
+
+  /* ============================================================
+     PLUGIN — aktif/nonaktif fitur tambahan (content/plugins.json)
+     Meniru daftar plugin WordPress: status & pengaturan tersimpan di
+     content/plugins.json; engine build membaca file yang sama.
+     ============================================================ */
+  const PLUGINS_PATH = "content/plugins.json";
+
+  // Registry plugin yang dikenali admin (metadata + skema form pengaturan).
+  // Menambah plugin baru = tambah entri di sini + folder plugins/<id>/.
+  const PLUGIN_REGISTRY = [
+    {
+      id: "faq",
+      name: "FAQ + Schema",
+      icon: "❓",
+      description:
+        "Menambahkan kolom FAQ pada editor artikel & halaman. Menampilkan akordeon FAQ di situs dan menyuntikkan schema FAQPage otomatis saat ada 3 pertanyaan atau lebih.",
+      defaults: { active: false },
+      settings: null,
+    },
+    {
+      id: "whatsapp-overlay",
+      name: "WhatsApp Overlay",
+      icon: "💬",
+      description:
+        "Tombol WhatsApp mengambang di sudut bawah halaman dengan gelembung sapaan opsional. Klik membuka chat ke nomor yang Anda tentukan.",
+      defaults: {
+        active: false,
+        settings: {
+          phone: "",
+          message: "Halo, saya ingin bertanya tentang layanan Anda.",
+          tooltip: "Chat via WhatsApp",
+          greeting: "Halo! 👋 Ada yang bisa kami bantu?",
+          position: "right",
+        },
+      },
+      settings: [
+        { key: "phone", label: "Nomor WhatsApp", type: "text", placeholder: "6281234567890", hint: "Format internasional tanpa tanda +. Mis. 62 untuk Indonesia. Wajib diisi agar tombol tampil." },
+        { key: "message", label: "Pesan Awal Otomatis", type: "textarea", placeholder: "Halo, saya ingin bertanya…", hint: "Teks yang otomatis terisi di kolom chat WhatsApp." },
+        { key: "tooltip", label: "Teks Tooltip", type: "text", placeholder: "Chat via WhatsApp" },
+        { key: "greeting", label: "Gelembung Sapaan", type: "text", placeholder: "Halo! 👋 Ada yang bisa kami bantu?", hint: "Muncul di atas tombol. Kosongkan untuk menonaktifkan gelembung." },
+        { key: "position", label: "Posisi Tombol", type: "select", options: [{ value: "right", label: "Kanan bawah" }, { value: "left", label: "Kiri bawah" }] },
+      ],
+    },
+  ];
+
+  function pluginActive(id) {
+    return !!(state.plugins && state.plugins[id] && state.plugins[id].active);
+  }
+
+  async function loadPlugins(opts = {}) {
+    // Mulai dari nilai bawaan registry.
+    const defaults = {};
+    PLUGIN_REGISTRY.forEach((p) => {
+      defaults[p.id] = JSON.parse(JSON.stringify(p.defaults || { active: false }));
+    });
+
+    try {
+      const data = await API.getFile(PLUGINS_PATH);
+      if (!data) {
+        state.plugins = defaults;
+        state.pluginsSha = null;
+      } else {
+        state.pluginsSha = data.sha;
+        let obj = {};
+        try {
+          obj = JSON.parse(data.content) || {};
+        } catch (_) {
+          obj = {};
+          if (!opts.silent) toast("plugins.json tidak valid — dianggap kosong.", "error");
+        }
+        const merged = {};
+        PLUGIN_REGISTRY.forEach((p) => {
+          const d = defaults[p.id];
+          const s = obj[p.id] || {};
+          merged[p.id] = { active: !!s.active };
+          if (d.settings || s.settings) {
+            merged[p.id].settings = Object.assign({}, d.settings || {}, s.settings || {});
+          }
+        });
+        // Pertahankan plugin tak dikenal yang sudah ada di file (forward-compat).
+        Object.keys(obj).forEach((k) => {
+          if (!merged[k]) merged[k] = obj[k];
+        });
+        state.plugins = merged;
+      }
+    } catch (err) {
+      state.plugins = defaults;
+      state.pluginsSha = null;
+      if (!opts.silent) toast(`Gagal memuat plugin: ${err.message}`, "error");
+    }
+
+    if (!opts.silent) renderPluginsPanel();
+    applyFaqCardVisibility();
+  }
+
+  async function savePluginsFile(message) {
+    const json = JSON.stringify(state.plugins, null, 2) + "\n";
+    showLoader("Menyimpan plugin…");
+    try {
+      const res = await API.saveFile(PLUGINS_PATH, json, message || "Update plugins via CMS", state.pluginsSha);
+      state.pluginsSha = res && res.content ? res.content.sha : state.pluginsSha;
+      hideLoader();
+      toast("Plugin tersimpan! Situs akan dibangun ulang otomatis.", "success");
+      return true;
+    } catch (err) {
+      hideLoader();
+      if (/sha/i.test(err.message)) {
+        toast("plugins.json berubah di repo. Muat ulang lalu coba lagi.", "error");
+      } else {
+        toast(`Gagal menyimpan: ${err.message}`, "error");
+      }
+      return false;
+    }
+  }
+
+  function pluginFieldHtml(id, f, val) {
+    const elId = `plg-${id}-${f.key}`;
+    const hint = f.hint ? `<small class="field-hint">${escapeHtml(f.hint)}</small>` : "";
+    let input;
+    if (f.type === "textarea") {
+      input = `<textarea id="${elId}" rows="2" placeholder="${escapeHtml(f.placeholder || "")}"></textarea>`;
+    } else if (f.type === "select") {
+      const opts = (f.options || [])
+        .map((o) => `<option value="${escapeHtml(o.value)}"${o.value === val ? " selected" : ""}>${escapeHtml(o.label)}</option>`)
+        .join("");
+      input = `<select id="${elId}">${opts}</select>`;
+    } else {
+      input = `<input type="text" id="${elId}" placeholder="${escapeHtml(f.placeholder || "")}" />`;
+    }
+    return `<div class="field"><label for="${elId}">${escapeHtml(f.label)}</label>${input}${hint}</div>`;
+  }
+
+  function renderPluginsPanel() {
+    const wrap = $("#plugin-list");
+    if (!wrap) return;
+    wrap.innerHTML = PLUGIN_REGISTRY.map((reg) => {
+      const st = state.plugins[reg.id] || { active: false };
+      const on = !!st.active;
+      const statusClass = on ? "is-on" : "is-off";
+      const statusText = on ? "Aktif" : "Nonaktif";
+
+      let settingsHtml = "";
+      if (on && reg.settings) {
+        const s = st.settings || {};
+        const fields = reg.settings.map((f) => pluginFieldHtml(reg.id, f, s[f.key] != null ? s[f.key] : "")).join("");
+        settingsHtml = `
+          <div class="plugin-settings">
+            <h4 class="plugin-settings-title">Pengaturan</h4>
+            ${fields}
+            <div class="plugin-settings-actions">
+              <button type="button" class="btn btn-primary btn-small" onclick="App.savePluginSettings('${reg.id}')">Simpan Pengaturan</button>
+            </div>
+          </div>`;
+      }
+
+      return `
+        <article class="plugin-card${on ? " is-active" : ""}" data-id="${reg.id}">
+          <div class="plugin-card-main">
+            <div class="plugin-icon">${reg.icon}</div>
+            <div class="plugin-meta">
+              <h3 class="plugin-name">${escapeHtml(reg.name)} <span class="plugin-status ${statusClass}">${statusText}</span></h3>
+              <p class="plugin-desc">${escapeHtml(reg.description)}</p>
+            </div>
+            <label class="switch" title="${on ? "Nonaktifkan" : "Aktifkan"}">
+              <input type="checkbox" ${on ? "checked" : ""} onchange="App.togglePlugin('${reg.id}')" />
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+          ${settingsHtml}
+        </article>`;
+    }).join("");
+
+    // Isi nilai field pengaturan via property (aman dari karakter khusus).
+    PLUGIN_REGISTRY.forEach((reg) => {
+      const st = state.plugins[reg.id] || {};
+      if (!st.active || !reg.settings) return;
+      const s = st.settings || {};
+      reg.settings.forEach((f) => {
+        const el = document.getElementById(`plg-${reg.id}-${f.key}`);
+        if (el && f.type !== "select") el.value = s[f.key] != null ? s[f.key] : "";
+      });
+    });
+  }
+
+  async function togglePlugin(id) {
+    if (!state.plugins[id]) state.plugins[id] = { active: false };
+    const prev = !!state.plugins[id].active;
+    const next = !prev;
+    state.plugins[id].active = next;
+    // Pastikan ada objek settings bila plugin punya skema pengaturan.
+    const reg = PLUGIN_REGISTRY.find((p) => p.id === id);
+    if (next && reg && reg.settings && !state.plugins[id].settings) {
+      state.plugins[id].settings = JSON.parse(JSON.stringify((reg.defaults && reg.defaults.settings) || {}));
+    }
+    renderPluginsPanel();
+    applyFaqCardVisibility();
+
+    const label = reg ? reg.name : id;
+    const ok = await savePluginsFile(`${next ? "Aktifkan" : "Nonaktifkan"} plugin: ${label}`);
+    if (!ok) {
+      state.plugins[id].active = prev; // batalkan bila gagal
+      renderPluginsPanel();
+      applyFaqCardVisibility();
+    }
+  }
+
+  async function savePluginSettings(id) {
+    const reg = PLUGIN_REGISTRY.find((p) => p.id === id);
+    if (!reg || !reg.settings) return;
+    if (!state.plugins[id]) state.plugins[id] = { active: true };
+    const settings = Object.assign({}, state.plugins[id].settings || {});
+    reg.settings.forEach((f) => {
+      const el = document.getElementById(`plg-${id}-${f.key}`);
+      if (!el) return;
+      let v = el.value || "";
+      if (f.key === "phone") v = v.replace(/[^0-9]/g, "");
+      settings[f.key] = String(v).trim();
+    });
+    state.plugins[id].settings = settings;
+    const ok = await savePluginsFile(`Update pengaturan plugin: ${reg.name}`);
+    if (ok) renderPluginsPanel();
+  }
+
+  /* ============================================================
+     FAQ — kolom repeatable di editor (muncul saat plugin FAQ aktif)
+     Data disimpan di frontmatter `faq` (lihat editor.js).
+     ============================================================ */
+  function applyFaqCardVisibility() {
+    const card = $("#editor-faq-card");
+    if (card) card.classList.toggle("hidden", !pluginActive("faq"));
+  }
+
+  function renderFaqRows() {
+    const wrap = $("#faq-rows");
+    if (!wrap) return;
+    const rows = state.faqRows || [];
+    if (!rows.length) {
+      wrap.innerHTML = `<p class="faq-empty">Belum ada pertanyaan. Tambahkan lewat tombol di bawah.</p>`;
+      updateFaqSchemaStatus();
+      return;
+    }
+    wrap.innerHTML = rows
+      .map((r, i) => {
+        const firstUp = i === 0 ? "disabled" : "";
+        const lastDown = i === rows.length - 1 ? "disabled" : "";
+        return `
+        <div class="faq-row" data-i="${i}">
+          <div class="faq-row-head">
+            <span class="faq-row-num">#${i + 1}</span>
+            <div class="faq-row-tools">
+              <button type="button" class="btn btn-ghost btn-icon" title="Naik" onclick="App.moveFaqRow(${i}, -1)" ${firstUp}>↑</button>
+              <button type="button" class="btn btn-ghost btn-icon" title="Turun" onclick="App.moveFaqRow(${i}, 1)" ${lastDown}>↓</button>
+              <button type="button" class="btn btn-ghost btn-icon" title="Hapus" onclick="App.removeFaqRow(${i})">🗑</button>
+            </div>
+          </div>
+          <input type="text" class="faq-q-input" data-i="${i}" placeholder="Pertanyaan…" />
+          <textarea class="faq-a-input" data-i="${i}" rows="2" placeholder="Jawaban…"></textarea>
+        </div>`;
+      })
+      .join("");
+
+    // Set nilai via property agar aman dari kutip / karakter khusus / </textarea>.
+    rows.forEach((r, i) => {
+      const qEl = wrap.querySelector(`.faq-q-input[data-i="${i}"]`);
+      const aEl = wrap.querySelector(`.faq-a-input[data-i="${i}"]`);
+      if (qEl) qEl.value = r.q || "";
+      if (aEl) aEl.value = r.a || "";
+    });
+    updateFaqSchemaStatus();
+  }
+
+  function addFaqRow() {
+    if (!Array.isArray(state.faqRows)) state.faqRows = [];
+    state.faqRows.push({ q: "", a: "" });
+    renderFaqRows();
+    const wrap = $("#faq-rows");
+    const last = wrap && wrap.querySelector(`.faq-q-input[data-i="${state.faqRows.length - 1}"]`);
+    if (last) last.focus();
+  }
+
+  function removeFaqRow(i) {
+    if (!state.faqRows || !state.faqRows[i]) return;
+    state.faqRows.splice(i, 1);
+    renderFaqRows();
+  }
+
+  function moveFaqRow(i, dir) {
+    const j = i + dir;
+    if (!state.faqRows || j < 0 || j >= state.faqRows.length) return;
+    const tmp = state.faqRows[i];
+    state.faqRows[i] = state.faqRows[j];
+    state.faqRows[j] = tmp;
+    renderFaqRows();
+  }
+
+  function updateFaqSchemaStatus() {
+    const el = $("#faq-schema-status");
+    if (!el) return;
+    const valid = (state.faqRows || []).filter((r) => (r.q || "").trim() && (r.a || "").trim()).length;
+    if (valid === 0) {
+      el.className = "faq-schema-status";
+      el.textContent = "";
+    } else if (valid >= 3) {
+      el.className = "faq-schema-status is-on";
+      el.textContent = `✓ Schema FAQPage akan aktif (${valid} pertanyaan).`;
+    } else {
+      el.className = "faq-schema-status is-off";
+      el.textContent = `${valid} pertanyaan terisi — tambah ${3 - valid} lagi untuk mengaktifkan schema FAQPage.`;
+    }
+  }
+
+  function collectFaq() {
+    return (state.faqRows || [])
+      .map((r) => ({ q: (r.q || "").trim(), a: (r.a || "").trim() }))
+      .filter((r) => r.q && r.a);
   }
 
   /* ============================================================
@@ -2057,6 +2397,7 @@ const App = (() => {
         if (nav === "categories") loadCategories();
         if (nav === "menu") loadMenu();
         if (nav === "widgets") loadWidgets();
+        if (nav === "plugins") loadPlugins();
         if (nav === "media") loadMedia();
         if (nav === "theme") loadThemePanel();
         if (nav === "settings") loadSettings();
@@ -2115,6 +2456,23 @@ const App = (() => {
     $("#btn-save-widget").addEventListener("click", saveWidget);
     $("#btn-cancel-widget").addEventListener("click", resetWidgetForm);
     $("#widget-type").addEventListener("change", updateWidgetFields);
+
+    // Plugin
+    if ($("#btn-refresh-plugins")) $("#btn-refresh-plugins").addEventListener("click", () => loadPlugins());
+
+    // FAQ (editor) — tombol tambah + sinkronisasi input secara langsung
+    if ($("#btn-add-faq")) $("#btn-add-faq").addEventListener("click", addFaqRow);
+    if ($("#faq-rows")) {
+      $("#faq-rows").addEventListener("input", (e) => {
+        const row = e.target.closest(".faq-row");
+        if (!row) return;
+        const i = parseInt(row.dataset.i, 10);
+        if (isNaN(i) || !state.faqRows[i]) return;
+        if (e.target.classList.contains("faq-q-input")) state.faqRows[i].q = e.target.value;
+        else if (e.target.classList.contains("faq-a-input")) state.faqRows[i].a = e.target.value;
+        updateFaqSchemaStatus();
+      });
+    }
 
     // Media
     $("#btn-refresh-media").addEventListener("click", loadMedia);
@@ -2218,6 +2576,13 @@ const App = (() => {
     editWidget,
     askDeleteWidget,
     moveWidget,
+    // Plugin
+    togglePlugin,
+    savePluginSettings,
+    // FAQ (editor)
+    addFaqRow,
+    removeFaqRow,
+    moveFaqRow,
     // Media
     mediaInsert,
     mediaFeatured,

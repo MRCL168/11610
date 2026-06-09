@@ -1,0 +1,15 @@
+{
+  "faq": {
+    "active": true
+  },
+  "whatsapp-overlay": {
+    "active": false,
+    "settings": {
+      "phone": "",
+      "message": "Halo, saya ingin bertanya tentang layanan Anda.",
+      "tooltip": "Chat via WhatsApp",
+      "greeting": "Halo! 👋 Ada yang bisa kami bantu?",
+      "position": "right"
+    }
+  }
+}

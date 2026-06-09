@@ -18,6 +18,7 @@ module.exports = function page(ctx) {
         <div class="post-content">
 ${page.html}
         </div>
+        ${(ctx.plugins && ctx.plugins.contentAfter) ? ctx.plugins.contentAfter(ctx) : ""}
       </div>
     </article>`;
 

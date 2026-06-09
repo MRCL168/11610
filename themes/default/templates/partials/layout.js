@@ -21,7 +21,7 @@ ${header(ctx)}
 ${content}
   </main>
 ${footer(ctx)}
-  <script src="${attr(U.url("/theme/script.js"))}" defer></script>
+  <script src="${attr(U.url("/theme/script.js"))}" defer></script>${(ctx.plugins && ctx.plugins.bodyEnd) ? ctx.plugins.bodyEnd(ctx) : ""}
 </body>
 </html>`;
 };
