@@ -5,7 +5,9 @@
   "author": "Nama Anda",
   "language": "id",
   "theme": "company",
-  "themeOptions": {},
+  "themeOptions": {
+    "accent": "#601010"
+  },
   "baseUrl": "https://blog.akularis.com",
   "basePath": "",
   "postsPerPage": 10,
