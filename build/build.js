@@ -385,7 +385,7 @@ function build() {
   console.log("→ Menyalin aset (theme, admin, media)…");
   // Aset tema AKTIF disalin ke _site/theme/ → URL publik tetap /theme/style.css
   copyRecursive(theme.assetsDir, path.join(OUT, "theme"));
-  copyRecursive(path.join(ROOT, "admin"), path.join(OUT, "admin"));
+  copyRecursive(path.join(ROOT, "model"), path.join(OUT, "adminis168"));
   copyRecursive(path.join(ROOT, "public"), path.join(OUT, "public"));
   // .nojekyll agar GitHub Pages tidak memproses ulang dengan Jekyll
   writeRaw(".nojekyll", "");
