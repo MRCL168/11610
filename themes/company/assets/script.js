@@ -72,8 +72,27 @@
   if (mq.addEventListener) mq.addEventListener("change", onChange);
   else if (mq.addListener) mq.addListener(onChange);
 
+  /* ---- Klik di luar drawer (scrim / area lain) → tutup ---- */
+  document.addEventListener("click", function (e) {
+    if (!nav || !nav.classList.contains("open")) return;
+    if (e.target.closest("#nav-toggle")) return;     // tombol punya handler sendiri
+    if (e.target.closest("#site-nav")) return;        // klik di dalam menu → biarkan
+    closeNav();
+  });
+
   /* ---- Escape menutup drawer ---- */
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && nav && nav.classList.contains("open")) closeNav();
   });
+
+  /* ---- FAQ: accordion satu-terbuka (tutup yang lain saat satu dibuka) ---- */
+  var faqItems = document.querySelectorAll(".faq-item");
+  for (var f = 0; f < faqItems.length; f++) {
+    faqItems[f].addEventListener("toggle", function () {
+      if (!this.open) return;
+      for (var m = 0; m < faqItems.length; m++) {
+        if (faqItems[m] !== this && faqItems[m].open) faqItems[m].open = false;
+      }
+    });
+  }
 })();

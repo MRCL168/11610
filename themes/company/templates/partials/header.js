@@ -32,7 +32,11 @@ module.exports = function header(ctx) {
   var navItems = (config.nav || []).map(navItemHtml).join("");
 
   var profile = getProfile(ctx);
-  var cta = '<a class="btn btn-primary nav-cta" href="' + attr(navHref(U, profile.primaryCta.url)) + '">' + esc(profile.primaryCta.text) + "</a>";
+  // Tombol CTA header: teks & URL dapat diubah; bisa disembunyikan total.
+  // Catatan: pada tampilan mobile, tombol ini disembunyikan via CSS (.nav-cta).
+  var cta = profile.headerCta.show
+    ? '<a class="btn btn-primary nav-cta" href="' + attr(navHref(U, profile.headerCta.url)) + '">' + esc(profile.headerCta.text) + "</a>"
+    : "";
 
   var brand = config.logo
     ? '<a href="' + attr(U.url("/")) + '" class="site-logo site-logo-img"><img src="' + attr(U.url(config.logo)) + '" alt="' + attr(config.title) + '"></a>'

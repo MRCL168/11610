@@ -32,17 +32,36 @@ function getProfile(ctx) {
 
   var pc = obj(p.primaryCta);
   var sc = obj(p.secondaryCta);
+  var hc = obj(p.headerCta);
   var about = obj(p.about);
   var band = obj(p.ctaBand);
   var bandBtn = obj(band.button);
+  var faq = obj(p.faq);
 
   var stats = arr(p.stats).filter(function (s) { return s && (s.value || s.label); });
-  var services = arr(p.services).filter(function (s) { return s && (s.title || s.text); });
+  // Layanan: simpan juga `url` agar tiap kartu bisa diarahkan ke halaman detail.
+  var services = arr(p.services)
+    .filter(function (s) { return s && (s.title || s.text); })
+    .map(function (s) {
+      return { icon: s.icon || "", title: s.title || "", text: s.text || "", url: s.url || "" };
+    });
   var aboutPoints = arr(about.points).filter(Boolean);
+
+  // FAQ: tiap item butuh pertanyaan (q) — jawaban (a) opsional.
+  var faqItems = arr(faq.items)
+    .map(function (f) {
+      f = obj(f);
+      return { q: (f.q || f.question || "").trim(), a: (f.a || f.answer || "").trim() };
+    })
+    .filter(function (f) { return f.q; });
+  // Toggle: sama seperti seksi lain, FAQ bisa dimunculkan / disembunyikan.
+  var faqEnabled = faq.enabled !== false; // default tampil bila ada isinya
 
   var hasAbout = !!(about.text || aboutPoints.length);
   var hasBand = !!(band.title || band.text);
   var hasSecondary = !!(sc.text || sc.url);
+  // Tombol CTA header: terpisah & bisa diatur; jika kosong, ikut primaryCta.
+  var headerCtaShow = hc.show !== false && hc.enabled !== false;
 
   return {
     eyebrow: p.eyebrow || "Selamat Datang",
@@ -57,6 +76,13 @@ function getProfile(ctx) {
     },
     secondaryCta: hasSecondary ? { text: sc.text || "Selengkapnya", url: sc.url || "#" } : null,
 
+    // Tombol CTA pada header (dapat diubah & disembunyikan terpisah dari hero).
+    headerCta: {
+      show: headerCtaShow,
+      text: hc.text || pc.text || "Hubungi Kami",
+      url: hc.url || pc.url || defaultPrimaryUrl,
+    },
+
     stats: stats,
     hasStats: stats.length >= 2,
 
@@ -65,6 +91,16 @@ function getProfile(ctx) {
     servicesIntro: p.servicesIntro || "",
     services: services,
     hasServices: services.length > 0,
+
+    // FAQ beranda — fleksibel seperti seksi lainnya (punya toggle + isi).
+    faq: faqEnabled && faqItems.length
+      ? {
+          eyebrow: faq.eyebrow || "FAQ",
+          title: faq.title || "Pertanyaan yang Sering Diajukan",
+          intro: faq.intro || "",
+          items: faqItems,
+        }
+      : null,
 
     about: hasAbout
       ? {

@@ -706,6 +706,9 @@ textarea { resize: vertical; line-height: 1.5; }
 }
 .prof-section-title:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
 .prof-mini-label { display: block; font-weight: 600; font-size: 0.85rem; margin: 8px 0 8px; color: var(--ink); }
+.prof-check { display: inline-flex; align-items: center; gap: 9px; margin: 2px 0 14px; font-size: 0.92rem; font-weight: 500; color: var(--ink); cursor: pointer; }
+.prof-check input { width: 17px; height: 17px; accent-color: var(--accent); cursor: pointer; }
+.prof-check span { user-select: none; }
 .prof-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 @media (max-width: 560px) { .prof-grid { grid-template-columns: 1fr; } }
 

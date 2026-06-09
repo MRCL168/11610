@@ -82,13 +82,20 @@ module.exports = function home(ctx) {
   var services = "";
   if (profile.hasServices) {
     var cards = profile.services.map(function (s) {
-      return (
-        '\n        <article class="service-card">' +
+      var inner =
         '<div class="service-icon">' + icons.featureIcon(s.icon) + "</div>" +
         '<h3 class="service-title">' + esc(s.title || "") + "</h3>" +
-        '<p class="service-text">' + esc(s.text || "") + "</p>" +
-        "</article>"
-      );
+        '<p class="service-text">' + esc(s.text || "") + "</p>";
+      // Bila URL diisi, kartu menjadi tautan ke halaman detail layanan.
+      if (s.url) {
+        return (
+          '\n        <a class="service-card service-card-link" href="' + attr(navHref(U, s.url)) + '">' +
+          inner +
+          '<span class="service-more">Selengkapnya ' + icons.arrow() + "</span>" +
+          "</a>"
+        );
+      }
+      return '\n        <article class="service-card">' + inner + "</article>";
     }).join("");
     var svcIntro = profile.servicesIntro ? "<p>" + esc(profile.servicesIntro) + "</p>" : "";
     services =
@@ -141,6 +148,48 @@ module.exports = function home(ctx) {
       "\n    </section>";
   }
 
+  // FAQ (opsional, bisa diatur tampil/sembunyi seperti seksi lain)
+  var faq = "";
+  if (profile.faq) {
+    var faqIntro = profile.faq.intro ? "<p>" + esc(profile.faq.intro) + "</p>" : "";
+    var faqRows = profile.faq.items.map(function (f, i) {
+      // Jawaban: dukung paragraf sederhana (pisah baris kosong) tetap aman (di-escape).
+      var answer = String(f.a || "")
+        .split(/\n{2,}/)
+        .map(function (par) { return "<p>" + esc(par).replace(/\n/g, "<br>") + "</p>"; })
+        .join("");
+      return (
+        '\n        <details class="faq-item"' + (i === 0 ? " open" : "") + ">" +
+        '<summary class="faq-q">' + esc(f.q) + '<span class="faq-ic" aria-hidden="true"></span></summary>' +
+        '<div class="faq-a">' + answer + "</div>" +
+        "</details>"
+      );
+    }).join("");
+
+    // Schema FAQPage (AEO/SEO): bantu mesin jawaban memahami daftar tanya-jawab.
+    var faqLd = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: profile.faq.items.map(function (f) {
+        return {
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: String(f.a || "").replace(/\s+/g, " ").trim() },
+        };
+      }),
+    };
+    var faqLdTag = '\n      <script type="application/ld+json">' + JSON.stringify(faqLd).replace(/</g, "\\u003c") + "</script>";
+
+    faq =
+      '\n    <section class="section" id="faq">' +
+      '\n      <div class="container container-narrow">' +
+      '\n        <div class="section-head center"><span class="eyebrow">' + esc(profile.faq.eyebrow) + '</span><h2>' + esc(profile.faq.title) + "</h2>" + faqIntro + "</div>" +
+      '\n        <div class="faq-list">' + faqRows + "</div>" +
+      faqLdTag +
+      "\n      </div>" +
+      "\n    </section>";
+  }
+
   // CTA band
   var ctaBand = "";
   if (profile.ctaBand) {
@@ -154,6 +203,6 @@ module.exports = function home(ctx) {
       "\n    </section>";
   }
 
-  var content = hero + stats + services + about + articles + ctaBand;
+  var content = hero + stats + services + about + articles + faq + ctaBand;
   return layout(ctx, content);
 };

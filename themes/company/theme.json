@@ -1,8 +1,8 @@
 {
   "name": "Company Profile",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "GudangWEB",
-  "description": "Tema company profile yang bersih & profesional — beranda berbentuk landing page (hero, layanan, tentang, statistik, CTA) dengan dukungan blog/wawasan.",
+  "description": "Tema company profile yang bersih & profesional — beranda berbentuk landing page (hero, layanan ber-tautan, tentang, statistik, FAQ, CTA) dengan dukungan blog/wawasan.",
   "options": {
     "accent": {
       "type": "color",

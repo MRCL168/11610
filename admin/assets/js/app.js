@@ -1363,6 +1363,10 @@ const App = (() => {
   function pfField(label, control) { return '<div class="field"><label>' + escapeHtml(label) + "</label>" + control + "</div>"; }
   function pfInput(id, v) { return '<input type="text" id="' + id + '" value="' + escapeHtml(v || "") + '" />'; }
   function pfTextarea(id, v, rows) { return '<textarea id="' + id + '" rows="' + (rows || 2) + '">' + escapeHtml(v || "") + "</textarea>"; }
+  function pfCheckbox(id, label, checked) {
+    return '<label class="prof-check"><input type="checkbox" id="' + id + '"' + (checked ? " checked" : "") + " /> <span>" + escapeHtml(label) + "</span></label>";
+  }
+  function pchecked(id) { const el = $("#" + id); return !!(el && el.checked); }
   function pfAddBtn(kind, label) { return '<button type="button" class="btn btn-ghost btn-small" onclick="App.profileAdd(\'' + kind + '\')">' + escapeHtml(label) + "</button>"; }
   function pfImage(id, v) {
     const val = v || "";
@@ -1383,8 +1387,10 @@ const App = (() => {
       services: Array.isArray(p.services) ? p.services.slice() : [],
       points: (p.about && Array.isArray(p.about.points)) ? p.about.points.slice() : [],
       sidebar: Array.isArray(p.sidebar) ? p.sidebar.slice() : [],
+      faq: (p.faq && Array.isArray(p.faq.items)) ? p.faq.items.slice() : [],
     };
-    const pc = p.primaryCta || {}, sc = p.secondaryCta || {}, about = p.about || {}, band = p.ctaBand || {}, bandBtn = band.button || {};
+    const pc = p.primaryCta || {}, sc = p.secondaryCta || {}, hc = p.headerCta || {}, about = p.about || {}, band = p.ctaBand || {}, bandBtn = band.button || {};
+    const faq = p.faq || {};
     const body = $("#editor-home-body");
     if (body) {
       body.innerHTML =
@@ -1396,6 +1402,10 @@ const App = (() => {
         pfField("Foto samping hero (dipakai bila latar kosong)", pfImage("prof-heroImage", p.heroImage)) +
         '<div class="prof-grid">' + pfField("Tombol utama — teks", pfInput("prof-pc-text", pc.text)) + pfField("Tombol utama — URL", pfInput("prof-pc-url", pc.url)) + "</div>" +
         '<div class="prof-grid">' + pfField("Tombol kedua — teks", pfInput("prof-sc-text", sc.text)) + pfField("Tombol kedua — URL", pfInput("prof-sc-url", sc.url)) + "</div>" +
+        pfSec("Tombol CTA Header") +
+        '<p class="field-hint">Tombol ajakan di pojok kanan header. Otomatis disembunyikan pada tampilan mobile. Kosongkan teks/URL untuk mengikuti Tombol utama.</p>' +
+        pfCheckbox("prof-hc-show", "Tampilkan tombol CTA di header", hc.show !== false) +
+        '<div class="prof-grid">' + pfField("Teks tombol", pfInput("prof-hc-text", hc.text)) + pfField("URL tujuan", pfInput("prof-hc-url", hc.url)) + "</div>" +
         pfSec("Statistik") + '<div id="prof-stats"></div>' + pfAddBtn("stats", "+ Tambah Statistik") +
         pfSec("Layanan") +
         pfField("Eyebrow seksi", pfInput("prof-services-eyebrow", p.servicesEyebrow)) +
@@ -1408,12 +1418,19 @@ const App = (() => {
         pfField("Teks", pfTextarea("prof-about-text", about.text, 4)) +
         pfField("Foto (opsional)", pfImage("prof-about-image", about.image)) +
         '<label class="prof-mini-label">Poin-poin</label><div id="prof-points"></div>' + pfAddBtn("points", "+ Tambah Poin") +
+        pfSec("FAQ (Pertanyaan yang Sering Diajukan)") +
+        '<p class="field-hint">Tampil di beranda lengkap dengan schema FAQPage untuk SEO/AEO. Bisa dimunculkan atau disembunyikan seperti seksi lain.</p>' +
+        pfCheckbox("prof-faq-enabled", "Tampilkan FAQ di beranda", faq.enabled !== false) +
+        pfField("Eyebrow seksi", pfInput("prof-faq-eyebrow", faq.eyebrow)) +
+        pfField("Judul seksi", pfInput("prof-faq-title", faq.title)) +
+        pfField("Pengantar seksi", pfTextarea("prof-faq-intro", faq.intro, 2)) +
+        '<div id="prof-faq"></div>' + pfAddBtn("faq", "+ Tambah Pertanyaan") +
         pfSec("CTA Band (ajakan di bagian bawah)") +
         pfField("Judul", pfInput("prof-band-title", band.title)) +
         pfField("Teks", pfTextarea("prof-band-text", band.text, 2)) +
         '<div class="prof-grid">' + pfField("Tombol — teks", pfInput("prof-band-btn-text", bandBtn.text)) + pfField("Tombol — URL", pfInput("prof-band-btn-url", bandBtn.url)) + "</div>";
     }
-    renderRows("stats"); renderRows("services"); renderRows("points"); renderRows("sidebar");
+    renderRows("stats"); renderRows("services"); renderRows("points"); renderRows("sidebar"); renderRows("faq");
   }
 
   // Repeater generik
@@ -1437,7 +1454,12 @@ const App = (() => {
       const opts = PROFILE_ICONS.map((ic) => '<option value="' + ic + '"' + (item.icon === ic ? " selected" : "") + ">" + ic + "</option>").join("");
       return '<div class="field"><label>Ikon</label><select data-field="icon">' + opts + "</select></div>" +
         '<div class="field"><label>Judul</label><input type="text" data-field="title" value="' + escapeHtml(item.title || "") + '" /></div>' +
-        '<div class="field"><label>Teks</label><textarea data-field="text" rows="2">' + escapeHtml(item.text || "") + "</textarea></div>";
+        '<div class="field"><label>Teks</label><textarea data-field="text" rows="2">' + escapeHtml(item.text || "") + "</textarea></div>" +
+        '<div class="field"><label>URL detail (opsional)</label><input type="text" data-field="url" value="' + escapeHtml(item.url || "") + '" placeholder="/layanan/seo/ atau https://..." /></div>';
+    }
+    if (kind === "faq") {
+      return '<div class="field"><label>Pertanyaan</label><input type="text" data-field="q" value="' + escapeHtml(item.q || "") + '" placeholder="Berapa biaya pembuatan website?" /></div>' +
+        '<div class="field"><label>Jawaban</label><textarea data-field="a" rows="3">' + escapeHtml(item.a || "") + "</textarea></div>";
     }
     if (kind === "points") {
       const v = typeof item === "string" ? item : (item.point || "");
@@ -1451,7 +1473,7 @@ const App = (() => {
     if (!wrap) return;
     const list = state.profileDraft[kind] || [];
     if (!list.length) {
-      const e = { stats: "Belum ada statistik.", services: "Belum ada layanan.", points: "Belum ada poin.", sidebar: "Belum ada blok sidebar." };
+      const e = { stats: "Belum ada statistik.", services: "Belum ada layanan.", points: "Belum ada poin.", sidebar: "Belum ada blok sidebar.", faq: "Belum ada pertanyaan." };
       wrap.innerHTML = '<p class="repeat-empty">' + (e[kind] || "Belum ada item.") + "</p>";
       return;
     }
@@ -1462,7 +1484,8 @@ const App = (() => {
     if (!wrap) return [];
     return Array.from(wrap.querySelectorAll(":scope > .repeat-row")).map((row) => {
       if (kind === "stats") return { value: fval(row, "value"), label: fval(row, "label") };
-      if (kind === "services") return { icon: fval(row, "icon"), title: fval(row, "title"), text: fval(row, "text") };
+      if (kind === "services") return { icon: fval(row, "icon"), title: fval(row, "title"), text: fval(row, "text"), url: fval(row, "url") };
+      if (kind === "faq") return { q: fval(row, "q"), a: fval(row, "a") };
       if (kind === "points") return fval(row, "point");
       if (kind === "sidebar") return readSidebarRow(row);
       return null;
@@ -1470,7 +1493,7 @@ const App = (() => {
   }
   function profileAdd(kind) {
     state.profileDraft[kind] = readRows(kind);
-    const blank = { stats: { value: "", label: "" }, services: { icon: "spark", title: "", text: "" }, sidebar: { type: "text", title: "", content: "" } };
+    const blank = { stats: { value: "", label: "" }, services: { icon: "spark", title: "", text: "", url: "" }, faq: { q: "", a: "" }, sidebar: { type: "text", title: "", content: "" } };
     state.profileDraft[kind].push(kind === "points" ? "" : Object.assign({}, blank[kind]));
     renderRows(kind);
   }
@@ -1621,6 +1644,9 @@ const App = (() => {
       base.primaryCta = { text: pval("prof-pc-text"), url: pval("prof-pc-url") };
       if (pval("prof-sc-text") || pval("prof-sc-url")) base.secondaryCta = { text: pval("prof-sc-text"), url: pval("prof-sc-url") };
       else delete base.secondaryCta;
+      // Tombol CTA header (terpisah & bisa disembunyikan)
+      const hc = { show: pchecked("prof-hc-show"), text: pval("prof-hc-text"), url: pval("prof-hc-url") };
+      if (!hc.show || hc.text || hc.url) base.headerCta = hc; else delete base.headerCta;
       base.stats = readRows("stats").filter((s) => s.value || s.label);
       base.servicesEyebrow = pval("prof-services-eyebrow");
       base.servicesTitle = pval("prof-services-title");
@@ -1630,6 +1656,10 @@ const App = (() => {
       if (about.title || about.text || about.image || about.points.length) base.about = about; else delete base.about;
       const band = { title: pval("prof-band-title"), text: pval("prof-band-text"), button: { text: pval("prof-band-btn-text"), url: pval("prof-band-btn-url") } };
       if (band.title || band.text) base.ctaBand = band; else delete base.ctaBand;
+      // FAQ beranda (toggle + isi)
+      const faqItems = readRows("faq").filter((f) => f.q);
+      const faq = { enabled: pchecked("prof-faq-enabled"), eyebrow: pval("prof-faq-eyebrow"), title: pval("prof-faq-title"), intro: pval("prof-faq-intro"), items: faqItems };
+      if (faqItems.length || faq.enabled === false || faq.eyebrow || faq.title || faq.intro) base.faq = faq; else delete base.faq;
     }
     if (sideVisible) {
       const sb = readRows("sidebar").filter((b) => b && b.type);
