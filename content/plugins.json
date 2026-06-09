@@ -3,7 +3,7 @@
     "active": true
   },
   "whatsapp-overlay": {
-    "active": true,
+    "active": false,
     "settings": {
       "phone": "",
       "message": "Halo, saya ingin bertanya tentang layanan Anda.",
