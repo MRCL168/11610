@@ -61,7 +61,7 @@
       "url": "#layanan"
     },
     "heroImage": "",
-    "heroBackground": "/public/images/hero-sample.svg",
+    "heroBackground": "/public/images/1780956696509-hero-gudangweb-com.png",
     "stats": [
       {
         "value": "120+",
@@ -74,6 +74,10 @@
       {
         "value": "4.9/5",
         "label": "Kepuasan Klien"
+      },
+      {
+        "value": "24 Jam",
+        "label": "Support"
       }
     ],
     "servicesEyebrow": "Apa yang kami lakukan",
