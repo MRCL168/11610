@@ -165,16 +165,16 @@
       "content": {}
     }
   },
-  "baseUrl": "https://akularis.com",
-  "basePath": "/",
+  "baseUrl": "https://blog.akularis.com",
+  "basePath": "",
   "postsPerPage": 10,
   "defaultOgImage": "",
   "logo": "",
   "favicon": "",
   "footerCopyright": "",
   "social": {
-    "twitter": "",
     "github": "username",
+    "twitter": "",
     "instagram": "",
     "linkedin": "",
     "email": ""
