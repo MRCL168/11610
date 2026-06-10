@@ -3,9 +3,9 @@
     "active": true
   },
   "whatsapp-overlay": {
-    "active": true,
+    "active": false,
     "settings": {
-      "phone": "6287741135796",
+      "phone": "",
       "message": "Halo, saya ingin bertanya tentang layanan Anda.",
       "tooltip": "Chat via WhatsApp",
       "greeting": "Halo! 👋 Ada yang bisa kami bantu?",
