@@ -176,7 +176,7 @@
       "options": {},
       "content": {
         "hero": {
-          "enabled": false,
+          "enabled": true,
           "eyebrow": "",
           "title": "",
           "text": "",
@@ -270,7 +270,7 @@
   ],
   "profile": {
     "hero": {
-      "enabled": false,
+      "enabled": true,
       "eyebrow": "",
       "title": "",
       "text": "",
