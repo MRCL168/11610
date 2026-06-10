@@ -1,0 +1,19 @@
+{
+  "name": "News",
+  "version": "1.0.0",
+  "author": "GudangWEB",
+  "description": "Tema portal berita profesional — beranda berupa highlight berita utama, ticker terkini, blok per-kategori yang dapat dikonfigurasi, dan desain koran modern yang bersih.",
+  "options": {
+    "accent": {
+      "type": "color",
+      "label": "Warna Aksen",
+      "default": "#d92b2b"
+    },
+    "headerBg": {
+      "type": "color",
+      "label": "Warna Latar Header",
+      "default": "#0d1117"
+    }
+  },
+  "editors": ["home", "sidebar"]
+}
