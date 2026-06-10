@@ -1,0 +1,212 @@
+{
+  "name": "Kontraktor",
+  "version": "1.0.0",
+  "author": "GudangWEB",
+  "description": "Tema company profile profesional untuk perusahaan jasa kontraktor, dengan hero foto full width, fitur, tentang, portofolio, testimoni, CTA, halaman kontak bermaps, dan sidebar halaman dalam.",
+  "screenshot": "",
+  "options": {
+    "accent": { "type": "color", "label": "Warna Aksen Utama", "default": "#c47a25" },
+    "accentDark": { "type": "color", "label": "Warna Aksen Gelap", "default": "#8f4f12" },
+    "accentSoft": { "type": "color", "label": "Warna Aksen Lembut", "default": "#fff1df" },
+    "accentSecond": { "type": "color", "label": "Warna Aksen Kedua", "default": "#1d4f67" },
+    "surfaceTint": { "type": "color", "label": "Warna Latar Lembut", "default": "#f7f2ea" },
+    "fontBody": { "type": "select", "label": "Font Isi", "default": "Manrope", "choices": ["Manrope", "Plus Jakarta Sans", "Inter", "system-ui"] }
+  },
+  "customize": {
+    "options": {
+      "accent": { "type": "color", "label": "Warna Aksen Utama", "default": "#c47a25" },
+      "accentDark": { "type": "color", "label": "Warna Aksen Gelap", "default": "#8f4f12" },
+      "accentSoft": { "type": "color", "label": "Warna Aksen Lembut", "default": "#fff1df" },
+      "accentSecond": { "type": "color", "label": "Warna Aksen Kedua", "default": "#1d4f67" },
+      "surfaceTint": { "type": "color", "label": "Warna Latar Lembut", "default": "#f7f2ea" },
+      "fontBody": { "type": "select", "label": "Font Isi", "default": "Manrope", "choices": ["Manrope", "Plus Jakarta Sans", "Inter", "system-ui"] }
+    },
+    "sections": [
+      {
+        "id": "hero",
+        "label": "Hero",
+        "icon": "▰",
+        "description": "Bagian pembuka beranda dengan foto latar full width, judul, teks, dan tombol.",
+        "fields": [
+          { "key": "hero.enabled", "type": "checkbox", "label": "Tampilkan section hero", "default": true },
+          { "key": "hero.eyebrow", "type": "text", "label": "Label kecil", "placeholder": "Jasa Kontraktor Profesional" },
+          { "key": "hero.title", "type": "text", "label": "Judul utama", "placeholder": "Bangun dan renovasi properti dengan tim kontraktor tepercaya" },
+          { "key": "hero.text", "type": "textarea", "label": "Deskripsi", "rows": 3 },
+          { "key": "hero.background", "type": "image", "label": "Foto background hero" },
+          { "key": "hero.image", "type": "image", "label": "Foto kartu proyek di hero" },
+          { "key": "hero.badge", "type": "text", "label": "Badge kecil", "placeholder": "Survey & estimasi transparan" },
+          { "key": "hero.primaryCta", "type": "group", "label": "Tombol utama", "layout": "row", "fields": [
+            { "key": "text", "type": "text", "label": "Teks" },
+            { "key": "url", "type": "text", "label": "URL" }
+          ] },
+          { "key": "hero.secondaryCta", "type": "group", "label": "Tombol kedua", "layout": "row", "fields": [
+            { "key": "text", "type": "text", "label": "Teks" },
+            { "key": "url", "type": "text", "label": "URL" }
+          ] }
+        ]
+      },
+      {
+        "id": "headerCta",
+        "label": "CTA Header",
+        "icon": "▸",
+        "description": "Tombol ajakan di navigasi utama.",
+        "fields": [
+          { "key": "headerCta.enabled", "type": "checkbox", "label": "Tampilkan tombol CTA di header", "default": true },
+          { "key": "headerCta.text", "type": "text", "label": "Teks tombol", "placeholder": "Konsultasi Proyek" },
+          { "key": "headerCta.url", "type": "text", "label": "URL tujuan", "placeholder": "/hubungi-kami/" }
+        ]
+      },
+      {
+        "id": "features",
+        "label": "Fitur / Keunggulan",
+        "icon": "▦",
+        "description": "Kartu keunggulan setelah hero.",
+        "fields": [
+          { "key": "features.enabled", "type": "checkbox", "label": "Tampilkan section fitur", "default": true },
+          { "key": "features.eyebrow", "type": "text", "label": "Label kecil", "placeholder": "Mengapa memilih kami" },
+          { "key": "features.title", "type": "text", "label": "Judul section", "placeholder": "Pekerjaan rapi, terukur, dan mudah dipantau" },
+          { "key": "features.text", "type": "textarea", "label": "Deskripsi section", "rows": 2 },
+          { "key": "features.image", "type": "image", "label": "Gambar pendukung section" },
+          { "key": "features.items", "type": "repeater", "label": "Daftar fitur", "addLabel": "+ Tambah Fitur", "itemLabel": "Fitur", "fields": [
+            { "key": "icon", "type": "select", "label": "Ikon", "choices": ["helmet", "plan", "building", "check", "clock", "shield", "tools", "team"], "default": "helmet" },
+            { "key": "title", "type": "text", "label": "Judul" },
+            { "key": "text", "type": "textarea", "label": "Teks", "rows": 2 }
+          ] }
+        ]
+      },
+      {
+        "id": "about",
+        "label": "Tentang",
+        "icon": "◒",
+        "description": "Profil singkat perusahaan kontraktor.",
+        "fields": [
+          { "key": "about.enabled", "type": "checkbox", "label": "Tampilkan section tentang", "default": true },
+          { "key": "about.eyebrow", "type": "text", "label": "Label kecil", "placeholder": "Tentang Kami" },
+          { "key": "about.title", "type": "text", "label": "Judul" },
+          { "key": "about.text", "type": "textarea", "label": "Teks", "rows": 4 },
+          { "key": "about.image", "type": "image", "label": "Foto tentang" },
+          { "key": "about.points", "type": "repeater", "itemType": "string", "label": "Poin keunggulan", "addLabel": "+ Tambah Poin", "placeholder": "Contoh: RAB transparan sejak awal" },
+          { "key": "about.stats", "type": "repeater", "label": "Angka kredibilitas", "addLabel": "+ Tambah Statistik", "itemLabel": "Statistik", "fields": [
+            { "key": "value", "type": "text", "label": "Angka", "placeholder": "120+" },
+            { "key": "label", "type": "text", "label": "Label", "placeholder": "Proyek selesai" }
+          ] }
+        ]
+      },
+      {
+        "id": "portfolio",
+        "label": "Portofolio",
+        "icon": "▧",
+        "description": "Grid portofolio sebagai tipe konten tema. Data diatur dari Customizer tanpa mengubah routing inti.",
+        "fields": [
+          { "key": "portfolio.enabled", "type": "checkbox", "label": "Tampilkan section portofolio", "default": true },
+          { "key": "portfolio.eyebrow", "type": "text", "label": "Label kecil", "placeholder": "Portofolio" },
+          { "key": "portfolio.title", "type": "text", "label": "Judul section" },
+          { "key": "portfolio.text", "type": "textarea", "label": "Deskripsi section", "rows": 2 },
+          { "key": "portfolio.image", "type": "image", "label": "Gambar pendukung section" },
+          { "key": "portfolio.items", "type": "repeater", "label": "Item portofolio", "addLabel": "+ Tambah Portofolio", "itemLabel": "Proyek", "fields": [
+            { "key": "title", "type": "text", "label": "Nama proyek" },
+            { "key": "category", "type": "text", "label": "Jenis proyek", "placeholder": "Rumah tinggal / Ruko / Interior" },
+            { "key": "location", "type": "text", "label": "Lokasi" },
+            { "key": "year", "type": "text", "label": "Tahun" },
+            { "key": "image", "type": "image", "label": "Foto proyek" },
+            { "key": "text", "type": "textarea", "label": "Ringkasan proyek", "rows": 2 },
+            { "key": "url", "type": "text", "label": "URL detail (opsional)" }
+          ] }
+        ]
+      },
+      {
+        "id": "testimonials",
+        "label": "Testimoni",
+        "icon": "❞",
+        "description": "Ulasan klien untuk membangun kepercayaan.",
+        "fields": [
+          { "key": "testimonials.enabled", "type": "checkbox", "label": "Tampilkan section testimoni", "default": true },
+          { "key": "testimonials.eyebrow", "type": "text", "label": "Label kecil", "placeholder": "Testimoni" },
+          { "key": "testimonials.title", "type": "text", "label": "Judul section" },
+          { "key": "testimonials.text", "type": "textarea", "label": "Deskripsi section", "rows": 2 },
+          { "key": "testimonials.image", "type": "image", "label": "Gambar pendukung section" },
+          { "key": "testimonials.items", "type": "repeater", "label": "Daftar testimoni", "addLabel": "+ Tambah Testimoni", "itemLabel": "Testimoni", "fields": [
+            { "key": "quote", "type": "textarea", "label": "Isi testimoni", "rows": 3 },
+            { "key": "name", "type": "text", "label": "Nama klien" },
+            { "key": "role", "type": "text", "label": "Keterangan", "placeholder": "Pemilik rumah / Direktur / Developer" },
+            { "key": "photo", "type": "image", "label": "Foto klien (opsional)" }
+          ] }
+        ]
+      },
+      {
+        "id": "cta",
+        "label": "CTA Akhir",
+        "icon": "▭",
+        "description": "Ajakan konsultasi di akhir beranda.",
+        "fields": [
+          { "key": "cta.enabled", "type": "checkbox", "label": "Tampilkan section CTA", "default": true },
+          { "key": "cta.eyebrow", "type": "text", "label": "Label kecil", "placeholder": "Mulai proyek" },
+          { "key": "cta.title", "type": "text", "label": "Judul" },
+          { "key": "cta.text", "type": "textarea", "label": "Teks", "rows": 3 },
+          { "key": "cta.image", "type": "image", "label": "Foto background CTA" },
+          { "key": "cta.button", "type": "group", "label": "Tombol", "layout": "row", "fields": [
+            { "key": "text", "type": "text", "label": "Teks" },
+            { "key": "url", "type": "text", "label": "URL" }
+          ] }
+        ]
+      },
+      {
+        "id": "contact",
+        "label": "Halaman Hubungi Kami",
+        "icon": "⌖",
+        "description": "Blok kontak dan maps yang otomatis muncul pada halaman dengan slug kontak/hubungi-kami.",
+        "fields": [
+          { "key": "contact.enabled", "type": "checkbox", "label": "Aktifkan blok kontak bermaps", "default": true },
+          { "key": "contact.title", "type": "text", "label": "Judul blok" },
+          { "key": "contact.text", "type": "textarea", "label": "Teks pengantar", "rows": 3 },
+          { "key": "contact.address", "type": "textarea", "label": "Alamat", "rows": 2 },
+          { "key": "contact.phone", "type": "text", "label": "Telepon / WhatsApp" },
+          { "key": "contact.email", "type": "text", "label": "Email" },
+          { "key": "contact.mapEmbed", "type": "textarea", "label": "Kode embed Google Maps", "rows": 3, "hint": "Tempel iframe Google Maps. Konten ini dianggap tepercaya oleh pemilik repo." },
+          { "key": "contact.mapImage", "type": "image", "label": "Gambar fallback maps" },
+          { "key": "contact.mapUrl", "type": "text", "label": "URL Google Maps" }
+        ]
+      },
+      {
+        "id": "sidebar",
+        "label": "Sidebar Halaman Dalam",
+        "icon": "▥",
+        "description": "Sidebar untuk halaman selain beranda: artikel, halaman statis, arsip, dan halaman 404 bila diperlukan.",
+        "fields": [
+          { "key": "sidebar.enabled", "type": "checkbox", "label": "Aktifkan sidebar halaman dalam", "default": true },
+          { "key": "sidebar.blocks", "type": "repeater", "label": "Blok sidebar", "addLabel": "+ Tambah Blok", "itemLabel": "Blok",
+            "typeField": "type",
+            "typeLabel": "Tipe Blok",
+            "typeChoices": [
+              ["text", "Teks / HTML"], ["cta", "Ajakan (CTA)"], ["links", "Daftar Tautan"],
+              ["recent-posts", "Artikel Terbaru"], ["contact", "Kontak"], ["image", "Gambar"], ["social", "Media Sosial"]
+            ],
+            "common": [
+              { "key": "title", "type": "text", "label": "Judul" }
+            ],
+            "variants": {
+              "text": [ { "key": "content", "type": "textarea", "label": "Konten HTML", "rows": 3 } ],
+              "cta": [
+                { "key": "text", "type": "textarea", "label": "Teks", "rows": 2 },
+                { "key": "button", "type": "group", "label": "Tombol", "layout": "row", "fields": [
+                  { "key": "text", "type": "text", "label": "Teks" },
+                  { "key": "url", "type": "text", "label": "URL" }
+                ] }
+              ],
+              "links": [ { "key": "items", "type": "linklist", "label": "Tautan (satu per baris: Label | URL)", "rows": 4, "placeholder": "Layanan Renovasi | /#fitur" } ],
+              "recent-posts": [ { "key": "count", "type": "number", "label": "Jumlah artikel", "min": 1, "max": 12, "default": 4 } ],
+              "contact": [ { "key": "text", "type": "textarea", "label": "Teks", "rows": 2 } ],
+              "image": [
+                { "key": "src", "type": "image", "label": "Gambar" },
+                { "key": "alt", "type": "text", "label": "Alt" },
+                { "key": "caption", "type": "text", "label": "Keterangan" },
+                { "key": "link", "type": "text", "label": "Tautan (opsional)" }
+              ],
+              "social": [ { "key": "_note", "type": "note", "label": "Menampilkan ikon dari Pengaturan Situs → Media Sosial." } ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
