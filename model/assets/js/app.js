@@ -1549,8 +1549,7 @@ const App = (() => {
 
       state.themePanel = { themes, activeTheme, manifest, savedOptions, profile: (cfg.profile && typeof cfg.profile === "object") ? cfg.profile : {} };
       hideLoader();
-      buildProfileEditors();
-      renderThemePanel();
+      renderThemePanel(); // → memanggil updateProfileEditorVisibility → buildProfileEditors
     } catch (err) {
       hideLoader();
       toast(`Gagal memuat tema: ${err.message}`, "error");
@@ -1659,6 +1658,8 @@ const App = (() => {
       tp.savedOptions = (state.siteConfig && state.siteConfig.themeOptions) || {};
     }
     renderThemePanel();
+    // Panggil langsung untuk memastikan form dibangun ulang meski manifest belum di-push ke GitHub
+    buildProfileEditors();
   }
 
   // Kumpulkan nilai opsi & simpan { theme, themeOptions } ke config.json.
@@ -1721,6 +1722,19 @@ const App = (() => {
 
   // Bangun isi form sekali (saat panel Tema dimuat)
   function buildProfileEditors() {
+    // Cabang berdasarkan tema aktif
+    const activeTheme = (state.themePanel && state.themePanel.activeTheme) || "default";
+
+    // Update judul card sesuai tema agar tidak membingungkan
+    const cardTitle = $("#editor-home-card .meta-card-title");
+    const cardHint  = $("#editor-home-card > .field-hint");
+    if (cardTitle) cardTitle.textContent = activeTheme === "news" ? "Pengaturan Tema News" : "Edit Halaman Home";
+    if (cardHint) cardHint.textContent = activeTheme === "news"
+      ? "Atur ticker berita terkini, hero utama, dan blok kategori beranda."
+      : "Atur teks & foto beranda. Foto memakai gambar dari panel Media.";
+
+    if (activeTheme === "news") { buildNewsProfileEditors(); return; }
+
     const p = profGet();
     state.profileDraft = {
       stats: Array.isArray(p.stats) ? p.stats.slice() : [],
@@ -1773,7 +1787,48 @@ const App = (() => {
     renderRows("stats"); renderRows("services"); renderRows("points"); renderRows("sidebar"); renderRows("faq");
   }
 
-  // Repeater generik
+  // ============================================================
+  //  Editor Home khusus tema NEWS
+  //  Menyimpan ke config.profile.newsSettings
+  // ============================================================
+  function buildNewsProfileEditors() {
+    const p = profGet();
+    const ns = (p.newsSettings && typeof p.newsSettings === "object") ? p.newsSettings : {};
+    const bn = (ns.breakingNews && typeof ns.breakingNews === "object") ? ns.breakingNews : {};
+    const hs = (ns.heroSection && typeof ns.heroSection === "object") ? ns.heroSection : {};
+    const catBlocks = Array.isArray(ns.categoryBlocks) ? ns.categoryBlocks : [];
+
+    // Draft khusus News — hanya pakai repeater categoryBlocks
+    state.profileDraft = {
+      stats: [], services: [], points: [], sidebar: [], faq: [],
+      categoryBlocks: catBlocks.slice(),
+    };
+
+    const tickerItems = Array.isArray(bn.items) ? bn.items.join("\n") : "";
+    const body = $("#editor-home-body");
+    if (body) {
+      body.innerHTML =
+        pfSec("Ticker Berita Terkini") +
+        "<p class=\"field-hint\">Pita teks berjalan di bagian atas halaman. Kosongkan atau nonaktifkan bila tidak diperlukan.</p>" +
+        pfCheckbox("news-bn-enabled", "Aktifkan ticker berita terkini", bn.enabled !== false) +
+        '<div class="prof-grid">' +
+          pfField("Label (contoh: TERKINI)", pfInput("news-bn-label", bn.label || "TERKINI")) +
+        "</div>" +
+        pfField("Teks ticker — satu baris per item", pfTextarea("news-bn-items", tickerItems, 4)) +
+
+        pfSec("Hero Utama (Berita Pilihan)") +
+        "<p class=\"field-hint\">Kartu besar + kartu samping horizontal di atas halaman beranda.</p>" +
+        pfCheckbox("news-hero-enabled", "Tampilkan seksi hero di beranda", hs.enabled !== false) +
+        pfField("Jumlah artikel di hero",
+          '<input type="number" id="news-hero-count" min="1" max="8" value="' + escapeHtml(String(hs.count || 5)) + '" />') +
+
+        pfSec("Blok Kategori") +
+        "<p class=\"field-hint\">Setiap blok menampilkan artikel dari satu kategori. Pilih layout Grid, Majalah, atau Daftar sesuai selera.</p>" +
+        '<div id="prof-categoryBlocks"></div>' +
+        pfAddBtn("categoryBlocks", "+ Tambah Blok Kategori");
+    }
+    renderRows("categoryBlocks");
+  }
   function rowShell(kind, i, inner) {
     return '<div class="repeat-row" data-kind="' + kind + '">' +
       '<div class="repeat-row-head"><span class="repeat-row-label">#' + (i + 1) + "</span>" +
@@ -1806,6 +1861,20 @@ const App = (() => {
       return '<div class="field"><input type="text" data-field="point" value="' + escapeHtml(v) + '" placeholder="Poin keunggulan" /></div>';
     }
     if (kind === "sidebar") return sidebarRowInner(item, i);
+    if (kind === "categoryBlocks") {
+      item = item || {};
+      const layoutOpts = [["grid", "Grid (kartu sejajar)"], ["magazine", "Majalah (1 besar + daftar kecil)"], ["list", "Daftar (kompak)"]]
+        .map((o) => '<option value="' + o[0] + '"' + (item.layout === o[0] ? " selected" : "") + ">" + o[1] + "</option>")
+        .join("");
+      return '<div class="prof-grid">' +
+        '<div class="field"><label>Nama kategori</label>' +
+          '<input type="text" data-field="category" value="' + escapeHtml(item.category || "") + '" placeholder="Politik" /></div>' +
+        '<div class="field"><label>Jumlah artikel</label>' +
+          '<input type="number" min="1" max="12" data-field="count" value="' + escapeHtml(String(item.count || 4)) + '" /></div>' +
+        "</div>" +
+        '<div class="field"><label>Layout tampilan</label>' +
+          '<select data-field="layout">' + layoutOpts + "</select></div>";
+    }
     return "";
   }
   function renderRows(kind) {
@@ -1813,7 +1882,7 @@ const App = (() => {
     if (!wrap) return;
     const list = state.profileDraft[kind] || [];
     if (!list.length) {
-      const e = { stats: "Belum ada statistik.", services: "Belum ada layanan.", points: "Belum ada poin.", sidebar: "Belum ada blok sidebar.", faq: "Belum ada pertanyaan." };
+      const e = { stats: "Belum ada statistik.", services: "Belum ada layanan.", points: "Belum ada poin.", sidebar: "Belum ada blok sidebar.", faq: "Belum ada pertanyaan.", categoryBlocks: "Belum ada blok kategori." };
       wrap.innerHTML = '<p class="repeat-empty">' + (e[kind] || "Belum ada item.") + "</p>";
       return;
     }
@@ -1828,12 +1897,17 @@ const App = (() => {
       if (kind === "faq") return { q: fval(row, "q"), a: fval(row, "a") };
       if (kind === "points") return fval(row, "point");
       if (kind === "sidebar") return readSidebarRow(row);
+      if (kind === "categoryBlocks") return {
+        category: fval(row, "category"),
+        count: parseInt(fval(row, "count"), 10) || 4,
+        layout: fval(row, "layout") || "grid",
+      };
       return null;
     });
   }
   function profileAdd(kind) {
     state.profileDraft[kind] = readRows(kind);
-    const blank = { stats: { value: "", label: "" }, services: { icon: "spark", title: "", text: "", url: "" }, faq: { q: "", a: "" }, sidebar: { type: "text", title: "", content: "" } };
+    const blank = { stats: { value: "", label: "" }, services: { icon: "spark", title: "", text: "", url: "" }, faq: { q: "", a: "" }, sidebar: { type: "text", title: "", content: "" }, categoryBlocks: { category: "", count: 4, layout: "grid" } };
     state.profileDraft[kind].push(kind === "points" ? "" : Object.assign({}, blank[kind]));
     renderRows(kind);
   }
@@ -1963,15 +2037,28 @@ const App = (() => {
   // Tampil/sembunyikan editor sesuai tema terpilih
   function updateProfileEditorVisibility(manifest) {
     const editors = (manifest && Array.isArray(manifest.editors)) ? manifest.editors : [];
-    const home = editors.indexOf("home") !== -1, side = editors.indexOf("sidebar") !== -1;
+    const activeTheme = (state.themePanel && state.themePanel.activeTheme) || "default";
+    const isNews = activeTheme === "news";
+    // Tema yang punya editor home: News dan Company (atau siapa pun yang deklarasikan "home")
+    // Tambahkan fallback: jika tema dikenal tapi manifest belum di-push, tetap tampilkan editor.
+    const knownHomeThemes = ["news", "company"];
+    const home = editors.indexOf("home") !== -1 || knownHomeThemes.indexOf(activeTheme) !== -1;
+    const side = editors.indexOf("sidebar") !== -1;
     pfToggle("#editor-home-card", home);
-    pfToggle("#editor-sidebar-card", side);
+    pfToggle("#editor-sidebar-card", side && !isNews);
+    pfToggle("#editor-news-widgets-info", home && isNews); // kartu info widget untuk tema News
     pfToggle("#editor-save-bar", home || side);
+    // Bangun ulang form editor home sesuai tema aktif
+    if (home) buildProfileEditors();
   }
   function pfToggle(sel, show) { const el = $(sel); if (el) el.classList.toggle("hidden", !show); }
 
   // Kumpulkan profile dari form & simpan ke config.profile
   async function saveProfile() {
+    // Cabang simpan sesuai tema aktif
+    const activeTheme = (state.themePanel && state.themePanel.activeTheme) || "default";
+    if (activeTheme === "news") { await saveNewsProfile(); return; }
+
     const base = Object.assign({}, profGet());
     const homeVisible = !$("#editor-home-card").classList.contains("hidden");
     const sideVisible = !$("#editor-sidebar-card").classList.contains("hidden");
@@ -2007,6 +2094,35 @@ const App = (() => {
     }
     const saved = await saveSiteConfig({ profile: base }, "Perbarui halaman home & sidebar via CMS");
     if (saved) { state.themePanel = state.themePanel || {}; state.themePanel.profile = base; }
+  }
+
+  // Simpan pengaturan khusus tema News ke config.profile.newsSettings
+  async function saveNewsProfile() {
+    const base = Object.assign({}, profGet());
+    const homeVisible = !$("#editor-home-card").classList.contains("hidden");
+    if (homeVisible) {
+      const tickerEl = $("#news-bn-items");
+      const tickerRaw = tickerEl ? tickerEl.value : "";
+      const tickerItems = tickerRaw.split("\n").map((l) => l.trim()).filter(Boolean);
+      base.newsSettings = {
+        breakingNews: {
+          enabled: pchecked("news-bn-enabled"),
+          label: pval("news-bn-label") || "TERKINI",
+          items: tickerItems,
+        },
+        heroSection: {
+          enabled: pchecked("news-hero-enabled"),
+          count: parseInt(($("#news-hero-count") || {}).value, 10) || 5,
+        },
+        categoryBlocks: readRows("categoryBlocks").filter((b) => b && b.category),
+      };
+    }
+    const saved = await saveSiteConfig({ profile: base }, "Perbarui pengaturan tema News via CMS");
+    if (saved) {
+      toast("Pengaturan News berhasil disimpan.", "success");
+      state.themePanel = state.themePanel || {};
+      state.themePanel.profile = base;
+    }
   }
 
   /* ============================================================

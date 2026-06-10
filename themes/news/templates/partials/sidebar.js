@@ -1,42 +1,42 @@
 /* ============================================================
-   partials/sidebar.js — Sidebar halaman dalam (TEMA)
-   Muncul di artikel, halaman statis, dan arsip.
-   Isinya dibaca dari config.profile.sidebar (array blok).
+   partials/sidebar.js — Sidebar tema News
+   Isi sidebar diambil dari ctx.site.widgets (content/widgets.json)
+   sehingga cukup dikelola satu kali di panel Widget admin.
 
-   Tipe blok yang didukung:
-     - text         : { title, content (HTML) }
-     - cta          : { title, text, button{ text, url } }
-     - links        : { title, items[ { label, url } ] }
-     - recent-posts : { title, count }
-     - categories   : { title }
-     - contact      : { title, text }
-     - image        : { src, alt, caption, link }
-     - social       : { title }
+   Tipe blok yang didukung (sama dengan format widget):
+     - text          : { title, content (HTML) }
+     - cta           : { title, text, button{ text, url } }
+     - links         : { title, items[ { label, url } ] }
+     - recent-posts  : { title, count }
+     - categories    : { title }
+     - contact       : { title, text }
+     - image         : { src, alt, caption, link }
+     - social        : { title }
    ============================================================ */
 
 var iconsMod = require("./icons");
 var socialLinks = iconsMod.socialLinks;
 
-function navHref(U, url) {
-  var u = String(url || "");
-  if (!u) return "#";
-  if (/^(https?:|mailto:|tel:|#)/i.test(u)) return u;
-  return U.url(u);
-}
-
 function arr(v) { return Array.isArray(v) ? v : []; }
 
+// Ambil widget dari ctx.site.widgets sebagai daftar blok sidebar.
 function getSidebar(ctx) {
-  var config = ctx.config || {};
-  var p = (config.profile && typeof config.profile === "object") ? config.profile : {};
-  return arr(p.sidebar).filter(function (b) {
+  var site = (ctx && ctx.site) || {};
+  var widgets = arr(site.widgets);
+  return widgets.filter(function (b) {
     return b && typeof b === "object" && b.type;
   });
 }
 
+function navHref(U, href) {
+  if (!href) return "/";
+  if (/^https?:\/\/|^mailto:|^tel:/.test(href)) return href;
+  return U.url(href);
+}
+
 function block(b, ctx) {
   var config = ctx.config, U = ctx.U, lib = ctx.lib, site = ctx.site || {};
-  var esc = lib.esc, attr = lib.attr, slugify = lib.slugify;
+  var esc = lib.esc, attr = lib.attr;
   var type = String(b.type || "").toLowerCase();
   var title = b.title ? '<h3 class="side-title">' + esc(b.title) + "</h3>" : "";
 
@@ -73,19 +73,19 @@ function block(b, ctx) {
   }
 
   if (type === "categories") {
-    var cats = site.categoryNames || [];
+    var cats = arr(site.categoryNames);
     if (!cats.length) return "";
-    var cl = cats.map(function (name) {
-      return '<li><a href="' + attr(U.url("/category/" + slugify(name) + "/")) + '">' + esc(name) + "</a></li>";
+    var catLis = cats.map(function (c) {
+      return '<li><a href="' + attr(U.url("/category/" + c.toLowerCase().replace(/\s+/g, "-") + "/")) + '">' + esc(c) + "</a></li>";
     }).join("");
-    return '<div class="side-card">' + (title || '<h3 class="side-title">Kategori</h3>') + '<ul class="side-links">' + cl + "</ul></div>";
+    return '<div class="side-card">' + (title || '<h3 class="side-title">Kategori</h3>') + '<ul class="side-links">' + catLis + "</ul></div>";
   }
 
   if (type === "contact") {
     var social = config.social || {};
     var ctext = b.text ? '<p class="side-text">' + esc(b.text) + "</p>" : "";
     var action = social.email
-      ? '<a class="btn btn-primary side-btn" href="mailto:' + attr(social.email) + '">Email Redaksi</a>'
+      ? '<a class="btn btn-primary side-btn" href="mailto:' + attr(social.email) + '">Email Kami</a>'
       : '<a class="btn btn-primary side-btn" href="' + attr(U.url("/about/")) + '">Hubungi Kami</a>';
     return '<div class="side-card side-cta">' + (title || '<h3 class="side-title">Kontak</h3>') + ctext + action + "</div>";
   }
@@ -107,8 +107,9 @@ function block(b, ctx) {
   return "";
 }
 
-function render(ctx, blocks) {
-  var list = blocks || getSidebar(ctx);
+// Render <aside> sidebar dari widget. Mengembalikan "" bila tidak ada widget.
+function render(ctx) {
+  var list = getSidebar(ctx);
   if (!list.length) return "";
   var cards = list.map(function (b) { return block(b, ctx); }).filter(Boolean).join("\n        ");
   if (!cards) return "";

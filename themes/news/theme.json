@@ -1,19 +1,19 @@
 {
-  "name": "News",
+  "name": "News Portal",
   "version": "1.0.0",
   "author": "GudangWEB",
-  "description": "Tema portal berita profesional — beranda berupa highlight berita utama, ticker terkini, blok per-kategori yang dapat dikonfigurasi, dan desain koran modern yang bersih.",
+  "description": "Tema portal berita dengan hero section, ticker terkini, dan blok kategori fleksibel (grid/majalah/daftar). Sidebar otomatis menggunakan widget.",
   "options": {
     "accent": {
       "type": "color",
-      "label": "Warna Aksen",
+      "label": "Warna Aksen (merah berita)",
       "default": "#d92b2b"
     },
     "headerBg": {
       "type": "color",
-      "label": "Warna Latar Header",
+      "label": "Warna Header & Footer",
       "default": "#0d1117"
     }
   },
-  "editors": ["home", "sidebar"]
+  "editors": ["home"]
 }
