@@ -4,7 +4,7 @@
   "description": "Blog pribadi berisi tutorial, opini, dan catatan seputar pengembangan web, SEO, dan teknologi terkini.",
   "author": "Admin",
   "language": "id",
-  "theme": "news",
+  "theme": "default",
   "themeOptions": {},
   "baseUrl": "https://blog.akularis.com",
   "basePath": "",
