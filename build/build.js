@@ -212,6 +212,12 @@ function build() {
   const theme = loadTheme(config, ROOT);
   console.log(`→ Tema aktif: "${theme.name}"${theme.manifest.version ? " v" + theme.manifest.version : ""}`);
 
+  // Data KONTEN tema aktif (dari penyimpanan per-tema config.themeData) dipasang
+  // ke config.profile agar template tema yang membaca `config.profile` tetap
+  // bekerja tanpa perubahan. Tema baru sebaiknya membaca `ctx.themeContent`.
+  // (Bila themeData belum ada, theme.content sudah berisi fallback config.profile lama.)
+  config.profile = theme.content || {};
+
   /* ---- Muat plugin aktif (plugins/ + content/plugins.json) ---- */
   const plugins = loadPlugins(config, ROOT);
   if (plugins.activeIds.length) {
@@ -297,7 +303,7 @@ function build() {
   /* ---- Pabrik konteks: gabungkan dasar (core) + data khusus halaman ---- */
   function makeCtx(extra) {
     return Object.assign(
-      { config, U, lib, site, themeVars: theme.vars, plugins },
+      { config, U, lib, site, themeVars: theme.vars, themeContent: theme.content, plugins },
       extra
     );
   }

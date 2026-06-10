@@ -144,6 +144,9 @@
         <button class="nav-item" data-nav="theme">
           <span class="nav-icon">◧</span> Tema
         </button>
+        <button class="nav-item" data-nav="customize">
+          <span class="nav-icon">▦</span> Sesuaikan
+        </button>
         <button class="nav-item" data-nav="settings">
           <span class="nav-icon">◐</span> Pengaturan Situs
         </button>
@@ -331,49 +334,48 @@
         <header class="panel-header">
           <div>
             <h2 class="panel-title">Tema</h2>
-            <p class="panel-sub">Pilih tampilan situs &amp; atur opsinya — tersimpan ke <code>config.json</code></p>
-          </div>
-          <div class="panel-actions">
-            <button class="btn btn-primary" id="btn-save-theme">Simpan Tema</button>
+            <p class="panel-sub">Pilih tampilan situs. Setiap tema mengatur tampilan publik sepenuhnya — atur isinya lewat menu <strong>Sesuaikan</strong>.</p>
           </div>
         </header>
 
-        <div class="settings-wrap">
-          <div class="meta-card">
-            <h3 class="meta-card-title">Tema Aktif</h3>
-            <div class="field">
-              <label for="theme-select">Pilih Tema</label>
-              <select id="theme-select"></select>
-              <small class="field-hint">Folder di <code>themes/</code>. Mengganti tema = mengganti seluruh tampilan situs.</small>
-            </div>
-            <div id="theme-meta" class="theme-meta"></div>
-          </div>
+        <div class="theme-gallery" id="theme-gallery"><!-- diisi oleh JS --></div>
 
-          <div class="meta-card">
-            <h3 class="meta-card-title">Opsi Tema</h3>
-            <p class="field-hint" id="theme-options-intro" style="margin-bottom:14px;">
-              Opsi dibaca dari <code>theme.json</code>. Biarkan pada nilai bawaan jika tidak ingin mengubah.
-            </p>
-            <div id="theme-options"><!-- diisi oleh JS --></div>
-          </div>
+        <p class="field-hint" style="margin-top:18px;">
+          Menambah tema baru: cukup unggah folder ke <code>themes/&lt;nama&gt;/</code> berisi
+          <code>theme.json</code> (lengkap dengan blok <code>customize</code>) dan templatnya.
+          Tema otomatis muncul di galeri ini — tanpa mengubah kode inti.
+        </p>
+      </div>
 
-          <div class="meta-card hidden" id="editor-home-card">
-            <h3 class="meta-card-title">Edit Halaman Home</h3>
-            <p class="field-hint" style="margin-bottom:14px;">Atur teks &amp; foto beranda. Foto memakai gambar dari panel <strong>Media</strong>.</p>
-            <div id="editor-home-body"><!-- diisi oleh JS --></div>
+      <!-- ---- PANEL: SESUAIKAN (Customize) ---- -->
+      <div id="panel-customize" class="panel hidden">
+        <header class="panel-header">
+          <div>
+            <h2 class="panel-title">Sesuaikan</h2>
+            <p class="panel-sub">Mengatur tema aktif: <strong id="customize-theme-name">—</strong></p>
           </div>
+          <div class="panel-actions">
+            <button class="btn btn-ghost" type="button" onclick="App.gotoCustomize()">Muat Ulang</button>
+          </div>
+        </header>
 
-          <div class="meta-card hidden" id="editor-sidebar-card">
-            <h3 class="meta-card-title">Sidebar Halaman Dalam</h3>
-            <p class="field-hint" style="margin-bottom:14px;">Muncul di halaman selain beranda (halaman statis, artikel, arsip). Kosongkan agar halaman tampil lebar penuh.</p>
-            <div id="prof-sidebar"><!-- diisi oleh JS --></div>
-            <button type="button" class="btn btn-ghost btn-small" id="btn-add-sidebar" style="margin-top:12px;">+ Tambah Blok</button>
-          </div>
+        <div class="cz-empty hidden" id="customize-empty">
+          <p class="cz-empty-title">Tema ini tidak menyediakan opsi penyesuaian.</p>
+          <p class="field-hint">
+            Tema aktif tidak mendeklarasikan blok <code>customize</code> di <code>theme.json</code>,
+            sehingga tampilannya sepenuhnya statis. Aktifkan tema lain dari menu <strong>Tema</strong>,
+            atau tambahkan skema <code>customize</code> pada <code>theme.json</code> tema ini.
+          </p>
+        </div>
 
-          <div class="editor-save-bar hidden" id="editor-save-bar">
-            <button class="btn btn-primary" id="btn-save-profile" type="button">Simpan Halaman &amp; Sidebar</button>
-            <span class="field-hint">Tersimpan ke <code>config.profile</code> — situs dibangun ulang otomatis.</span>
-          </div>
+        <div class="cz-layout hidden" id="customize-layout">
+          <aside class="cz-nav" id="customize-nav"><!-- daftar bagian: diisi oleh JS --></aside>
+          <div class="cz-body" id="customize-body"><!-- form bagian aktif: diisi oleh JS --></div>
+        </div>
+
+        <div class="editor-save-bar hidden" id="customize-savebar">
+          <button class="btn btn-primary" id="btn-save-customize" type="button">Simpan Penyesuaian</button>
+          <span class="field-hint">Tersimpan ke <code>config.themeData</code> untuk tema aktif — situs dibangun ulang otomatis.</span>
         </div>
       </div>
 
@@ -702,6 +704,7 @@
   <script src="assets/js/auth.js"></script>
   <script src="assets/js/api.js"></script>
   <script src="assets/js/editor.js"></script>
+  <script src="assets/js/customizer.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
 </html>

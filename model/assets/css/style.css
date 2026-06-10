@@ -882,3 +882,170 @@ textarea { resize: vertical; line-height: 1.5; }
 .faq-schema-status { font-size: 12.5px; margin-top: 12px; line-height: 1.45; }
 .faq-schema-status.is-on { color: var(--accent-dark); font-weight: 600; }
 .faq-schema-status.is-off { color: var(--amber); }
+
+/* ============================================================
+   PANEL TEMA — galeri kartu (WordPress-style theme switcher)
+   ============================================================ */
+.theme-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+.theme-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+.theme-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.theme-card.is-active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.theme-card-top {
+  position: relative;
+  height: 116px;
+  background: linear-gradient(135deg, var(--accent-soft), var(--line-soft));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.theme-card-thumb {
+  width: 60px; height: 60px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.7rem; font-weight: 600; color: var(--accent-dark);
+  box-shadow: var(--shadow-sm);
+}
+.theme-card-badge {
+  position: absolute; top: 10px; right: 10px;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--accent); color: #fff;
+  padding: 3px 9px; border-radius: 999px;
+}
+.theme-card-body { padding: 15px 16px 6px; flex: 1 1 auto; }
+.theme-card-name {
+  font-family: var(--font-display); font-size: 1.12rem; font-weight: 600;
+  color: var(--ink); margin: 0 0 4px; line-height: 1.25;
+}
+.theme-card-ver {
+  font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500;
+  color: var(--ink-mute); vertical-align: middle;
+}
+.theme-card-author { display: block; font-size: 0.82rem; color: var(--ink-mute); margin-bottom: 8px; }
+.theme-card-desc { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.5; margin: 0 0 10px; }
+.theme-card-folder { display: inline-block; font-size: 0.74rem; color: var(--ink-mute); background: var(--line-soft); padding: 2px 7px; border-radius: 5px; }
+.theme-card-actions { display: flex; gap: 8px; padding: 12px 16px 16px; border-top: 1px solid var(--line-soft); margin-top: 10px; }
+
+/* ============================================================
+   PANEL SESUAIKAN — Customizer berbasis skema theme.json
+   ============================================================ */
+.cz-empty { max-width: 560px; padding: 22px 24px; border: 1px dashed var(--line); border-radius: var(--radius); background: var(--paper); }
+.cz-empty-title { font-weight: 700; color: var(--ink); margin: 0 0 8px; }
+
+.cz-layout {
+  display: grid;
+  grid-template-columns: 232px 1fr;
+  gap: 22px;
+  align-items: start;
+}
+.cz-nav {
+  display: flex; flex-direction: column; gap: 3px;
+  position: sticky; top: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px;
+  box-shadow: var(--shadow-sm);
+}
+.cz-nav-item {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; text-align: left;
+  font-family: var(--font-ui); font-size: 0.92rem; font-weight: 500;
+  color: var(--ink-soft);
+  background: transparent; border: 0; border-radius: var(--radius-sm);
+  padding: 9px 12px; cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.cz-nav-item:hover { background: var(--line-soft); color: var(--ink); }
+.cz-nav-item.active { background: var(--accent-soft); color: var(--accent-dark); font-weight: 600; }
+.cz-nav-icon { flex: 0 0 auto; font-size: 1rem; line-height: 1; opacity: 0.8; }
+
+.cz-body {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  box-shadow: var(--shadow-sm);
+  min-height: 200px;
+}
+.cz-sec-desc { font-size: 0.9rem; color: var(--ink-mute); line-height: 1.55; margin: 0 0 20px; }
+
+.cz-field { margin-bottom: 17px; }
+.cz-field > label {
+  display: block; font-size: 12.5px; font-weight: 600;
+  color: var(--ink-soft); margin-bottom: 6px; letter-spacing: 0.01em;
+}
+.cz-field input[type="number"] {
+  width: 100%; font-family: var(--font-ui); font-size: 14.5px; color: var(--ink);
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius-sm); padding: 10px 13px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.cz-field input[type="number"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.cz-hint { display: block; margin-top: 6px; font-size: 12px; color: var(--ink-mute); }
+.cz-hint code { font-family: var(--font-mono); font-size: 11px; background: var(--line-soft); padding: 1px 5px; border-radius: 4px; }
+.cz-note {
+  font-size: 0.88rem; color: var(--ink-soft); line-height: 1.55;
+  background: var(--paper); border-left: 3px solid var(--line);
+  padding: 10px 14px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin: 0 0 17px;
+}
+
+/* Grup field (wrapper visual) */
+.cz-group { border: 1px solid var(--line-soft); border-radius: var(--radius-sm); background: var(--paper); padding: 14px 16px 2px; margin-bottom: 17px; }
+.cz-group-label { font-size: 0.82rem; font-weight: 700; color: var(--ink); letter-spacing: 0.02em; margin-bottom: 12px; }
+.cz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+@media (max-width: 560px) { .cz-grid { grid-template-columns: 1fr; } }
+
+/* Color picker */
+.cz-color-row { display: flex; align-items: center; gap: 10px; }
+.cz-color-row input[type="color"] {
+  width: 46px; height: 40px; padding: 3px; flex: 0 0 auto; cursor: pointer;
+  border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface);
+}
+.cz-color-hex { flex: 1 1 auto; font-family: var(--font-mono); font-size: 13px; text-transform: lowercase; }
+
+/* Checkbox */
+.cz-check { display: inline-flex; align-items: center; gap: 9px; font-size: 0.92rem; font-weight: 500; color: var(--ink); cursor: pointer; }
+.cz-check input { width: 17px; height: 17px; accent-color: var(--accent); cursor: pointer; }
+.cz-check span { user-select: none; }
+
+/* Field gambar */
+.cz-image { display: flex; flex-direction: column; gap: 8px; }
+.cz-image-prev { width: 100%; max-height: 160px; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--line); background: var(--surface); }
+.cz-image-prev.hidden { display: none; }
+.cz-image-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* Repeater (daftar item berulang) */
+.cz-repeater { margin-bottom: 18px; }
+.cz-rep-label { display: block; font-size: 0.82rem; font-weight: 700; color: var(--ink); letter-spacing: 0.02em; margin-bottom: 10px; }
+.cz-rep-empty { color: var(--ink-mute); font-size: 0.9rem; margin: 0 0 10px; }
+.cz-rep-add { margin-top: 2px; }
+.cz-rows { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
+.cz-row { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper); padding: 14px; }
+.cz-row-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+.cz-row-label { font-size: 0.78rem; font-weight: 700; color: var(--ink-mute); letter-spacing: 0.04em; }
+.cz-row-actions { display: flex; gap: 6px; }
+.cz-row .cz-field:last-child { margin-bottom: 0; }
+.cz-row .cz-group { background: var(--surface); }
+
+@media (max-width: 720px) {
+  .cz-layout { grid-template-columns: 1fr; }
+  .cz-nav { position: static; flex-direction: row; flex-wrap: wrap; }
+  .cz-nav-item { width: auto; }
+}
