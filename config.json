@@ -222,6 +222,20 @@
           "title": "",
           "text": "",
           "image": ""
+        },
+        "sidebar": {
+          "blocks": [
+            {
+              "type": "cta",
+              "title": "Hubungi Kami",
+              "text": "Hubungi Kami Sekarang",
+              "button": {
+                "text": "Kontak",
+                "url": "/"
+              }
+            }
+          ],
+          "enabled": true
         }
       }
     }
@@ -316,6 +330,20 @@
       "title": "",
       "text": "",
       "image": ""
+    },
+    "sidebar": {
+      "blocks": [
+        {
+          "type": "cta",
+          "title": "Hubungi Kami",
+          "text": "Hubungi Kami Sekarang",
+          "button": {
+            "text": "Kontak",
+            "url": "/"
+          }
+        }
+      ],
+      "enabled": true
     }
   },
   "footerText": "Dibuat dengan GitCMS — konten tersimpan di GitHub."
