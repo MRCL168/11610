@@ -174,7 +174,56 @@
     },
     "kontraktor": {
       "options": {},
-      "content": {}
+      "content": {
+        "hero": {
+          "enabled": false,
+          "eyebrow": "",
+          "title": "",
+          "text": "",
+          "background": "",
+          "image": "",
+          "badge": "",
+          "primaryCta": {
+            "text": "",
+            "url": ""
+          },
+          "secondaryCta": {
+            "text": "",
+            "url": ""
+          }
+        },
+        "headerCta": {
+          "enabled": true,
+          "text": "",
+          "url": ""
+        },
+        "features": {
+          "items": [],
+          "enabled": true,
+          "eyebrow": "",
+          "title": "",
+          "text": "",
+          "image": ""
+        },
+        "portfolio": {
+          "items": [
+            {
+              "title": "",
+              "category": "",
+              "location": "",
+              "year": "",
+              "image": "",
+              "text": "",
+              "url": ""
+            }
+          ],
+          "enabled": true,
+          "eyebrow": "",
+          "title": "",
+          "text": "",
+          "image": ""
+        }
+      }
     }
   },
   "baseUrl": "https://blog.akularis.com",
@@ -219,6 +268,55 @@
       "url": "/about/"
     }
   ],
-  "profile": {},
+  "profile": {
+    "hero": {
+      "enabled": false,
+      "eyebrow": "",
+      "title": "",
+      "text": "",
+      "background": "",
+      "image": "",
+      "badge": "",
+      "primaryCta": {
+        "text": "",
+        "url": ""
+      },
+      "secondaryCta": {
+        "text": "",
+        "url": ""
+      }
+    },
+    "headerCta": {
+      "enabled": true,
+      "text": "",
+      "url": ""
+    },
+    "features": {
+      "items": [],
+      "enabled": true,
+      "eyebrow": "",
+      "title": "",
+      "text": "",
+      "image": ""
+    },
+    "portfolio": {
+      "items": [
+        {
+          "title": "",
+          "category": "",
+          "location": "",
+          "year": "",
+          "image": "",
+          "text": "",
+          "url": ""
+        }
+      ],
+      "enabled": true,
+      "eyebrow": "",
+      "title": "",
+      "text": "",
+      "image": ""
+    }
+  },
   "footerText": "Dibuat dengan GitCMS — konten tersimpan di GitHub."
 }
