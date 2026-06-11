@@ -241,7 +241,71 @@
     },
     "gitschool": {
       "options": {},
-      "content": {}
+      "content": {
+        "hero": {
+          "slides": [
+            {
+              "image": "",
+              "eyebrow": "",
+              "title": "",
+              "text": "",
+              "primary": {
+                "text": "",
+                "url": ""
+              },
+              "secondary": {
+                "text": "",
+                "url": ""
+              }
+            }
+          ],
+          "eyebrow": "",
+          "autoplay": true,
+          "interval": 6
+        },
+        "enroll": {
+          "levels": [],
+          "enabled": true,
+          "eyebrow": "",
+          "title": "",
+          "intro": "",
+          "endpoint": "",
+          "buttonText": "",
+          "successMessage": "",
+          "whatsapp": ""
+        },
+        "cta": {
+          "enabled": true,
+          "title": "",
+          "text": "",
+          "primary": {
+            "text": "",
+            "url": ""
+          },
+          "secondary": {
+            "text": "",
+            "url": ""
+          }
+        },
+        "map": {
+          "enabled": true,
+          "eyebrow": "",
+          "title": "",
+          "address": "",
+          "embedUrl": "",
+          "phone": "",
+          "email": "",
+          "hours": "",
+          "directionsUrl": ""
+        },
+        "testimonials": {
+          "items": [],
+          "enabled": false,
+          "eyebrow": "",
+          "title": "",
+          "intro": ""
+        }
+      }
     }
   },
   "baseUrl": "https://blog.akularis.com",
@@ -286,6 +350,70 @@
       "url": "/about/"
     }
   ],
-  "profile": {},
+  "profile": {
+    "hero": {
+      "slides": [
+        {
+          "image": "",
+          "eyebrow": "",
+          "title": "",
+          "text": "",
+          "primary": {
+            "text": "",
+            "url": ""
+          },
+          "secondary": {
+            "text": "",
+            "url": ""
+          }
+        }
+      ],
+      "eyebrow": "",
+      "autoplay": true,
+      "interval": 6
+    },
+    "enroll": {
+      "levels": [],
+      "enabled": true,
+      "eyebrow": "",
+      "title": "",
+      "intro": "",
+      "endpoint": "",
+      "buttonText": "",
+      "successMessage": "",
+      "whatsapp": ""
+    },
+    "cta": {
+      "enabled": true,
+      "title": "",
+      "text": "",
+      "primary": {
+        "text": "",
+        "url": ""
+      },
+      "secondary": {
+        "text": "",
+        "url": ""
+      }
+    },
+    "map": {
+      "enabled": true,
+      "eyebrow": "",
+      "title": "",
+      "address": "",
+      "embedUrl": "",
+      "phone": "",
+      "email": "",
+      "hours": "",
+      "directionsUrl": ""
+    },
+    "testimonials": {
+      "items": [],
+      "enabled": false,
+      "eyebrow": "",
+      "title": "",
+      "intro": ""
+    }
+  },
   "footerText": "Dibuat dengan GitCMS — konten tersimpan di GitHub."
 }
