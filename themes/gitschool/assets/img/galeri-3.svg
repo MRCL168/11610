@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Praktik Laboratorium">
+  <defs>
+    <linearGradient id="g_g3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f6fb0"/>
+      <stop offset="1" stop-color="#0fb5d6"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#g_g3)"/>
+  <g fill="#ffffff" opacity="0.08">
+    <circle cx="660" cy="110" r="120"/>
+    <circle cx="120" cy="500" r="100"/>
+  </g>
+  <g transform="translate(400 290)" fill="none" stroke="#ffffff" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" opacity="0.95">
+    <path d="M-35 -110 L-35 -20 L-95 95 Q-100 120 -70 120 L70 120 Q100 120 95 95 L35 -20 L35 -110"/><line x1="-55" y1="-110" x2="55" y2="-110"/><line x1="-72" y1="55" x2="72" y2="55"/>
+  </g>
+</svg>

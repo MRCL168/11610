@@ -1,0 +1,195 @@
+{
+  "name": "Gitschool",
+  "version": "1.0.0",
+  "author": "GudangWEB",
+  "description": "Tema website sekolah yang cerah & ramah dengan nuansa biru pendidikan. Beranda berbentuk landing page lengkap (hero slider, keunggulan, statistik, galeri, berita, testimoni, formulir pendaftaran terhubung Google Sheet, peta, dan CTA) — cocok untuk PAUD/TK/SD/SMP/SMA.",
+  "screenshot": "",
+  "options": {
+    "accent": { "type": "color", "label": "Warna Utama", "default": "#1d5fd8" },
+    "accent2": { "type": "color", "label": "Warna Kedua (gradien)", "default": "#0fb5d6" },
+    "fontDisplay": { "type": "select", "label": "Font Judul", "default": "Poppins", "choices": ["Poppins", "Nunito", "Plus Jakarta Sans"] }
+  },
+  "customize": {
+    "options": {
+      "accent": { "type": "color", "label": "Warna Utama", "default": "#1d5fd8" },
+      "accent2": { "type": "color", "label": "Warna Kedua (gradien)", "default": "#0fb5d6" },
+      "fontDisplay": { "type": "select", "label": "Font Judul", "default": "Poppins", "choices": ["Poppins", "Nunito", "Plus Jakarta Sans"] }
+    },
+    "sections": [
+      {
+        "id": "hero",
+        "label": "Hero Slider",
+        "icon": "✶",
+        "description": "Banner geser di paling atas beranda. Tambahkan beberapa slide; bila kosong, slide contoh akan ditampilkan.",
+        "fields": [
+          { "key": "hero.eyebrow", "type": "text", "label": "Eyebrow (label kecil)", "placeholder": "Sekolah Unggulan" },
+          { "key": "hero.autoplay", "type": "checkbox", "label": "Putar otomatis antar slide", "default": true },
+          { "key": "hero.interval", "type": "number", "label": "Jeda antar slide (detik)", "default": 6, "min": 2, "max": 20 },
+          { "key": "hero.slides", "type": "repeater", "label": "Daftar Slide", "addLabel": "+ Tambah Slide", "itemLabel": "Slide", "fields": [
+            { "key": "image", "type": "image", "label": "Gambar latar slide", "hint": "Rasio lebar (mis. 1280×640) paling pas." },
+            { "key": "eyebrow", "type": "text", "label": "Eyebrow", "placeholder": "Penerimaan Siswa Baru" },
+            { "key": "title", "type": "text", "label": "Judul" },
+            { "key": "text", "type": "textarea", "label": "Teks singkat", "rows": 2 },
+            { "key": "primary", "type": "group", "label": "Tombol utama", "layout": "row", "fields": [
+              { "key": "text", "type": "text", "label": "Teks" },
+              { "key": "url", "type": "text", "label": "URL", "placeholder": "#pendaftaran" }
+            ] },
+            { "key": "secondary", "type": "group", "label": "Tombol kedua", "layout": "row", "fields": [
+              { "key": "text", "type": "text", "label": "Teks" },
+              { "key": "url", "type": "text", "label": "URL", "placeholder": "#fitur" }
+            ] }
+          ] }
+        ]
+      },
+      {
+        "id": "headerCta",
+        "label": "Tombol CTA Header",
+        "icon": "▸",
+        "description": "Tombol ajakan di pojok kanan header. Otomatis disembunyikan pada tampilan mobile.",
+        "fields": [
+          { "key": "headerCta.show", "type": "checkbox", "label": "Tampilkan tombol CTA di header", "default": true },
+          { "key": "headerCta", "type": "group", "label": "", "layout": "row", "fields": [
+            { "key": "text", "type": "text", "label": "Teks tombol", "placeholder": "Pendaftaran" },
+            { "key": "url", "type": "text", "label": "URL tujuan", "placeholder": "#pendaftaran" }
+          ] }
+        ]
+      },
+      {
+        "id": "features",
+        "label": "Keunggulan",
+        "icon": "▢",
+        "description": "Kartu keunggulan/fasilitas sekolah dengan ikon bertema pendidikan.",
+        "fields": [
+          { "key": "features.enabled", "type": "checkbox", "label": "Tampilkan seksi keunggulan", "default": true },
+          { "key": "features.eyebrow", "type": "text", "label": "Eyebrow seksi", "placeholder": "Mengapa Memilih Kami" },
+          { "key": "features.title", "type": "text", "label": "Judul seksi", "placeholder": "Keunggulan Sekolah Kami" },
+          { "key": "features.intro", "type": "textarea", "label": "Pengantar seksi", "rows": 2 },
+          { "key": "features.items", "type": "repeater", "label": "Daftar Keunggulan", "addLabel": "+ Tambah Keunggulan", "itemLabel": "Keunggulan", "fields": [
+            { "key": "icon", "type": "select", "label": "Ikon", "default": "book", "choices": ["book", "cap", "teacher", "flask", "palette", "shield", "bus", "laptop", "globe", "trophy", "heart", "calendar", "star", "pencil", "users", "music"] },
+            { "key": "title", "type": "text", "label": "Judul" },
+            { "key": "text", "type": "textarea", "label": "Teks", "rows": 2 }
+          ] }
+        ]
+      },
+      {
+        "id": "stats",
+        "label": "Statistik",
+        "icon": "▦",
+        "description": "Angka penanda kredibilitas (jumlah siswa, guru, dll). Akan dianimasikan menghitung naik.",
+        "fields": [
+          { "key": "stats.enabled", "type": "checkbox", "label": "Tampilkan seksi statistik", "default": true },
+          { "key": "stats.title", "type": "text", "label": "Judul seksi (opsional)" },
+          { "key": "stats.items", "type": "repeater", "label": "Daftar Statistik", "addLabel": "+ Tambah Statistik", "itemLabel": "Statistik", "fields": [
+            { "key": "value", "type": "text", "label": "Angka", "placeholder": "1.250+" },
+            { "key": "label", "type": "text", "label": "Label", "placeholder": "Siswa Aktif" }
+          ] }
+        ]
+      },
+      {
+        "id": "gallery",
+        "label": "Galeri",
+        "icon": "▥",
+        "description": "Foto kegiatan & suasana sekolah. Klik foto akan tampil besar (lightbox).",
+        "fields": [
+          { "key": "gallery.enabled", "type": "checkbox", "label": "Tampilkan seksi galeri", "default": true },
+          { "key": "gallery.eyebrow", "type": "text", "label": "Eyebrow seksi", "placeholder": "Galeri" },
+          { "key": "gallery.title", "type": "text", "label": "Judul seksi", "placeholder": "Kegiatan & Suasana Sekolah" },
+          { "key": "gallery.intro", "type": "textarea", "label": "Pengantar seksi", "rows": 2 },
+          { "key": "gallery.items", "type": "repeater", "label": "Daftar Foto", "addLabel": "+ Tambah Foto", "itemLabel": "Foto", "fields": [
+            { "key": "image", "type": "image", "label": "Foto" },
+            { "key": "caption", "type": "text", "label": "Keterangan" }
+          ] }
+        ]
+      },
+      {
+        "id": "news",
+        "label": "Berita",
+        "icon": "❑",
+        "description": "Seksi berita/pengumuman mengambil artikel terbaru dari konten situs.",
+        "fields": [
+          { "key": "news.enabled", "type": "checkbox", "label": "Tampilkan seksi berita", "default": true },
+          { "key": "news.eyebrow", "type": "text", "label": "Eyebrow seksi", "placeholder": "Berita & Pengumuman" },
+          { "key": "news.title", "type": "text", "label": "Judul seksi", "placeholder": "Kabar Terbaru Sekolah" },
+          { "key": "news.intro", "type": "textarea", "label": "Pengantar seksi", "rows": 2 },
+          { "key": "news.count", "type": "number", "label": "Jumlah berita ditampilkan", "default": 3, "min": 1, "max": 12 },
+          { "key": "news.more", "type": "group", "label": "Tombol \"Lihat Semua\"", "layout": "row", "fields": [
+            { "key": "text", "type": "text", "label": "Teks", "placeholder": "Lihat Semua Berita" },
+            { "key": "url", "type": "text", "label": "URL", "placeholder": "/category/berita/" }
+          ] }
+        ]
+      },
+      {
+        "id": "testimonials",
+        "label": "Testimoni",
+        "icon": "❝",
+        "description": "Kutipan dari orang tua & siswa untuk membangun kepercayaan.",
+        "fields": [
+          { "key": "testimonials.enabled", "type": "checkbox", "label": "Tampilkan seksi testimoni", "default": true },
+          { "key": "testimonials.eyebrow", "type": "text", "label": "Eyebrow seksi", "placeholder": "Testimoni" },
+          { "key": "testimonials.title", "type": "text", "label": "Judul seksi", "placeholder": "Apa Kata Orang Tua & Siswa" },
+          { "key": "testimonials.intro", "type": "textarea", "label": "Pengantar seksi", "rows": 2 },
+          { "key": "testimonials.items", "type": "repeater", "label": "Daftar Testimoni", "addLabel": "+ Tambah Testimoni", "itemLabel": "Testimoni", "fields": [
+            { "key": "quote", "type": "textarea", "label": "Kutipan", "rows": 3 },
+            { "key": "name", "type": "text", "label": "Nama" },
+            { "key": "role", "type": "text", "label": "Peran", "placeholder": "Orang Tua Siswa Kelas 3" },
+            { "key": "photo", "type": "image", "label": "Foto (opsional)" }
+          ] }
+        ]
+      },
+      {
+        "id": "enroll",
+        "label": "Formulir Pendaftaran",
+        "icon": "✎",
+        "description": "Formulir pendaftaran siswa baru yang mengirim data ke Google Sheet melalui Google Apps Script.",
+        "fields": [
+          { "key": "enroll.enabled", "type": "checkbox", "label": "Tampilkan formulir pendaftaran", "default": true },
+          { "key": "enroll.eyebrow", "type": "text", "label": "Eyebrow seksi", "placeholder": "Pendaftaran" },
+          { "key": "enroll.title", "type": "text", "label": "Judul seksi", "placeholder": "Formulir Pendaftaran Siswa Baru" },
+          { "key": "enroll.intro", "type": "textarea", "label": "Pengantar seksi", "rows": 2 },
+          { "key": "enroll.endpoint", "type": "text", "label": "URL Google Apps Script (Web App)", "placeholder": "https://script.google.com/macros/s/XXXX/exec" },
+          { "key": "enroll._note", "type": "note", "label": "Cara menghubungkan ke Google Sheet: buat Spreadsheet → Extensions → Apps Script → tempel doPost(e) yang menulis e.parameter ke sheet → Deploy as Web App (Execute as: Me, Who has access: Anyone) → salin URL /exec dan tempel di atas. Bila dikosongkan, tombol kirim akan mengarahkan calon pendaftar ke WhatsApp." },
+          { "key": "enroll.levels", "type": "repeater", "itemType": "string", "label": "Pilihan Jenjang/Kelas", "addLabel": "+ Tambah Jenjang", "placeholder": "SD Kelas 1" },
+          { "key": "enroll.buttonText", "type": "text", "label": "Teks tombol kirim", "placeholder": "Kirim Pendaftaran" },
+          { "key": "enroll.successMessage", "type": "textarea", "label": "Pesan setelah berhasil kirim", "rows": 2 },
+          { "key": "enroll.whatsapp", "type": "text", "label": "Nomor WhatsApp (cadangan)", "placeholder": "6287741135796", "hint": "Format internasional tanpa tanda +. Dipakai untuk tombol tanya & cadangan bila formulir online belum aktif." }
+        ]
+      },
+      {
+        "id": "map",
+        "label": "Peta & Lokasi",
+        "icon": "◎",
+        "description": "Peta lokasi sekolah beserta informasi kontak.",
+        "fields": [
+          { "key": "map.enabled", "type": "checkbox", "label": "Tampilkan seksi peta", "default": true },
+          { "key": "map.eyebrow", "type": "text", "label": "Eyebrow seksi", "placeholder": "Lokasi" },
+          { "key": "map.title", "type": "text", "label": "Judul seksi", "placeholder": "Kunjungi Sekolah Kami" },
+          { "key": "map.address", "type": "textarea", "label": "Alamat lengkap", "rows": 2, "placeholder": "Jl. Pendidikan No. 1, Kota Tangerang, Banten" },
+          { "key": "map.embedUrl", "type": "text", "label": "URL Embed Google Maps (opsional)", "hint": "Kosongkan untuk membuat peta otomatis dari alamat di atas." },
+          { "key": "map.phone", "type": "text", "label": "Telepon", "placeholder": "(021) 1234-5678" },
+          { "key": "map.email", "type": "text", "label": "Email", "placeholder": "info@sekolah.sch.id" },
+          { "key": "map.hours", "type": "textarea", "label": "Jam operasional", "rows": 2, "placeholder": "Senin–Jumat, 07.00–15.00 WIB" },
+          { "key": "map.directionsUrl", "type": "text", "label": "URL tombol \"Buka di Google Maps\" (opsional)" }
+        ]
+      },
+      {
+        "id": "cta",
+        "label": "CTA Band",
+        "icon": "▭",
+        "description": "Pita ajakan bertindak di bagian bawah beranda.",
+        "fields": [
+          { "key": "cta.enabled", "type": "checkbox", "label": "Tampilkan CTA band", "default": true },
+          { "key": "cta.title", "type": "text", "label": "Judul", "placeholder": "Siap Bergabung Bersama Kami?" },
+          { "key": "cta.text", "type": "textarea", "label": "Teks", "rows": 2 },
+          { "key": "cta.primary", "type": "group", "label": "Tombol utama", "layout": "row", "fields": [
+            { "key": "text", "type": "text", "label": "Teks", "placeholder": "Daftar Sekarang" },
+            { "key": "url", "type": "text", "label": "URL", "placeholder": "#pendaftaran" }
+          ] },
+          { "key": "cta.secondary", "type": "group", "label": "Tombol kedua (opsional)", "layout": "row", "fields": [
+            { "key": "text", "type": "text", "label": "Teks" },
+            { "key": "url", "type": "text", "label": "URL" }
+          ] }
+        ]
+      }
+    ]
+  }
+}
