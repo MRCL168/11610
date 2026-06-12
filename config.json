@@ -344,8 +344,8 @@
         "heroInterval": 6,
         "headerCta": {
           "show": true,
-          "text": "",
-          "url": ""
+          "text": "Konsultasi Gratis",
+          "url": "https://wa.me/6287741135796"
         },
         "stats": []
       }
@@ -420,8 +420,8 @@
     "heroInterval": 6,
     "headerCta": {
       "show": true,
-      "text": "",
-      "url": ""
+      "text": "Konsultasi Gratis",
+      "url": "https://wa.me/6287741135796"
     },
     "stats": []
   },
