@@ -5,7 +5,9 @@
   "author": "Admin",
   "language": "id",
   "theme": "perusahaan",
-  "themeOptions": {},
+  "themeOptions": {
+    "accent": "#eb2442"
+  },
   "themeData": {
     "company": {
       "options": {},
@@ -312,7 +314,9 @@
       "content": {}
     },
     "perusahaan": {
-      "options": {},
+      "options": {
+        "accent": "#eb2442"
+      },
       "content": {
         "slides": [
           {
