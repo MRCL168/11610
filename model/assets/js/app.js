@@ -450,6 +450,9 @@ const App = (() => {
     applyFaqCardVisibility();
     renderFaqRows();
 
+    clearPropertyFields();
+    applyPropertyCardVisibility();
+
     showPanel("editor");
   }
 
@@ -485,6 +488,9 @@ const App = (() => {
       : [];
     applyFaqCardVisibility();
     renderFaqRows();
+
+    fillPropertyFields(meta);
+    applyPropertyCardVisibility();
 
     showPanel("editor");
   }
@@ -539,6 +545,11 @@ const App = (() => {
     if (pluginActive("faq")) {
       const faq = collectFaq();
       if (faq.length) meta.faq = faq;
+    }
+
+    // Sisipkan field Properti bila plugin Gitproperty aktif (khusus artikel).
+    if (type === "posts" && pluginActive("gitproperty")) {
+      applyPropertyToMeta(meta);
     }
 
     const fileContent = Editor.serialize(meta, body);
@@ -1184,6 +1195,15 @@ const App = (() => {
         { key: "position", label: "Posisi Tombol", type: "select", options: [{ value: "right", label: "Kanan bawah" }, { value: "left", label: "Kiri bawah" }] },
       ],
     },
+    {
+      id: "gitproperty",
+      name: "Gitproperty — Properti",
+      icon: "🏠",
+      description:
+        "Pendamping tema Gitproperty. Menambahkan kotak Properti pada editor artikel (harga, tipe, kamar, luas, sertifikat, dll) dan menyuntikkan schema Product/RealEstateListing untuk listing. Aktifkan saat memakai tema Gitproperty.",
+      defaults: { active: false },
+      settings: null,
+    },
   ];
 
   function pluginActive(id) {
@@ -1456,6 +1476,91 @@ const App = (() => {
     return (state.faqRows || [])
       .map((r) => ({ q: (r.q || "").trim(), a: (r.a || "").trim() }))
       .filter((r) => r.q && r.a);
+  }
+
+  /* ============================================================
+     PROPERTI — kotak field listing di editor (muncul saat plugin
+     "gitproperty" aktif & hanya untuk artikel/post). Datanya disimpan
+     sebagai frontmatter properti yang dibaca tema Gitproperty
+     (properti, unggulan, harga, tipe_properti, kamar_tidur, dst).
+     ============================================================ */
+  // [idSuffix, keyFrontmatter, tipe] — tipe "int" disimpan sebagai angka.
+  const PROPERTY_FIELDS = [
+    ["tipe_properti", "tipe_properti", "text"],
+    ["tipe_listing", "tipe_listing", "text"],
+    ["harga", "harga", "int"],
+    ["harga_satuan", "harga_satuan", "text"],
+    ["lokasi", "lokasi", "text"],
+    ["alamat", "alamat", "text"],
+    ["kamar_tidur", "kamar_tidur", "int"],
+    ["kamar_mandi", "kamar_mandi", "int"],
+    ["luas_bangunan", "luas_bangunan", "int"],
+    ["luas_tanah", "luas_tanah", "int"],
+    ["carport", "carport", "int"],
+    ["sertifikat", "sertifikat", "text"],
+    ["maps", "maps", "text"],
+    ["whatsapp", "whatsapp", "text"],
+  ];
+
+  // Kartu hanya tampil bila plugin aktif DAN sedang mengedit artikel (bukan halaman).
+  function applyPropertyCardVisibility() {
+    const card = $("#editor-property-card");
+    if (!card) return;
+    const show = pluginActive("gitproperty") && state.editingType === "posts";
+    card.classList.toggle("hidden", !show);
+  }
+
+  // Apakah meta menandakan post properti (flag `properti` atau ada `harga`).
+  function metaIsProperty(meta) {
+    if (!meta) return false;
+    if (meta.properti === true || meta.properti === "true") return true;
+    const h = parseInt(String(meta.harga == null ? "" : meta.harga).replace(/[^\d]/g, ""), 10);
+    return h > 0;
+  }
+
+  function fillPropertyFields(meta) {
+    meta = meta || {};
+    const en = $("#prop-enabled");
+    if (en) en.checked = metaIsProperty(meta);
+    const ung = $("#prop-unggulan");
+    if (ung) ung.checked = meta.unggulan === true || meta.unggulan === "true";
+    PROPERTY_FIELDS.forEach((f) => {
+      const el = $("#prop-" + f[0]);
+      if (!el) return;
+      const v = meta[f[1]];
+      el.value = v == null ? "" : String(v);
+    });
+  }
+
+  function clearPropertyFields() {
+    const en = $("#prop-enabled"); if (en) en.checked = false;
+    const ung = $("#prop-unggulan"); if (ung) ung.checked = false;
+    PROPERTY_FIELDS.forEach((f) => {
+      const el = $("#prop-" + f[0]);
+      if (el) el.value = "";
+    });
+  }
+
+  // Tulis field properti ke `meta` HANYA bila ditandai sebagai listing.
+  // Bila tidak dicentang, tidak ada key properti yang ditulis (post tetap artikel biasa).
+  function applyPropertyToMeta(meta) {
+    const en = $("#prop-enabled");
+    if (!en || !en.checked) return;
+    meta.properti = true;
+    const ung = $("#prop-unggulan");
+    if (ung && ung.checked) meta.unggulan = true;
+    PROPERTY_FIELDS.forEach((f) => {
+      const el = $("#prop-" + f[0]);
+      if (!el) return;
+      const raw = String(el.value || "").trim();
+      if (!raw) return;
+      if (f[2] === "int") {
+        const n = parseInt(raw.replace(/[^\d]/g, ""), 10);
+        if (!isNaN(n)) meta[f[1]] = n;
+      } else {
+        meta[f[1]] = raw;
+      }
+    });
   }
 
   /* ============================================================
