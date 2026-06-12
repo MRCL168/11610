@@ -324,6 +324,16 @@
             "btnUrl": "#",
             "btn2Text": "",
             "btn2Url": ""
+          },
+          {
+            "image": "/public/images/1780969203798-jasa-perbaikan-website-rusak-error-dan-terkena-hack.jpg",
+            "kicker": "",
+            "title": "",
+            "subtitle": "",
+            "btnText": "",
+            "btnUrl": "",
+            "btn2Text": "",
+            "btn2Url": ""
           }
         ],
         "heroAutoplay": true,
@@ -388,6 +398,16 @@
         "subtitle": "Gudangweb hadir sebagai solusi digital untuk bisnis anda.",
         "btnText": "Hubungi Kami",
         "btnUrl": "#",
+        "btn2Text": "",
+        "btn2Url": ""
+      },
+      {
+        "image": "/public/images/1780969203798-jasa-perbaikan-website-rusak-error-dan-terkena-hack.jpg",
+        "kicker": "",
+        "title": "",
+        "subtitle": "",
+        "btnText": "",
+        "btnUrl": "",
         "btn2Text": "",
         "btn2Url": ""
       }
