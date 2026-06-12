@@ -23,7 +23,7 @@
         },
         "headerCta": {
           "text": "Konsultasi Gratis",
-          "url": "/about/",
+          "url": "https://wa.me/6287741135796",
           "show": true
         },
         "heroImage": "",
@@ -368,7 +368,7 @@
     },
     "headerCta": {
       "text": "Konsultasi Gratis",
-      "url": "/about/",
+      "url": "https://wa.me/6287741135796",
       "show": true
     },
     "heroImage": "",
