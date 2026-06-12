@@ -347,7 +347,33 @@
           "text": "Konsultasi Gratis",
           "url": "https://wa.me/6287741135796"
         },
-        "stats": []
+        "stats": [
+          {
+            "value": "120+",
+            "label": "Proyek Selesai"
+          },
+          {
+            "value": "8 Thn",
+            "label": "Pengalaman"
+          },
+          {
+            "value": "4.9/5",
+            "label": "Kepuasan Klien"
+          },
+          {
+            "value": "24  Jam",
+            "label": "Support"
+          }
+        ],
+        "about": {
+          "points": [
+            ""
+          ],
+          "eyebrow": "Spesialis Jasa Pembuatan Website",
+          "title": "Mitra Terpercaya untuk perkembangan bisnis anda",
+          "text": "Gudangweb hadir sebagai mitra terpercaya untuk perkembangan bisnis anda.",
+          "image": "/public/images/1781259068865-promo.png"
+        }
       }
     }
   },
@@ -423,7 +449,33 @@
       "text": "Konsultasi Gratis",
       "url": "https://wa.me/6287741135796"
     },
-    "stats": []
+    "stats": [
+      {
+        "value": "120+",
+        "label": "Proyek Selesai"
+      },
+      {
+        "value": "8 Thn",
+        "label": "Pengalaman"
+      },
+      {
+        "value": "4.9/5",
+        "label": "Kepuasan Klien"
+      },
+      {
+        "value": "24  Jam",
+        "label": "Support"
+      }
+    ],
+    "about": {
+      "points": [
+        ""
+      ],
+      "eyebrow": "Spesialis Jasa Pembuatan Website",
+      "title": "Mitra Terpercaya untuk perkembangan bisnis anda",
+      "text": "Gudangweb hadir sebagai mitra terpercaya untuk perkembangan bisnis anda.",
+      "image": "/public/images/1781259068865-promo.png"
+    }
   },
   "footerText": "Dibuat dengan GitCMS — konten tersimpan di GitHub."
 }
