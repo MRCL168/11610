@@ -317,7 +317,7 @@
   "postsPerPage": 10,
   "defaultOgImage": "",
   "logo": "/public/images/1781257070722-gudangweb-logo.png",
-  "favicon": "",
+  "favicon": "/public/images/1781257070722-gudangweb-logo.png",
   "footerCopyright": "",
   "social": {
     "github": "username",
