@@ -313,7 +313,28 @@
     },
     "perusahaan": {
       "options": {},
-      "content": {}
+      "content": {
+        "slides": [
+          {
+            "image": "/public/images/1780956696509-hero-gudangweb-com.png",
+            "kicker": "Selamat Datang",
+            "title": "Solusi digital untuk bisnis anda",
+            "subtitle": "Gudangweb hadir sebagai solusi digital untuk bisnis anda.",
+            "btnText": "Hubungi Kami",
+            "btnUrl": "#",
+            "btn2Text": "",
+            "btn2Url": ""
+          }
+        ],
+        "heroAutoplay": true,
+        "heroInterval": 6,
+        "headerCta": {
+          "show": true,
+          "text": "",
+          "url": ""
+        },
+        "stats": []
+      }
     }
   },
   "baseUrl": "https://blog.akularis.com",
@@ -358,6 +379,27 @@
       "url": "/about/"
     }
   ],
-  "profile": {},
+  "profile": {
+    "slides": [
+      {
+        "image": "/public/images/1780956696509-hero-gudangweb-com.png",
+        "kicker": "Selamat Datang",
+        "title": "Solusi digital untuk bisnis anda",
+        "subtitle": "Gudangweb hadir sebagai solusi digital untuk bisnis anda.",
+        "btnText": "Hubungi Kami",
+        "btnUrl": "#",
+        "btn2Text": "",
+        "btn2Url": ""
+      }
+    ],
+    "heroAutoplay": true,
+    "heroInterval": 6,
+    "headerCta": {
+      "show": true,
+      "text": "",
+      "url": ""
+    },
+    "stats": []
+  },
   "footerText": "Dibuat dengan GitCMS — konten tersimpan di GitHub."
 }
