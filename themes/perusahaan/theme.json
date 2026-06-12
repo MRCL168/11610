@@ -1,0 +1,140 @@
+{
+  "name": "Perusahaan",
+  "version": "1.0.0",
+  "author": "GudangWEB",
+  "description": "Tema profil perusahaan biru modern profesional — beranda landing dengan hero slider berlatar foto, statistik, profil, layanan, berita, CTA, serta halaman kontak ber-peta. Semua bagian dapat diatur dari menu Sesuaikan.",
+  "screenshot": "",
+  "options": {
+    "accent": { "type": "color", "label": "Warna Aksen", "default": "#2563eb" },
+    "accentDeep": { "type": "color", "label": "Warna Aksen Gelap", "default": "#1e3a8a" }
+  },
+  "editors": ["home"],
+  "customize": {
+    "options": {
+      "accent": { "type": "color", "label": "Warna Aksen", "default": "#2563eb" },
+      "accentDeep": { "type": "color", "label": "Warna Aksen Gelap", "default": "#1e3a8a", "hint": "Dipakai untuk gradien hero, pita CTA, dan footer." }
+    },
+    "sections": [
+      {
+        "id": "hero",
+        "label": "Hero Slider",
+        "icon": "✶",
+        "description": "Slider paling atas beranda. Tambahkan beberapa slide; tiap slide punya gambar latar, teks, dan tombol. Bila kosong, slide otomatis dibuat dari judul situs.",
+        "fields": [
+          { "key": "slides", "type": "repeater", "label": "Slide", "addLabel": "+ Tambah Slide", "itemLabel": "Slide", "fields": [
+            { "key": "image", "type": "image", "label": "Gambar latar slide", "hint": "Disarankan rasio lebar (mis. 1920×1080). Kosongkan untuk latar gradien biru." },
+            { "key": "kicker", "type": "text", "label": "Label kecil (eyebrow)", "placeholder": "Selamat Datang" },
+            { "key": "title", "type": "text", "label": "Judul slide", "placeholder": "Solusi digital untuk bisnis Anda" },
+            { "key": "subtitle", "type": "textarea", "label": "Sub-judul", "rows": 2 },
+            { "key": "btnText", "type": "text", "label": "Teks tombol utama", "placeholder": "Hubungi Kami" },
+            { "key": "btnUrl", "type": "text", "label": "URL tombol utama", "placeholder": "/kontak/" },
+            { "key": "btn2Text", "type": "text", "label": "Teks tombol kedua (opsional)", "placeholder": "Lihat Layanan" },
+            { "key": "btn2Url", "type": "text", "label": "URL tombol kedua", "placeholder": "#layanan" }
+          ] },
+          { "key": "heroAutoplay", "type": "checkbox", "label": "Putar slide otomatis", "default": true },
+          { "key": "heroInterval", "type": "number", "label": "Jeda antar slide (detik)", "default": 6, "min": 3, "max": 15 }
+        ]
+      },
+      {
+        "id": "headerCta",
+        "label": "Tombol CTA Header",
+        "icon": "▸",
+        "description": "Tombol ajakan di pojok kanan header. Otomatis disembunyikan pada tampilan mobile.",
+        "fields": [
+          { "key": "headerCta.show", "type": "checkbox", "label": "Tampilkan tombol CTA di header", "default": true },
+          { "key": "headerCta", "type": "group", "label": "", "layout": "row", "fields": [
+            { "key": "text", "type": "text", "label": "Teks tombol", "placeholder": "Konsultasi Gratis" },
+            { "key": "url", "type": "text", "label": "URL tujuan", "placeholder": "/kontak/" }
+          ] }
+        ]
+      },
+      {
+        "id": "stats",
+        "label": "Statistik",
+        "icon": "▦",
+        "description": "Angka kredibilitas yang tampil sebagai kartu terangkat di bawah hero. Tampil bila diisi minimal 2.",
+        "fields": [
+          { "key": "stats", "type": "repeater", "label": "Statistik", "addLabel": "+ Tambah Statistik", "itemLabel": "Statistik", "fields": [
+            { "key": "value", "type": "text", "label": "Angka", "placeholder": "120+" },
+            { "key": "label", "type": "text", "label": "Label", "placeholder": "Proyek Selesai" }
+          ] }
+        ]
+      },
+      {
+        "id": "profil",
+        "label": "Profil",
+        "icon": "◑",
+        "description": "Paragraf perkenalan perusahaan beserta poin-poin keunggulan dan foto pendukung.",
+        "fields": [
+          { "key": "about.eyebrow", "type": "text", "label": "Eyebrow", "placeholder": "Tentang Kami" },
+          { "key": "about.title", "type": "text", "label": "Judul", "placeholder": "Mitra tepercaya untuk pertumbuhan Anda" },
+          { "key": "about.text", "type": "textarea", "label": "Teks", "rows": 4 },
+          { "key": "about.image", "type": "image", "label": "Foto (opsional)" },
+          { "key": "about.points", "type": "repeater", "itemType": "string", "label": "Poin-poin keunggulan", "addLabel": "+ Tambah Poin", "placeholder": "Poin keunggulan" }
+        ]
+      },
+      {
+        "id": "services",
+        "label": "Layanan",
+        "icon": "▢",
+        "description": "Daftar layanan dengan ikon. Tiap kartu bisa ditautkan ke halaman detail.",
+        "fields": [
+          { "key": "servicesEyebrow", "type": "text", "label": "Eyebrow seksi", "placeholder": "Apa yang kami lakukan" },
+          { "key": "servicesTitle", "type": "text", "label": "Judul seksi", "placeholder": "Layanan Kami" },
+          { "key": "servicesIntro", "type": "textarea", "label": "Pengantar seksi", "rows": 2 },
+          { "key": "services", "type": "repeater", "label": "Daftar Layanan", "addLabel": "+ Tambah Layanan", "itemLabel": "Layanan", "fields": [
+            { "key": "icon", "type": "select", "label": "Ikon", "choices": ["building", "handshake", "layers", "chart", "shield", "chat", "rocket", "globe", "gear", "pen", "target", "clock", "users", "check", "spark"], "default": "building" },
+            { "key": "title", "type": "text", "label": "Judul" },
+            { "key": "text", "type": "textarea", "label": "Teks", "rows": 2 },
+            { "key": "url", "type": "text", "label": "URL detail (opsional)", "placeholder": "/layanan/ atau https://..." }
+          ] }
+        ]
+      },
+      {
+        "id": "berita",
+        "label": "Berita",
+        "icon": "▤",
+        "description": "Menampilkan artikel terbaru dari blog. Jumlah & teks judul seksi dapat diatur.",
+        "fields": [
+          { "key": "newsEnabled", "type": "checkbox", "label": "Tampilkan seksi berita di beranda", "default": true },
+          { "key": "newsEyebrow", "type": "text", "label": "Eyebrow seksi", "placeholder": "Wawasan" },
+          { "key": "newsTitle", "type": "text", "label": "Judul seksi", "placeholder": "Berita & Artikel Terbaru" },
+          { "key": "newsIntro", "type": "textarea", "label": "Pengantar seksi", "rows": 2 },
+          { "key": "newsCount", "type": "number", "label": "Jumlah artikel", "default": 3, "min": 1, "max": 9 }
+        ]
+      },
+      {
+        "id": "ctaBand",
+        "label": "CTA Band",
+        "icon": "▭",
+        "description": "Pita ajakan berlatar biru gelap di bagian bawah beranda.",
+        "fields": [
+          { "key": "ctaBand.title", "type": "text", "label": "Judul", "placeholder": "Siap mengembangkan bisnis Anda?" },
+          { "key": "ctaBand.text", "type": "textarea", "label": "Teks", "rows": 2 },
+          { "key": "ctaBand.button", "type": "group", "label": "Tombol", "layout": "row", "fields": [
+            { "key": "text", "type": "text", "label": "Teks" },
+            { "key": "url", "type": "text", "label": "URL" }
+          ] }
+        ]
+      },
+      {
+        "id": "contact",
+        "label": "Kontak & Peta",
+        "icon": "✿",
+        "description": "Data kontak dan embed peta. Ditampilkan pada halaman ber-template \"kontak\" (atau slug kontak/contact).",
+        "fields": [
+          { "key": "contact.eyebrow", "type": "text", "label": "Eyebrow", "placeholder": "Kontak" },
+          { "key": "contact.title", "type": "text", "label": "Judul", "placeholder": "Hubungi Kami" },
+          { "key": "contact.intro", "type": "textarea", "label": "Pengantar", "rows": 2 },
+          { "key": "contact.address", "type": "textarea", "label": "Alamat", "rows": 2, "placeholder": "Jl. Contoh No. 1, Tangerang" },
+          { "key": "contact.phone", "type": "text", "label": "Telepon", "placeholder": "021-1234567" },
+          { "key": "contact.whatsapp", "type": "text", "label": "WhatsApp", "placeholder": "62812xxxxxxx" },
+          { "key": "contact.email", "type": "text", "label": "Email", "placeholder": "halo@perusahaan.com" },
+          { "key": "contact.hours", "type": "textarea", "label": "Jam operasional", "rows": 2, "placeholder": "Senin–Jumat 09.00–17.00" },
+          { "key": "contact.mapEmbed", "type": "textarea", "label": "Embed Peta (kode <iframe> atau URL embed Google Maps)", "rows": 3, "hint": "Tempel kode <iframe ...> dari Google Maps → Bagikan → Sematkan peta, atau URL embed-nya saja." },
+          { "key": "contact.mapsUrl", "type": "text", "label": "Tautan Google Maps (opsional)", "placeholder": "https://maps.google.com/?q=..." }
+        ]
+      }
+    ]
+  }
+}
