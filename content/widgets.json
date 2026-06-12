@@ -1,10 +1,5 @@
 [
   {
-    "type": "recent-posts",
-    "title": "Artikel Terbaru",
-    "count": 5
-  },
-  {
     "type": "categories",
     "title": "Kategori"
   },
