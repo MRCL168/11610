@@ -1,0 +1,106 @@
+{
+  "name": "Gitproperty",
+  "version": "1.0.0",
+  "author": "GudangWEB",
+  "description": "Tema agen properti berwarna biru — beranda berisi hero + Pencarian Properti, Property Unggulan, Property Terbaru, Berita, dan CTA. Kartu properti menampilkan harga, status (Dijual/Disewa), serta ikon spesifikasi (kamar tidur, kamar mandi, luas bangunan, luas tanah). Cocok untuk jual-beli rumah dan tanah.",
+  "screenshot": "",
+  "options": {
+    "accent": { "type": "color", "label": "Warna Aksen (Biru)", "default": "#2563eb" },
+    "accentDeep": { "type": "color", "label": "Warna Gelap (Hero & Footer)", "default": "#0c1830" }
+  },
+  "editors": ["home"],
+  "customize": {
+    "options": {
+      "accent": { "type": "color", "label": "Warna Aksen (Biru)", "default": "#2563eb" },
+      "accentDeep": { "type": "color", "label": "Warna Gelap (Hero & Footer)", "default": "#0c1830" }
+    },
+    "sections": [
+      {
+        "id": "hero",
+        "label": "Hero",
+        "icon": "✶",
+        "description": "Bagian paling atas beranda — badge, judul, dan sub-judul di atas latar gradien biru.",
+        "fields": [
+          { "key": "hero.badge", "type": "text", "label": "Badge (label kecil)", "placeholder": "Agen Properti Terpercaya" },
+          { "key": "hero.title", "type": "text", "label": "Judul (headline)", "placeholder": "Temukan Rumah & Tanah Impian Anda" },
+          { "key": "hero.subtitle", "type": "textarea", "label": "Sub-judul", "rows": 2, "placeholder": "Jelajahi pilihan rumah dan tanah terbaik dengan harga transparan dan lokasi strategis." }
+        ]
+      },
+      {
+        "id": "search",
+        "label": "Pencarian Properti",
+        "icon": "⌕",
+        "description": "Kotak pencarian pada hero. Filter (tipe, status, lokasi, harga, kamar tidur) terisi otomatis dari data properti Anda.",
+        "fields": [
+          { "key": "search.enabled", "type": "checkbox", "label": "Tampilkan kotak pencarian", "default": true },
+          { "key": "search.title", "type": "text", "label": "Judul kotak", "placeholder": "Cari Properti" },
+          { "key": "search.submitText", "type": "text", "label": "Teks tombol cari", "placeholder": "Cari Properti" }
+        ]
+      },
+      {
+        "id": "featured",
+        "label": "Property Unggulan",
+        "icon": "★",
+        "description": "Properti pilihan. Tandai post dengan frontmatter unggulan: true untuk muncul di sini; bila tidak ada yang ditandai, otomatis menampilkan properti terbaru.",
+        "fields": [
+          { "key": "featured.enabled", "type": "checkbox", "label": "Tampilkan seksi Property Unggulan", "default": true },
+          { "key": "featured.eyebrow", "type": "text", "label": "Eyebrow", "placeholder": "Pilihan Terbaik" },
+          { "key": "featured.title", "type": "text", "label": "Judul seksi", "placeholder": "Property Unggulan" },
+          { "key": "featured.intro", "type": "textarea", "label": "Pengantar seksi", "rows": 2 },
+          { "key": "featured.count", "type": "number", "label": "Jumlah properti ditampilkan", "min": 1, "max": 24, "default": 6 }
+        ]
+      },
+      {
+        "id": "latest",
+        "label": "Property Terbaru",
+        "icon": "◷",
+        "description": "Daftar properti terbaru. Inilah seksi yang difilter oleh kotak Pencarian. \"Jumlah awal\" mengatur berapa kartu tampil sebelum tombol \"Tampilkan Semua\".",
+        "fields": [
+          { "key": "latest.enabled", "type": "checkbox", "label": "Tampilkan seksi Property Terbaru", "default": true },
+          { "key": "latest.eyebrow", "type": "text", "label": "Eyebrow", "placeholder": "Baru Ditambahkan" },
+          { "key": "latest.title", "type": "text", "label": "Judul seksi", "placeholder": "Property Terbaru" },
+          { "key": "latest.intro", "type": "textarea", "label": "Pengantar seksi", "rows": 2 },
+          { "key": "latest.count", "type": "number", "label": "Jumlah awal ditampilkan", "min": 1, "max": 24, "default": 6 }
+        ]
+      },
+      {
+        "id": "news",
+        "label": "Berita",
+        "icon": "▤",
+        "description": "Artikel/berita properti (post yang BUKAN listing properti, mis. tanpa harga).",
+        "fields": [
+          { "key": "news.enabled", "type": "checkbox", "label": "Tampilkan seksi Berita", "default": true },
+          { "key": "news.eyebrow", "type": "text", "label": "Eyebrow", "placeholder": "Artikel & Tips" },
+          { "key": "news.title", "type": "text", "label": "Judul seksi", "placeholder": "Berita Properti" },
+          { "key": "news.intro", "type": "textarea", "label": "Pengantar seksi", "rows": 2 },
+          { "key": "news.count", "type": "number", "label": "Jumlah artikel ditampilkan", "min": 1, "max": 12, "default": 3 }
+        ]
+      },
+      {
+        "id": "cta",
+        "label": "CTA Band",
+        "icon": "▭",
+        "description": "Pita ajakan di bagian bawah beranda.",
+        "fields": [
+          { "key": "cta.enabled", "type": "checkbox", "label": "Tampilkan CTA", "default": true },
+          { "key": "cta.title", "type": "text", "label": "Judul", "placeholder": "Punya properti untuk dijual atau disewakan?" },
+          { "key": "cta.text", "type": "textarea", "label": "Teks", "rows": 2 },
+          { "key": "cta.button", "type": "group", "label": "Tombol", "layout": "row", "fields": [
+            { "key": "text", "type": "text", "label": "Teks" },
+            { "key": "url", "type": "text", "label": "URL", "placeholder": "https://wa.me/62..." }
+          ] }
+        ]
+      },
+      {
+        "id": "contact",
+        "label": "Kontak",
+        "icon": "✆",
+        "description": "Nomor kontak untuk tombol WhatsApp di header dan di halaman detail properti. Tulis nomor format internasional tanpa tanda + (mis. 6287741135796).",
+        "fields": [
+          { "key": "contact.whatsapp", "type": "text", "label": "Nomor WhatsApp", "placeholder": "6287741135796" },
+          { "key": "contact.phone", "type": "text", "label": "Nomor Telepon (opsional)", "placeholder": "021-1234567" }
+        ]
+      }
+    ]
+  }
+}

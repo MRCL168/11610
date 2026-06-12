@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="Ilustrasi properti">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#22c55e"/>
+      <stop offset="1" stop-color="#0c2a1e"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#g)"/>
+  <circle cx="320" cy="70" r="120" fill="#ffffff" opacity="0.06"/>
+  <circle cx="60" cy="360" r="90" fill="#ffffff" opacity="0.05"/>
+  <rect x="70" y="250" width="260" height="90" rx="4" fill="#ffffff" opacity="0.16"/><path d="M70 250 L330 250 L300 200 L100 200 Z" fill="#ffffff" opacity="0.26"/><circle cx="200" cy="225" r="26" fill="none" stroke="#ffffff" stroke-width="6" opacity="0.95"/><path d="M200 211 v28 M186 225 h28" stroke="#ffffff" stroke-width="6" opacity="0.95"/>
+</svg>
