@@ -66,13 +66,13 @@
             "icon": "pen",
             "title": "Konten & Branding",
             "text": "Penulisan konten profesional dan identitas visual yang memperkuat citra merek Anda.",
-            "url": ""
+            "url": "#"
           },
           {
             "icon": "gear",
             "title": "Pemeliharaan & Dukungan",
             "text": "Pembaruan rutin, pemantauan keamanan, dan dukungan teknis yang responsif.",
-            "url": ""
+            "url": "#"
           }
         ],
         "about": {
@@ -411,13 +411,13 @@
         "icon": "pen",
         "title": "Konten & Branding",
         "text": "Penulisan konten profesional dan identitas visual yang memperkuat citra merek Anda.",
-        "url": ""
+        "url": "#"
       },
       {
         "icon": "gear",
         "title": "Pemeliharaan & Dukungan",
         "text": "Pembaruan rutin, pemantauan keamanan, dan dukungan teknis yang responsif.",
-        "url": ""
+        "url": "#"
       }
     ],
     "about": {
