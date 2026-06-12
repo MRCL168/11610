@@ -4,7 +4,7 @@
   "description": "Blog pribadi berisi tutorial, opini, dan catatan seputar pengembangan web, SEO, dan teknologi terkini.",
   "author": "Admin",
   "language": "id",
-  "theme": "gitschool",
+  "theme": "gitproperty",
   "themeOptions": {},
   "themeData": {
     "company": {
@@ -306,6 +306,10 @@
           "intro": ""
         }
       }
+    },
+    "gitproperty": {
+      "options": {},
+      "content": {}
     }
   },
   "baseUrl": "https://blog.akularis.com",
@@ -350,70 +354,6 @@
       "url": "/about/"
     }
   ],
-  "profile": {
-    "hero": {
-      "slides": [
-        {
-          "image": "",
-          "eyebrow": "",
-          "title": "",
-          "text": "",
-          "primary": {
-            "text": "",
-            "url": ""
-          },
-          "secondary": {
-            "text": "",
-            "url": ""
-          }
-        }
-      ],
-      "eyebrow": "",
-      "autoplay": true,
-      "interval": 6
-    },
-    "enroll": {
-      "levels": [],
-      "enabled": true,
-      "eyebrow": "",
-      "title": "",
-      "intro": "",
-      "endpoint": "",
-      "buttonText": "",
-      "successMessage": "",
-      "whatsapp": ""
-    },
-    "cta": {
-      "enabled": true,
-      "title": "",
-      "text": "",
-      "primary": {
-        "text": "",
-        "url": ""
-      },
-      "secondary": {
-        "text": "",
-        "url": ""
-      }
-    },
-    "map": {
-      "enabled": true,
-      "eyebrow": "",
-      "title": "",
-      "address": "",
-      "embedUrl": "",
-      "phone": "",
-      "email": "",
-      "hours": "",
-      "directionsUrl": ""
-    },
-    "testimonials": {
-      "items": [],
-      "enabled": false,
-      "eyebrow": "",
-      "title": "",
-      "intro": ""
-    }
-  },
+  "profile": {},
   "footerText": "Dibuat dengan GitCMS — konten tersimpan di GitHub."
 }
