@@ -1,0 +1,160 @@
+{
+  "name": "Pesantren",
+  "version": "1.0.0",
+  "author": "GudangWEB",
+  "description": "Tema website pesantren modern bernuansa hijau & islami, ramah SEO/AEO. Beranda kaya seksi: hero + slider, statistik, program unggulan, profil, fasilitas, pengajar, berita, testimoni, lokasi + kontak, dan CTA. Dilengkapi halaman Kontak serta halaman Pendaftaran Santri yang terhubung ke Google Sheet via Google Apps Script.",
+  "screenshot": "",
+  "options": {
+    "hijau": { "type": "color", "default": "#168F4E", "label": "Warna Hijau Utama" },
+    "emas": { "type": "color", "default": "#C0901F", "label": "Warna Aksen Emas" },
+    "fontBody": { "type": "select", "default": "Plus Jakarta Sans", "label": "Font Isi", "choices": ["Plus Jakarta Sans", "Inter", "Nunito Sans"] }
+  },
+  "customize": {
+    "options": {
+      "hijau": { "type": "color", "default": "#168F4E", "label": "Warna Hijau Utama", "hint": "Warna utama tema: header, tombol, dan aksen." },
+      "emas": { "type": "color", "default": "#C0901F", "label": "Warna Aksen Emas", "hint": "Dipakai hemat untuk ornamen, garis, dan sentuhan mewah." },
+      "fontBody": { "type": "select", "default": "Plus Jakarta Sans", "label": "Font Isi", "choices": ["Plus Jakarta Sans", "Inter", "Nunito Sans"] }
+    },
+    "sections": [
+      {
+        "label": "Hero (Beranda Atas)",
+        "fields": [
+          { "key": "hero.eyebrow", "type": "text", "label": "Label kecil (eyebrow)", "placeholder": "Pondok Pesantren" },
+          { "key": "hero.headline", "type": "text", "label": "Judul utama", "placeholder": "Membentuk Generasi Qur'ani & Berakhlak Mulia" },
+          { "key": "hero.subheadline", "type": "textarea", "label": "Sub-judul", "rows": 2 },
+          { "key": "hero.primaryCta", "type": "group", "label": "Tombol utama", "layout": "row", "fields": [ { "key": "text", "type": "text", "label": "Teks", "placeholder": "Daftar Sekarang" }, { "key": "url", "type": "text", "label": "URL", "placeholder": "/pendaftaran/" } ] },
+          { "key": "hero.secondaryCta", "type": "group", "label": "Tombol kedua (opsional)", "layout": "row", "fields": [ { "key": "text", "type": "text", "label": "Teks", "placeholder": "Jelajahi Program" }, { "key": "url", "type": "text", "label": "URL", "placeholder": "#program" } ] }
+        ]
+      },
+      {
+        "label": "Slider Hero",
+        "fields": [
+          { "key": "slides", "type": "repeater", "label": "Slide gambar", "addLabel": "+ Tambah Slide", "itemLabel": "Slide", "fields": [ { "key": "image", "type": "image", "label": "Gambar" }, { "key": "title", "type": "text", "label": "Judul (opsional)" }, { "key": "caption", "type": "text", "label": "Keterangan (opsional)" } ] }
+        ]
+      },
+      {
+        "label": "Tombol CTA Header",
+        "fields": [
+          { "key": "headerCta.show", "type": "checkbox", "label": "Tampilkan tombol CTA di header", "default": true },
+          { "key": "headerCta", "type": "group", "label": "", "layout": "row", "fields": [ { "key": "text", "type": "text", "label": "Teks tombol", "placeholder": "Daftar Santri" }, { "key": "url", "type": "text", "label": "URL tujuan", "placeholder": "/pendaftaran/" } ] }
+        ]
+      },
+      {
+        "label": "Statistik",
+        "fields": [
+          { "key": "stats", "type": "repeater", "label": "Statistik", "addLabel": "+ Tambah Statistik", "itemLabel": "Statistik", "fields": [ { "key": "value", "type": "text", "label": "Angka", "placeholder": "1.250" }, { "key": "label", "type": "text", "label": "Keterangan", "placeholder": "Santri Aktif" } ] }
+        ]
+      },
+      {
+        "label": "Program Unggulan",
+        "fields": [
+          { "key": "programsEyebrow", "type": "text", "label": "Label kecil", "placeholder": "Apa yang Kami Ajarkan" },
+          { "key": "programsTitle", "type": "text", "label": "Judul seksi", "placeholder": "Program Unggulan" },
+          { "key": "programsIntro", "type": "textarea", "label": "Pengantar (opsional)", "rows": 2 },
+          { "key": "programs", "type": "repeater", "label": "Program", "addLabel": "+ Tambah Program", "itemLabel": "Program", "fields": [ { "key": "icon", "type": "select", "label": "Ikon", "choices": ["quran", "book", "arabic", "mosque", "flask", "globe", "users", "trophy", "pen", "heart", "shield", "star"], "hint": "Nama ikon garis: quran, book, arabic, mosque, flask, globe, users, trophy, pen, heart, shield, star." }, { "key": "title", "type": "text", "label": "Judul" }, { "key": "text", "type": "textarea", "label": "Deskripsi", "rows": 2 }, { "key": "url", "type": "text", "label": "URL (opsional)" } ] }
+        ]
+      },
+      {
+        "label": "Profil Singkat",
+        "fields": [
+          { "key": "profil.eyebrow", "type": "text", "label": "Label kecil", "placeholder": "Tentang Kami" },
+          { "key": "profil.title", "type": "text", "label": "Judul", "placeholder": "Sekilas Tentang Pesantren" },
+          { "key": "profil.text", "type": "textarea", "label": "Teks profil (boleh beberapa paragraf, pisahkan dengan baris kosong)", "rows": 5 },
+          { "key": "profil.image", "type": "image", "label": "Foto profil (opsional)" },
+          { "key": "profil.points", "type": "repeater", "itemType": "string", "label": "Poin keunggulan", "addLabel": "+ Tambah Poin", "placeholder": "Mis. Kurikulum terpadu diniyah & nasional" }
+        ]
+      },
+      {
+        "label": "Fasilitas Penunjang",
+        "fields": [
+          { "key": "fasilitasEyebrow", "type": "text", "label": "Label kecil", "placeholder": "Sarana & Prasarana" },
+          { "key": "fasilitasTitle", "type": "text", "label": "Judul seksi", "placeholder": "Fasilitas Penunjang" },
+          { "key": "fasilitasIntro", "type": "textarea", "label": "Pengantar (opsional)", "rows": 2 },
+          { "key": "fasilitas", "type": "repeater", "label": "Fasilitas", "addLabel": "+ Tambah Fasilitas", "itemLabel": "Fasilitas", "fields": [ { "key": "icon", "type": "select", "label": "Ikon", "choices": ["building", "bed", "mosque", "book", "flask", "utensils", "users", "heart", "globe", "star"], "hint": "Nama ikon garis: building, bed, mosque, book, flask, utensils, users, heart, globe, star." }, { "key": "title", "type": "text", "label": "Nama fasilitas" }, { "key": "text", "type": "textarea", "label": "Keterangan (opsional)", "rows": 2 } ] }
+        ]
+      },
+      {
+        "label": "Pengajar (Asatidz)",
+        "fields": [
+          { "key": "pengajarEyebrow", "type": "text", "label": "Label kecil", "placeholder": "Dewan Asatidz" },
+          { "key": "pengajarTitle", "type": "text", "label": "Judul seksi", "placeholder": "Pengajar & Pembimbing" },
+          { "key": "pengajarIntro", "type": "textarea", "label": "Pengantar (opsional)", "rows": 2 },
+          { "key": "pengajar", "type": "repeater", "label": "Pengajar", "addLabel": "+ Tambah Pengajar", "itemLabel": "Pengajar", "fields": [ { "key": "photo", "type": "image", "label": "Foto (opsional)" }, { "key": "name", "type": "text", "label": "Nama" }, { "key": "role", "type": "text", "label": "Jabatan / Bidang" } ] }
+        ]
+      },
+      {
+        "label": "Berita & Kegiatan",
+        "fields": [
+          { "key": "berita.enabled", "type": "checkbox", "label": "Tampilkan seksi berita di beranda", "default": true },
+          { "key": "berita.eyebrow", "type": "text", "label": "Label kecil", "placeholder": "Kabar Pesantren" },
+          { "key": "berita.title", "type": "text", "label": "Judul seksi", "placeholder": "Berita & Kegiatan Terbaru" }
+        ]
+      },
+      {
+        "label": "Testimoni",
+        "fields": [
+          { "key": "testimoniEyebrow", "type": "text", "label": "Label kecil", "placeholder": "Kata Mereka" },
+          { "key": "testimoniTitle", "type": "text", "label": "Judul seksi", "placeholder": "Testimoni Wali Santri & Alumni" },
+          { "key": "testimoni", "type": "repeater", "label": "Testimoni", "addLabel": "+ Tambah Testimoni", "itemLabel": "Testimoni", "fields": [ { "key": "quote", "type": "textarea", "label": "Kutipan", "rows": 3 }, { "key": "name", "type": "text", "label": "Nama" }, { "key": "role", "type": "text", "label": "Keterangan (mis. Wali Santri / Alumni)" }, { "key": "photo", "type": "image", "label": "Foto (opsional)" } ] }
+        ]
+      },
+      {
+        "label": "Lokasi & Kontak",
+        "fields": [
+          { "key": "kontak.eyebrow", "type": "text", "label": "Label kecil", "placeholder": "Kunjungi Kami" },
+          { "key": "kontak.title", "type": "text", "label": "Judul seksi", "placeholder": "Lokasi & Kontak" },
+          { "key": "kontak.intro", "type": "textarea", "label": "Pengantar (opsional)", "rows": 2 },
+          { "key": "kontak.address", "type": "textarea", "label": "Alamat", "rows": 2 },
+          { "key": "kontak.phone", "type": "text", "label": "Telepon", "placeholder": "021-1234567" },
+          { "key": "kontak.whatsapp", "type": "text", "label": "WhatsApp", "placeholder": "0877-4113-5796" },
+          { "key": "kontak.email", "type": "text", "label": "Email" },
+          { "key": "kontak.hours", "type": "text", "label": "Jam layanan", "placeholder": "Senin-Sabtu, 08.00-16.00 WIB" },
+          { "key": "kontak.mapsEmbed", "type": "textarea", "label": "Peta (Google Maps)", "rows": 3, "hint": "Tempel kode <iframe> embed dari Google Maps, atau cukup URL src-nya." }
+        ]
+      },
+      {
+        "label": "Pendaftaran Santri",
+        "fields": [
+          { "key": "pendaftaran.intro", "type": "textarea", "label": "Pengantar halaman pendaftaran", "rows": 2 },
+          { "key": "pendaftaran.scriptUrl", "type": "text", "label": "URL Google Apps Script (Web App)", "hint": "Endpoint Apps Script untuk menyimpan data ke Google Sheet. Kosongkan untuk memakai WhatsApp sebagai cadangan." },
+          { "key": "pendaftaran.waFallback", "type": "text", "label": "Nomor WhatsApp cadangan", "placeholder": "0877-4113-5796" },
+          { "key": "pendaftaran.successMessage", "type": "textarea", "label": "Pesan sukses setelah kirim", "rows": 2 }
+        ]
+      },
+      {
+        "label": "CTA (Ajakan Bertindak)",
+        "fields": [
+          { "key": "cta.title", "type": "text", "label": "Judul CTA", "placeholder": "Siap Bergabung Bersama Kami?" },
+          { "key": "cta.text", "type": "textarea", "label": "Teks pendukung", "rows": 2 },
+          { "key": "cta.button", "type": "group", "label": "Tombol", "layout": "row", "fields": [ { "key": "text", "type": "text", "label": "Teks", "placeholder": "Daftar Sekarang" }, { "key": "url", "type": "text", "label": "URL", "placeholder": "/pendaftaran/" } ] }
+        ]
+      },
+      {
+        "label": "Bilah Sisi (Sidebar)",
+        "fields": [
+          { "key": "sidebar.enabled", "type": "checkbox", "label": "Tampilkan bilah sisi — muncul di semua halaman kecuali beranda", "default": true },
+          { "key": "sidebar.position", "type": "select", "label": "Posisi bilah sisi", "default": "kanan", "choices": ["kanan", "kiri"] },
+          { "key": "sidebar.cta.show", "type": "checkbox", "label": "Widget Ajakan Pendaftaran — tampilkan", "default": true },
+          { "key": "sidebar.cta.title", "type": "text", "label": "Judul widget pendaftaran", "placeholder": "Penerimaan Santri Baru" },
+          { "key": "sidebar.cta.text", "type": "textarea", "label": "Teks ajakan", "rows": 2 },
+          { "key": "sidebar.cta.buttonText", "type": "text", "label": "Teks tombol", "placeholder": "Daftar Sekarang" },
+          { "key": "sidebar.cta.buttonUrl", "type": "text", "label": "URL tombol", "placeholder": "/pendaftaran/" },
+          { "key": "sidebar.kontak.show", "type": "checkbox", "label": "Widget Kontak Singkat — tampilkan", "default": true },
+          { "key": "sidebar.kontak.title", "type": "text", "label": "Judul widget kontak", "placeholder": "Hubungi Kami", "hint": "Data alamat/telepon/WhatsApp/email diambil otomatis dari seksi \"Lokasi & Kontak\"." },
+          { "key": "sidebar.recent.show", "type": "checkbox", "label": "Widget Artikel Terbaru — tampilkan", "default": true },
+          { "key": "sidebar.recent.title", "type": "text", "label": "Judul widget artikel", "placeholder": "Artikel Terbaru" },
+          { "key": "sidebar.recent.count", "type": "text", "label": "Jumlah artikel ditampilkan", "placeholder": "4" },
+          { "key": "sidebar.kategori.show", "type": "checkbox", "label": "Widget Kategori — tampilkan", "default": true },
+          { "key": "sidebar.kategori.title", "type": "text", "label": "Judul widget kategori", "placeholder": "Kategori" },
+          { "key": "sidebar.teks.show", "type": "checkbox", "label": "Widget Teks / Pengumuman — tampilkan", "default": false },
+          { "key": "sidebar.teks.title", "type": "text", "label": "Judul widget teks", "placeholder": "Pengumuman" },
+          { "key": "sidebar.teks.body", "type": "textarea", "label": "Isi teks (pisahkan paragraf dengan baris kosong)", "rows": 4 },
+          { "key": "sidebar.banner.show", "type": "checkbox", "label": "Widget Banner Gambar — tampilkan", "default": false },
+          { "key": "sidebar.banner.image", "type": "image", "label": "Gambar banner" },
+          { "key": "sidebar.banner.url", "type": "text", "label": "URL tujuan banner (opsional)" },
+          { "key": "sidebar.banner.alt", "type": "text", "label": "Teks alternatif (alt) banner" }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,222 @@
+{
+  "options": {
+    "hijau": "#168F4E",
+    "emas": "#C0901F",
+    "fontBody": "Plus Jakarta Sans"
+  },
+  "content": {
+    "hero": {
+      "eyebrow": "Pondok Pesantren Modern",
+      "headline": "Membentuk Generasi Qur'ani, Cerdas & Berakhlak Mulia",
+      "subheadline": "Pendidikan Islam terpadu yang memadukan tahfidz Al-Qur'an, ilmu agama, dan sains modern dalam lingkungan asrama yang nyaman dan mendidik.",
+      "primaryCta": {
+        "text": "Daftar Santri Baru",
+        "url": "/pendaftaran/"
+      },
+      "secondaryCta": {
+        "text": "Jelajahi Program",
+        "url": "#program"
+      }
+    },
+    "slides": [
+      {
+        "image": "media/slide-1.jpg",
+        "title": "Lingkungan Asrama Islami",
+        "caption": "Pembinaan 24 jam oleh para asatidz"
+      },
+      {
+        "image": "media/slide-2.jpg",
+        "title": "Tahfidz Al-Qur'an",
+        "caption": "Target hafalan terukur & bersanad"
+      },
+      {
+        "image": "media/slide-3.jpg",
+        "title": "Sains & Teknologi",
+        "caption": "Laboratorium dan kelas modern"
+      }
+    ],
+    "headerCta": {
+      "show": true,
+      "text": "Daftar Santri",
+      "url": "/pendaftaran/"
+    },
+    "stats": [
+      {
+        "value": "1.250",
+        "label": "Santri Aktif"
+      },
+      {
+        "value": "85",
+        "label": "Tenaga Pengajar"
+      },
+      {
+        "value": "320",
+        "label": "Hafidz/Hafidzah"
+      },
+      {
+        "value": "30",
+        "label": "Tahun Pengalaman"
+      }
+    ],
+    "programsEyebrow": "Apa yang Kami Ajarkan",
+    "programsTitle": "Program Unggulan",
+    "programsIntro": "Kurikulum terpadu yang menyeimbangkan ilmu diniyah, hafalan Al-Qur'an, dan kompetensi akademik nasional.",
+    "programs": [
+      {
+        "icon": "quran",
+        "title": "Tahfidz Al-Qur'an",
+        "text": "Program hafalan intensif dengan metode mutqin, bimbingan musyrif, dan setoran harian terukur.",
+        "url": ""
+      },
+      {
+        "icon": "arabic",
+        "title": "Kitab Kuning",
+        "text": "Kajian kitab klasik (nahwu, shorof, fiqih) untuk memperdalam pemahaman turats keislaman.",
+        "url": ""
+      },
+      {
+        "icon": "flask",
+        "title": "Sains & Teknologi",
+        "text": "Pembelajaran MIPA dan literasi digital agar santri siap menghadapi tantangan zaman.",
+        "url": ""
+      }
+    ],
+    "profil": {
+      "eyebrow": "Tentang Kami",
+      "title": "Sekilas Tentang Pesantren",
+      "text": "Didirikan dengan niat mencetak generasi penghafal Al-Qur'an yang berwawasan luas, pesantren kami menggabungkan tradisi keilmuan klasik dengan pendekatan pendidikan modern.\n\nSetiap santri dibimbing untuk tumbuh menjadi pribadi yang berakhlak, mandiri, dan bermanfaat bagi umat.",
+      "image": "media/profil.jpg",
+      "points": [
+        "Kurikulum terpadu diniyah & nasional",
+        "Asrama nyaman dengan pembinaan 24 jam",
+        "Pengajar berpengalaman & bersanad"
+      ]
+    },
+    "fasilitasEyebrow": "Sarana & Prasarana",
+    "fasilitasTitle": "Fasilitas Penunjang",
+    "fasilitasIntro": "Lingkungan belajar yang lengkap dan kondusif untuk mendukung tumbuh kembang santri.",
+    "fasilitas": [
+      {
+        "icon": "mosque",
+        "title": "Masjid",
+        "text": "Pusat ibadah dan kegiatan keagamaan santri."
+      },
+      {
+        "icon": "bed",
+        "title": "Asrama",
+        "text": "Kamar nyaman dengan pembina di setiap blok."
+      },
+      {
+        "icon": "book",
+        "title": "Perpustakaan",
+        "text": "Koleksi kitab dan buku referensi yang lengkap."
+      },
+      {
+        "icon": "utensils",
+        "title": "Dapur & Katering",
+        "text": "Makanan bergizi tiga kali sehari."
+      }
+    ],
+    "pengajarEyebrow": "Dewan Asatidz",
+    "pengajarTitle": "Pengajar & Pembimbing",
+    "pengajarIntro": "Dibimbing oleh para asatidz yang berkompeten di bidangnya.",
+    "pengajar": [
+      {
+        "photo": "",
+        "name": "KH. Ahmad Fauzi",
+        "role": "Pengasuh Pondok"
+      },
+      {
+        "photo": "",
+        "name": "Ustadz Bilal Ramadhan",
+        "role": "Koordinator Tahfidz"
+      },
+      {
+        "photo": "",
+        "name": "Ustadzah Halimah",
+        "role": "Pembina Putri"
+      }
+    ],
+    "berita": {
+      "enabled": true,
+      "eyebrow": "Kabar Pesantren",
+      "title": "Berita & Kegiatan Terbaru"
+    },
+    "testimoniEyebrow": "Kata Mereka",
+    "testimoniTitle": "Testimoni Wali Santri & Alumni",
+    "testimoni": [
+      {
+        "quote": "Anak saya jadi lebih disiplin dan dekat dengan Al-Qur'an sejak mondok di sini. Pembinaannya luar biasa.",
+        "name": "Bapak Surya",
+        "role": "Wali Santri",
+        "photo": ""
+      },
+      {
+        "quote": "Lingkungan yang mendukung hafalan sekaligus prestasi akademik. Saya bersyukur menjadi alumni.",
+        "name": "Fatimah Az-Zahra",
+        "role": "Alumni 2021",
+        "photo": ""
+      }
+    ],
+    "kontak": {
+      "eyebrow": "Kunjungi Kami",
+      "title": "Lokasi & Kontak",
+      "intro": "Silakan berkunjung atau hubungi kami untuk informasi pendaftaran.",
+      "address": "Jl. Pendidikan No. 1, Tangerang, Banten 15111",
+      "phone": "021-1234567",
+      "whatsapp": "0877-4113-5796",
+      "email": "info@pesantrencontoh.sch.id",
+      "hours": "Senin-Sabtu, 08.00-16.00 WIB",
+      "mapsEmbed": "https://www.google.com/maps/embed?pb=!1m18!demo"
+    },
+    "pendaftaran": {
+      "intro": "Penerimaan Santri Baru tahun ajaran 2026/2027 telah dibuka. Lengkapi formulir di bawah ini.",
+      "scriptUrl": "",
+      "waFallback": "0877-4113-5796",
+      "successMessage": "Terima kasih, pendaftaran Anda sudah kami terima. Tim kami akan segera menghubungi Anda."
+    },
+    "cta": {
+      "title": "Siap Bergabung Bersama Kami?",
+      "text": "Jadilah bagian dari keluarga besar pesantren. Kuota terbatas setiap tahunnya.",
+      "button": {
+        "text": "Daftar Sekarang",
+        "url": "/pendaftaran/"
+      }
+    },
+    "sidebar": {
+      "enabled": true,
+      "position": "kanan",
+      "cta": {
+        "show": true,
+        "title": "Penerimaan Santri Baru",
+        "text": "Bergabunglah bersama keluarga besar kami. Daftar sekarang, kuota terbatas.",
+        "buttonText": "Daftar Sekarang",
+        "buttonUrl": "/pendaftaran/"
+      },
+      "kontak": {
+        "show": true,
+        "title": "Hubungi Kami"
+      },
+      "recent": {
+        "show": true,
+        "title": "Artikel Terbaru",
+        "count": "4"
+      },
+      "kategori": {
+        "show": true,
+        "title": "Kategori"
+      },
+      "teks": {
+        "show": true,
+        "title": "Pengumuman",
+        "body": "Gelombang 1 PSB ditutup 30 Juni 2026.\n\nTes seleksi dilaksanakan setiap hari Sabtu."
+      },
+      "banner": {
+        "show": true,
+        "image": "media/banner.jpg",
+        "url": "/pendaftaran/",
+        "alt": "Brosur Penerimaan Santri Baru"
+      }
+    }
+  }
+}
