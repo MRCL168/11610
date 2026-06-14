@@ -1,7 +1,6 @@
 ---
-title: pendaftaran
+title: "Pendaftaran Santri Baru"
 slug: pendaftaran
-status: published
+template: pendaftaran
+excerpt: "Formulir Penerimaan Santri Baru (PSB) tahun ajaran 2026/2027."
 ---
-
-
