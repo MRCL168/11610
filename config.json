@@ -5,7 +5,10 @@
   "author": "Admin",
   "language": "id",
   "theme": "pesantren",
-  "themeOptions": {},
+  "themeOptions": {
+    "hijau": "#168f4e",
+    "emas": "#c0901f"
+  },
   "themeData": {
     "company": {
       "options": {},
@@ -375,8 +378,36 @@
       }
     },
     "pesantren": {
-      "options": {},
-      "content": {}
+      "options": {
+        "hijau": "#168f4e",
+        "emas": "#c0901f"
+      },
+      "content": {
+        "pengajar": [],
+        "pengajarEyebrow": "",
+        "pengajarTitle": "",
+        "pengajarIntro": "",
+        "hero": {
+          "eyebrow": "",
+          "headline": "",
+          "subheadline": "",
+          "primaryCta": {
+            "text": "",
+            "url": ""
+          },
+          "secondaryCta": {
+            "text": "",
+            "url": ""
+          }
+        },
+        "slides": [
+          {
+            "image": "/public/images/1780956696509-hero-gudangweb-com.png",
+            "title": "",
+            "caption": ""
+          }
+        ]
+      }
     }
   },
   "baseUrl": "https://blog.akularis.com",
@@ -425,6 +456,31 @@
       "url": "/kontak"
     }
   ],
-  "profile": {},
+  "profile": {
+    "pengajar": [],
+    "pengajarEyebrow": "",
+    "pengajarTitle": "",
+    "pengajarIntro": "",
+    "hero": {
+      "eyebrow": "",
+      "headline": "",
+      "subheadline": "",
+      "primaryCta": {
+        "text": "",
+        "url": ""
+      },
+      "secondaryCta": {
+        "text": "",
+        "url": ""
+      }
+    },
+    "slides": [
+      {
+        "image": "/public/images/1780956696509-hero-gudangweb-com.png",
+        "title": "",
+        "caption": ""
+      }
+    ]
+  },
   "footerText": "Dibuat dengan GitCMS — konten tersimpan di GitHub."
 }
