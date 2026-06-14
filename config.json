@@ -4,11 +4,8 @@
   "description": "Blog pribadi berisi tutorial, opini, dan catatan seputar pengembangan web, SEO, dan teknologi terkini.",
   "author": "Admin",
   "language": "id",
-  "theme": "pesantren",
-  "themeOptions": {
-    "hijau": "#168f4e",
-    "emas": "#c0901f"
-  },
+  "theme": "distributor",
+  "themeOptions": {},
   "themeData": {
     "company": {
       "options": {},
@@ -408,6 +405,10 @@
           }
         ]
       }
+    },
+    "distributor": {
+      "options": {},
+      "content": {}
     }
   },
   "baseUrl": "https://blog.akularis.com",
@@ -456,31 +457,6 @@
       "url": "/kontak"
     }
   ],
-  "profile": {
-    "pengajar": [],
-    "pengajarEyebrow": "",
-    "pengajarTitle": "",
-    "pengajarIntro": "",
-    "hero": {
-      "eyebrow": "",
-      "headline": "",
-      "subheadline": "",
-      "primaryCta": {
-        "text": "",
-        "url": ""
-      },
-      "secondaryCta": {
-        "text": "",
-        "url": ""
-      }
-    },
-    "slides": [
-      {
-        "image": "/public/images/1780956696509-hero-gudangweb-com.png",
-        "title": "",
-        "caption": ""
-      }
-    ]
-  },
+  "profile": {},
   "footerText": "Dibuat dengan GitCMS — konten tersimpan di GitHub."
 }
