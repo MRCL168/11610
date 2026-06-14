@@ -1,12 +1,17 @@
 /* ============================================================
-   partials/contact.js — Blok Kontak + Peta (TEMA)
-   Merender kartu informasi kontak (alamat/telepon/email/jam) dan
-   embed peta dari data Sesuaikan → Kontak (ctx.themeContent.contact).
-   Dipakai oleh halaman statis ber-template "kontak".
+   partials/contact.js — Blok Kontak + Peta premium (TEMA)
+   Merender SELURUH halaman kontak dari data Sesuaikan → Kontak &
+   Peta (ctx.themeContent.contact): panel info berlatar gradien biru
+   (alamat/telepon/WA/email/jam + media sosial + tombol Maps) dan
+   embed peta menyatu di sisinya dalam satu kartu terangkat.
+
+   Halaman kontak SENGAJA tidak menampilkan judul halaman, sidebar,
+   atau isi markdown — semua kontennya bersumber dari Sesuaikan.
    Kontrak: hanya membaca data dari ctx — tanpa akses API/filesystem.
    ============================================================ */
 
 var icons = require("./icons");
+var socialLinks = require("./icons").socialLinks;
 
 // Bangun HTML peta dari nilai mapEmbed milik pemilik situs (tepercaya).
 // Dukung dua bentuk: kode <iframe> lengkap, atau sekadar URL embed.
@@ -34,7 +39,7 @@ function row(iconName, label, valueHtml, lib) {
 }
 
 module.exports = function contactSection(ctx) {
-  var U = ctx.U, lib = ctx.lib;
+  var config = ctx.config, U = ctx.U, lib = ctx.lib;
   var esc = lib.esc, attr = lib.attr;
   var profileMod = require("./profile");
   var profile = profileMod.getProfile(ctx);
@@ -54,25 +59,38 @@ module.exports = function contactSection(ctx) {
   var map = mapHtml(c.mapEmbed, lib);
   if (!rows.length && !map) return "";
 
-  var intro = c.intro ? "<p>" + esc(c.intro) + "</p>" : "";
-  var infoCard =
-    '<div class="contact-info">' +
-    '<span class="eyebrow">' + esc(c.eyebrow) + "</span>" +
-    "<h2>" + esc(c.title) + "</h2>" +
-    intro +
-    (rows.length ? '<ul class="contact-list">' + rows.join("") + "</ul>" : "") +
-    "</div>";
+  var intro = c.intro ? '<p class="contact-intro">' + esc(c.intro) + "</p>" : "";
+  var listHtml = rows.length ? '<ul class="contact-list">' + rows.join("") + "</ul>" : "";
 
-  var mapsLinkBtn = c.mapsUrl
-    ? '<div class="contact-actions"><a class="btn btn-outline" href="' + attr(c.mapsUrl) + '" target="_blank" rel="noopener">Buka di Google Maps ' + icons.arrow() + "</a></div>"
+  var social = socialLinks(config, lib);
+  var socialHtml = social ? '<div class="contact-social">' + social + "</div>" : "";
+
+  var mapsBtn = c.mapsUrl
+    ? '<a class="btn btn-ghost contact-maps-btn" href="' + attr(c.mapsUrl) + '" target="_blank" rel="noopener">Buka di Google Maps ' + icons.arrow() + "</a>"
     : "";
 
+  // Panel info (gradien biru, teks terang). Judul = H1 halaman kontak.
+  var aside =
+    '<div class="contact-aside">' +
+    '<span class="eyebrow eyebrow-on-dark">' + esc(c.eyebrow) + "</span>" +
+    '<h1 class="contact-title">' + esc(c.title) + "</h1>" +
+    intro +
+    listHtml +
+    mapsBtn +
+    socialHtml +
+    "</div>";
+
+  // Sisi peta (atau placeholder rapi bila peta belum diisi).
+  var mapSide = map || '<div class="contact-map contact-map-empty"><span>' + icons.lineIcon("mapPin") + "</span></div>";
+
   return (
-    '\n    <section class="section section-alt contact-section" id="kontak">' +
-    '\n      <div class="container"><div class="contact-grid">' +
-    "\n        " + infoCard + mapsLinkBtn +
-    "\n        " + (map || "") +
-    "\n      </div></div>" +
+    '\n    <section class="contact-section" id="kontak">' +
+    '\n      <div class="container">' +
+    '\n        <div class="contact-card">' +
+    "\n          " + aside +
+    "\n          " + mapSide +
+    "\n        </div>" +
+    "\n      </div>" +
     "\n    </section>"
   );
 };

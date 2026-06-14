@@ -1,9 +1,11 @@
 /* ============================================================
    templates/archive.js — Arsip kategori / tag (TEMA)
-   Dua kolom (daftar artikel + sidebar) bila sidebar terisi; jika
-   kosong, daftar lebar penuh. Sidebar muncul di semua halaman
-   SELAIN beranda.
-   ctx: { config, U, lib, site, seo, themeVars, kind, term, posts, description }
+   Menampilkan daftar produk (grid katalog) untuk sebuah kategori
+   atau tag, dengan sticky sidebar info perusahaan di sisi kanan
+   (kecuali bila dimatikan dari Customizer).
+
+   ctx: { config, U, lib, site, seo, themeVars, themeContent,
+          kind, term, posts, description }
    ============================================================ */
 
 var layout = require("./partials/layout");
@@ -16,8 +18,11 @@ module.exports = function archive(ctx) {
 
   var label = kind === "category" ? "Kategori" : "Tag";
   var cards = posts.map(function (p) { return postCard(p, ctx); }).join("");
+
   var hasDesc = description && String(description).trim();
-  var intro = hasDesc ? "<p>" + esc(description) + "</p>" : "<p>" + posts.length + " artikel</p>";
+  var intro = hasDesc
+    ? "<p>" + esc(description) + "</p>"
+    : "<p>" + posts.length + " produk dalam " + label.toLowerCase() + " ini</p>";
 
   var head =
     '\n    <section class="page-head"><div class="container">' +
@@ -25,18 +30,24 @@ module.exports = function archive(ctx) {
     "<h1>" + esc(term) + "</h1>" + intro +
     "</div></section>";
 
-  var blocks = sidebar.getSidebar(ctx);
+  var empty = '<p class="catalog-empty">Belum ada produk pada ' + label.toLowerCase() + " ini.</p>";
+  var grid = posts.length
+    ? '<div class="product-grid cols-3">' + cards + "</div>"
+    : empty;
+
+  // Rakit dengan / tanpa sidebar.
+  var asideHtml = sidebar.render(ctx);
   var listing;
-  if (blocks.length) {
+  if (asideHtml) {
     listing =
       '\n    <section class="section"><div class="container"><div class="layout-sidebar">' +
-      '\n      <div class="post-main"><div class="post-grid">' + cards + "</div></div>" +
-      "\n      " + sidebar.render(ctx, blocks) +
+      '\n      <div class="post-main">' + grid + "</div>" +
+      "\n      " + asideHtml +
       "\n    </div></div></section>";
   } else {
     listing =
       '\n    <section class="section"><div class="container">' +
-      '<div class="post-grid">' + cards + "</div>" +
+      grid +
       "</div></section>";
   }
 

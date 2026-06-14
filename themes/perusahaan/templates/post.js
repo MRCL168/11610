@@ -1,10 +1,12 @@
 /* ============================================================
    templates/post.js — Artikel tunggal (TEMA)
-   Tata letak baca lebar-fokus (tanpa sidebar) + artikel terkait.
+   Dua kolom (isi + sidebar) bila sidebar terisi; jika kosong, isi
+   lebar-fokus. Sidebar muncul di semua halaman SELAIN beranda.
    ctx: { config, U, lib, site, seo, themeVars, post, related }
    ============================================================ */
 
 var layout = require("./partials/layout");
+var sidebar = require("./partials/sidebar");
 
 module.exports = function post(ctx) {
   var config = ctx.config, U = ctx.U, lib = ctx.lib, post = ctx.post, related = ctx.related;
@@ -50,12 +52,24 @@ module.exports = function post(ctx) {
       "</div></div></section>"
     : "";
 
-  var article =
-    '\n    <article class="post">' +
-    '\n      <div class="container post-narrow">' + header + "</div>" +
-    (featuredFig ? '\n      <div class="container">' + featuredFig + "</div>" : "") +
-    '\n      <div class="container post-narrow">' + body + "</div>" +
-    "\n    </article>";
+  var blocks = sidebar.getSidebar(ctx);
+  var article;
+  if (blocks.length) {
+    article =
+      '\n    <article class="post">' +
+      '\n      <div class="container"><div class="layout-sidebar">' +
+      '\n        <div class="post-main">' + header + featuredFig + body + "</div>" +
+      "\n        " + sidebar.render(ctx, blocks) +
+      "\n      </div></div>" +
+      "\n    </article>";
+  } else {
+    article =
+      '\n    <article class="post">' +
+      '\n      <div class="container post-narrow">' + header + "</div>" +
+      (featuredFig ? '\n      <div class="container">' + featuredFig + "</div>" : "") +
+      '\n      <div class="container post-narrow">' + body + "</div>" +
+      "\n    </article>";
+  }
 
   return layout(ctx, article + relatedHtml);
 };

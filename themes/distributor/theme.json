@@ -1,0 +1,173 @@
+{
+  "name": "Distributor",
+  "version": "1.0.0",
+  "author": "GudangWEB",
+  "description": "Tema distributor & katalog produk — beranda landing (hero slider, keunggulan, profil, grid katalog dari post, lokasi + kontak, CTA), kartu produk dengan tombol kontak, dan sticky sidebar info perusahaan di setiap halaman selain beranda. Nuansa biru modern.",
+  "screenshot": "",
+  "options": {
+    "accent": { "type": "color", "label": "Warna Aksen", "default": "#1f5fd0" },
+    "accentDeep": { "type": "color", "label": "Warna Aksen Gelap", "default": "#10316e" }
+  },
+  "editors": ["home", "sidebar"],
+  "customize": {
+    "options": {
+      "accent": { "type": "color", "label": "Warna Aksen", "default": "#1f5fd0" },
+      "accentDeep": { "type": "color", "label": "Warna Aksen Gelap", "default": "#10316e", "hint": "Dipakai untuk gradasi hero & elemen tegas." }
+    },
+    "sections": [
+      {
+        "id": "topbar",
+        "label": "Topbar",
+        "icon": "▔",
+        "description": "Bar tipis kontak di atas header. Cocok untuk nomor telepon/WhatsApp & info singkat. Nonaktif secara bawaan.",
+        "fields": [
+          { "key": "topbar.enabled", "type": "checkbox", "label": "Tampilkan topbar", "default": false },
+          { "key": "topbar.text", "type": "text", "label": "Teks kiri", "placeholder": "Melayani pengiriman ke seluruh Indonesia" },
+          { "key": "topbar.phone", "type": "text", "label": "Telepon", "placeholder": "021-1234567" },
+          { "key": "topbar.whatsapp", "type": "text", "label": "WhatsApp", "placeholder": "6281234567890" }
+        ]
+      },
+      {
+        "id": "hero",
+        "label": "Hero (Slider)",
+        "icon": "✶",
+        "description": "Bagian paling atas beranda — slider gambar fullwidth dengan judul, sub-judul, dan tombol ajakan di atasnya.",
+        "fields": [
+          { "key": "hero.eyebrow", "type": "text", "label": "Eyebrow (label kecil)", "placeholder": "Distributor Resmi" },
+          { "key": "hero.title", "type": "text", "label": "Judul (headline)", "placeholder": "Distributor & Supplier Terpercaya" },
+          { "key": "hero.subtitle", "type": "textarea", "label": "Sub-judul", "rows": 2 },
+          { "key": "hero.slides", "type": "repeater", "label": "Slide Gambar", "addLabel": "+ Tambah Slide", "itemLabel": "Slide", "hint": "Bila kosong, hero tampil polos dengan gradasi warna aksen.", "fields": [
+            { "key": "image", "type": "image", "label": "Gambar slide" },
+            { "key": "alt", "type": "text", "label": "Teks alternatif (alt)" }
+          ] },
+          { "key": "hero.autoplay", "type": "checkbox", "label": "Putar otomatis (autoplay)", "default": true },
+          { "key": "hero.interval", "type": "number", "label": "Jeda antar slide (detik)", "min": 2, "max": 15, "default": 5 },
+          { "key": "hero.primaryCta", "type": "group", "label": "Tombol utama", "layout": "row", "fields": [
+            { "key": "text", "type": "text", "label": "Teks", "placeholder": "Lihat Katalog" },
+            { "key": "url", "type": "text", "label": "URL", "placeholder": "#katalog" }
+          ] },
+          { "key": "hero.secondaryCta", "type": "group", "label": "Tombol kedua (opsional)", "layout": "row", "fields": [
+            { "key": "text", "type": "text", "label": "Teks", "placeholder": "Hubungi Kami" },
+            { "key": "url", "type": "text", "label": "URL" }
+          ] }
+        ]
+      },
+      {
+        "id": "headerCta",
+        "label": "Tombol CTA Header",
+        "icon": "▸",
+        "description": "Tombol ajakan di pojok kanan header. Otomatis disembunyikan pada tampilan mobile. Kosongkan teks/URL untuk mengikuti kontak utama.",
+        "fields": [
+          { "key": "headerCta.show", "type": "checkbox", "label": "Tampilkan tombol CTA di header", "default": true },
+          { "key": "headerCta", "type": "group", "label": "", "layout": "row", "fields": [
+            { "key": "text", "type": "text", "label": "Teks tombol", "placeholder": "Hubungi Kami" },
+            { "key": "url", "type": "text", "label": "URL tujuan" }
+          ] }
+        ]
+      },
+      {
+        "id": "features",
+        "label": "Keunggulan",
+        "icon": "▢",
+        "description": "Daftar keunggulan/keuntungan dengan ikon di samping kiri tiap item. Tampil bila diisi minimal satu.",
+        "fields": [
+          { "key": "features.eyebrow", "type": "text", "label": "Eyebrow seksi", "placeholder": "Kenapa Memilih Kami" },
+          { "key": "features.title", "type": "text", "label": "Judul seksi", "placeholder": "Keunggulan Layanan Distribusi Kami" },
+          { "key": "features.intro", "type": "textarea", "label": "Pengantar seksi", "rows": 2 },
+          { "key": "features.items", "type": "repeater", "label": "Daftar Keunggulan", "addLabel": "+ Tambah Keunggulan", "itemLabel": "Keunggulan", "fields": [
+            { "key": "icon", "type": "select", "label": "Ikon", "choices": ["box", "truck", "warehouse", "shield", "tag", "globe", "headset", "clock", "handshake", "rocket", "layers", "check", "star", "coins"], "default": "box" },
+            { "key": "title", "type": "text", "label": "Judul" },
+            { "key": "text", "type": "textarea", "label": "Teks", "rows": 2 }
+          ] }
+        ]
+      },
+      {
+        "id": "profile",
+        "label": "Profil Singkat",
+        "icon": "◑",
+        "description": "Perkenalan singkat perusahaan beserta foto dan poin-poin keunggulan. Tampil bila teks/foto/poin diisi.",
+        "fields": [
+          { "key": "profile.eyebrow", "type": "text", "label": "Eyebrow", "placeholder": "Tentang Kami" },
+          { "key": "profile.title", "type": "text", "label": "Judul" },
+          { "key": "profile.text", "type": "textarea", "label": "Teks", "rows": 4 },
+          { "key": "profile.image", "type": "image", "label": "Foto (opsional)" },
+          { "key": "profile.points", "type": "repeater", "itemType": "string", "label": "Poin-poin", "addLabel": "+ Tambah Poin", "placeholder": "Poin keunggulan" },
+          { "key": "profile.button", "type": "group", "label": "Tombol (opsional)", "layout": "row", "fields": [
+            { "key": "text", "type": "text", "label": "Teks", "placeholder": "Selengkapnya" },
+            { "key": "url", "type": "text", "label": "URL", "placeholder": "/about/" }
+          ] }
+        ]
+      },
+      {
+        "id": "catalog",
+        "label": "Katalog Produk",
+        "icon": "▦",
+        "description": "Grid produk di beranda. Data diambil dari post terbaru. Atur jumlah kartu dan jumlah kolom.",
+        "fields": [
+          { "key": "catalog.eyebrow", "type": "text", "label": "Eyebrow seksi", "placeholder": "Katalog" },
+          { "key": "catalog.title", "type": "text", "label": "Judul seksi", "placeholder": "Produk Unggulan Kami" },
+          { "key": "catalog.intro", "type": "textarea", "label": "Pengantar seksi", "rows": 2 },
+          { "key": "catalog.count", "type": "number", "label": "Jumlah produk ditampilkan", "min": 1, "max": 24, "default": 6 },
+          { "key": "catalog.columns", "type": "select", "label": "Jumlah kolom", "choices": ["2", "3", "4"], "default": "3" },
+          { "key": "catalog.viewAllText", "type": "text", "label": "Teks tombol 'lihat semua'", "placeholder": "Lihat Semua Produk" },
+          { "key": "catalog.viewAllUrl", "type": "text", "label": "URL 'lihat semua' (opsional)", "placeholder": "/category/produk/" }
+        ]
+      },
+      {
+        "id": "location",
+        "label": "Lokasi & Kontak",
+        "icon": "⚲",
+        "description": "Peta lokasi (embed) berdampingan dengan informasi kontak: alamat, telepon, WhatsApp, email, jam buka.",
+        "fields": [
+          { "key": "location.eyebrow", "type": "text", "label": "Eyebrow seksi", "placeholder": "Kunjungi Kami" },
+          { "key": "location.title", "type": "text", "label": "Judul seksi", "placeholder": "Lokasi & Kontak" },
+          { "key": "location.text", "type": "textarea", "label": "Teks pengantar", "rows": 2 },
+          { "key": "location.address", "type": "textarea", "label": "Alamat", "rows": 2 },
+          { "key": "location.phone", "type": "text", "label": "Telepon" },
+          { "key": "location.whatsapp", "type": "text", "label": "WhatsApp", "placeholder": "6281234567890" },
+          { "key": "location.email", "type": "text", "label": "Email" },
+          { "key": "location.hours", "type": "text", "label": "Jam buka", "placeholder": "Senin–Sabtu, 08.00–17.00" },
+          { "key": "location.mapEmbed", "type": "textarea", "label": "Peta (kode <iframe> Google Maps atau URL embed)", "rows": 3, "hint": "Tempel kode embed Google Maps, atau cukup URL embed-nya." },
+          { "key": "location.mapUrl", "type": "text", "label": "URL 'Buka di Maps' (opsional)", "placeholder": "https://maps.google.com/?q=..." }
+        ]
+      },
+      {
+        "id": "cta",
+        "label": "CTA Band",
+        "icon": "▭",
+        "description": "Pita ajakan di bagian bawah beranda. Tampil bila judul/teks diisi.",
+        "fields": [
+          { "key": "cta.title", "type": "text", "label": "Judul", "placeholder": "Butuh penawaran harga grosir?" },
+          { "key": "cta.text", "type": "textarea", "label": "Teks", "rows": 2 },
+          { "key": "cta.button", "type": "group", "label": "Tombol", "layout": "row", "fields": [
+            { "key": "text", "type": "text", "label": "Teks", "placeholder": "Minta Penawaran" },
+            { "key": "url", "type": "text", "label": "URL" }
+          ] }
+        ]
+      },
+      {
+        "id": "sidebar",
+        "label": "Sidebar",
+        "icon": "▥",
+        "description": "Sticky sidebar info perusahaan yang tampil di SEMUA halaman selain beranda (artikel/produk, halaman statis, arsip). Matikan untuk tampil lebar penuh.",
+        "fields": [
+          { "key": "sidebar.enabled", "type": "checkbox", "label": "Tampilkan sidebar", "default": true },
+          { "key": "sidebar.title", "type": "text", "label": "Judul / Nama perusahaan", "placeholder": "PT Distribusi Nusantara" },
+          { "key": "sidebar.logo", "type": "image", "label": "Logo (opsional)" },
+          { "key": "sidebar.text", "type": "textarea", "label": "Deskripsi singkat", "rows": 3 },
+          { "key": "sidebar.address", "type": "textarea", "label": "Alamat", "rows": 2 },
+          { "key": "sidebar.phone", "type": "text", "label": "Telepon" },
+          { "key": "sidebar.whatsapp", "type": "text", "label": "WhatsApp", "placeholder": "6281234567890" },
+          { "key": "sidebar.email", "type": "text", "label": "Email" },
+          { "key": "sidebar.hours", "type": "text", "label": "Jam buka" },
+          { "key": "sidebar.button", "type": "group", "label": "Tombol kontak utama", "layout": "row", "fields": [
+            { "key": "text", "type": "text", "label": "Teks", "placeholder": "Hubungi Sekarang" },
+            { "key": "url", "type": "text", "label": "URL (opsional)" }
+          ] },
+          { "key": "sidebar.showRecent", "type": "checkbox", "label": "Tampilkan daftar produk terbaru", "default": false },
+          { "key": "sidebar.recentCount", "type": "number", "label": "Jumlah produk terbaru", "min": 1, "max": 12, "default": 4 }
+        ]
+      }
+    ]
+  }
+}

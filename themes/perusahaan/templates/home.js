@@ -175,7 +175,49 @@ module.exports = function home(ctx) {
       "\n    </section>";
   }
 
-  /* === 6) CTA BAND === */
+  /* === 6) FAQ (accordion + schema FAQPage untuk AEO/SEO) === */
+  var faq = "";
+  if (profile.faq) {
+    var faqIntro = profile.faq.intro ? "<p>" + esc(profile.faq.intro) + "</p>" : "";
+    var faqRows = profile.faq.items.map(function (f, i) {
+      // Jawaban: dukung beberapa paragraf (pisah baris kosong), tetap di-escape.
+      var answer = String(f.a || "")
+        .split(/\n{2,}/)
+        .map(function (par) { return "<p>" + esc(par).replace(/\n/g, "<br>") + "</p>"; })
+        .join("");
+      return (
+        '\n        <details class="faq-item"' + (i === 0 ? " open" : "") + ">" +
+        '<summary class="faq-q">' + esc(f.q) + '<span class="faq-ic" aria-hidden="true"></span></summary>' +
+        '<div class="faq-a">' + answer + "</div>" +
+        "</details>"
+      );
+    }).join("");
+
+    // Schema FAQPage: bantu Google & mesin jawaban AI memahami tanya-jawab.
+    var faqLd = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: profile.faq.items.map(function (f) {
+        return {
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: String(f.a || "").replace(/\s+/g, " ").trim() }
+        };
+      })
+    };
+    var faqLdTag = '\n      <script type="application/ld+json">' + JSON.stringify(faqLd).replace(/</g, "\\u003c") + "</script>";
+
+    faq =
+      '\n    <section class="section section-alt" id="faq">' +
+      '\n      <div class="container">' +
+      '\n        <div class="section-head center"><span class="eyebrow">' + esc(profile.faq.eyebrow) + '</span><h2>' + esc(profile.faq.title) + "</h2>" + faqIntro + "</div>" +
+      '\n        <div class="faq-list">' + faqRows + "</div>" +
+      faqLdTag +
+      "\n      </div>" +
+      "\n    </section>";
+  }
+
+  /* === 7) CTA BAND === */
   var ctaBand = "";
   if (profile.ctaBand) {
     var bandText = profile.ctaBand.text ? "<p>" + esc(profile.ctaBand.text) + "</p>" : "";
@@ -188,6 +230,6 @@ module.exports = function home(ctx) {
       "\n    </section>";
   }
 
-  var content = hero + stats + about + services + news + ctaBand;
+  var content = hero + stats + about + services + news + faq + ctaBand;
   return layout(ctx, content);
 };

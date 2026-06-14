@@ -1,14 +1,14 @@
 {
   "name": "Perusahaan",
-  "version": "1.0.0",
+  "version": "1.2.1",
   "author": "GudangWEB",
-  "description": "Tema profil perusahaan biru modern profesional — beranda landing dengan hero slider berlatar foto, statistik, profil, layanan, berita, CTA, serta halaman kontak ber-peta. Semua bagian dapat diatur dari menu Sesuaikan.",
+  "description": "Tema profil perusahaan biru modern profesional — beranda landing dengan hero slider berlatar foto, statistik, profil, layanan, berita, FAQ (schema FAQPage), CTA, halaman kontak ber-peta, serta sidebar widget (termasuk Tombol Kontak) di halaman dalam. Semua bagian dapat diatur dari menu Sesuaikan. Konten default bertema GudangWEB (jasa pembuatan website & SEO).",
   "screenshot": "",
   "options": {
     "accent": { "type": "color", "label": "Warna Aksen", "default": "#2563eb" },
     "accentDeep": { "type": "color", "label": "Warna Aksen Gelap", "default": "#1e3a8a" }
   },
-  "editors": ["home"],
+  "editors": ["home", "sidebar"],
   "customize": {
     "options": {
       "accent": { "type": "color", "label": "Warna Aksen", "default": "#2563eb" },
@@ -104,6 +104,22 @@
         ]
       },
       {
+        "id": "faq",
+        "label": "FAQ",
+        "icon": "?",
+        "description": "Tanya-jawab di beranda, lengkap dengan schema FAQPage untuk SEO/AEO. Nonaktifkan untuk menyembunyikan seksi.",
+        "fields": [
+          { "key": "faq.enabled", "type": "checkbox", "label": "Tampilkan FAQ di beranda", "default": true },
+          { "key": "faq.eyebrow", "type": "text", "label": "Eyebrow seksi", "placeholder": "FAQ" },
+          { "key": "faq.title", "type": "text", "label": "Judul seksi", "placeholder": "Pertanyaan yang Sering Diajukan" },
+          { "key": "faq.intro", "type": "textarea", "label": "Pengantar seksi", "rows": 2 },
+          { "key": "faq.items", "type": "repeater", "label": "Daftar Pertanyaan", "addLabel": "+ Tambah Pertanyaan", "itemLabel": "Pertanyaan", "fields": [
+            { "key": "q", "type": "text", "label": "Pertanyaan", "placeholder": "Berapa biaya pembuatan website?" },
+            { "key": "a", "type": "textarea", "label": "Jawaban", "rows": 3 }
+          ] }
+        ]
+      },
+      {
         "id": "ctaBand",
         "label": "CTA Band",
         "icon": "▭",
@@ -133,6 +149,42 @@
           { "key": "contact.hours", "type": "textarea", "label": "Jam operasional", "rows": 2, "placeholder": "Senin–Jumat 09.00–17.00" },
           { "key": "contact.mapEmbed", "type": "textarea", "label": "Embed Peta (kode <iframe> atau URL embed Google Maps)", "rows": 3, "hint": "Tempel kode <iframe ...> dari Google Maps → Bagikan → Sematkan peta, atau URL embed-nya saja." },
           { "key": "contact.mapsUrl", "type": "text", "label": "Tautan Google Maps (opsional)", "placeholder": "https://maps.google.com/?q=..." }
+        ]
+      },
+      {
+        "id": "sidebar",
+        "label": "Sidebar",
+        "icon": "▥",
+        "description": "Bilah sisi yang muncul di semua halaman SELAIN beranda (artikel, halaman statis, arsip). Kosongkan agar halaman tampil lebar penuh.",
+        "fields": [
+          { "key": "sidebar", "type": "repeater", "label": "Widget Sidebar", "addLabel": "+ Tambah Widget", "itemLabel": "Widget",
+            "typeField": "type",
+            "typeLabel": "Tipe Widget",
+            "typeChoices": [
+              ["tombol-kontak", "Tombol Kontak"], ["text", "Teks / HTML"], ["cta", "Ajakan (CTA)"],
+              ["links", "Daftar Tautan"], ["recent-posts", "Artikel Terbaru"], ["social", "Media Sosial"]
+            ],
+            "common": [
+              { "key": "title", "type": "text", "label": "Judul" }
+            ],
+            "variants": {
+              "tombol-kontak": [
+                { "key": "text", "type": "textarea", "label": "Teks", "rows": 2, "placeholder": "Konsultasi gratis untuk kebutuhan Anda." },
+                { "key": "items", "type": "linklist", "label": "Tombol (satu per baris: Label | URL)", "rows": 4, "placeholder": "Chat WhatsApp | https://wa.me/62812xxxxxxx" }
+              ],
+              "text": [ { "key": "content", "type": "textarea", "label": "Konten (HTML)", "rows": 3 } ],
+              "cta": [
+                { "key": "text", "type": "textarea", "label": "Teks", "rows": 2 },
+                { "key": "button", "type": "group", "label": "Tombol", "layout": "row", "fields": [
+                  { "key": "text", "type": "text", "label": "Teks" },
+                  { "key": "url", "type": "text", "label": "URL" }
+                ] }
+              ],
+              "links": [ { "key": "items", "type": "linklist", "label": "Tautan (satu per baris: Label | URL)", "rows": 4, "placeholder": "Layanan | /#layanan" } ],
+              "recent-posts": [ { "key": "count", "type": "number", "label": "Jumlah artikel", "min": 1, "max": 12, "default": 4 } ],
+              "social": [ { "key": "_note", "type": "note", "label": "Menampilkan ikon dari Pengaturan Situs → Media Sosial." } ]
+            }
+          }
         ]
       }
     ]
