@@ -439,6 +439,74 @@
             "text": "",
             "url": ""
           }
+        },
+        "headerCta": {
+          "show": true,
+          "text": "",
+          "url": ""
+        },
+        "features": {
+          "items": [],
+          "eyebrow": "",
+          "title": "",
+          "intro": ""
+        },
+        "profile": {
+          "points": [],
+          "eyebrow": "",
+          "title": "",
+          "text": "",
+          "image": "",
+          "button": {
+            "text": "",
+            "url": ""
+          }
+        },
+        "catalog": {
+          "eyebrow": "",
+          "title": "",
+          "intro": "",
+          "count": 6,
+          "columns": "3",
+          "viewAllText": "",
+          "viewAllUrl": ""
+        },
+        "location": {
+          "eyebrow": "",
+          "title": "",
+          "text": "",
+          "address": "",
+          "phone": "",
+          "whatsapp": "",
+          "email": "",
+          "hours": "",
+          "mapEmbed": "",
+          "mapUrl": ""
+        },
+        "cta": {
+          "title": "",
+          "text": "",
+          "button": {
+            "text": "",
+            "url": ""
+          }
+        },
+        "sidebar": {
+          "enabled": true,
+          "title": "Gudangweb",
+          "logo": "/public/images/1781257447665-logo-gudangweb-1.png",
+          "text": "Hubungi kami sekarang",
+          "address": "JL. Curug Raya",
+          "phone": "087741135796",
+          "whatsapp": "6287741135796",
+          "email": "support@gudangweb.com",
+          "hours": "Senin - Jumat 09.00 - 20.00",
+          "button": {
+            "text": "Hubungi Sekarang",
+            "url": "https://wa.me/6287741135796"
+          },
+          "showRecent": false,
+          "recentCount": 4
         }
       }
     }
@@ -520,6 +588,74 @@
         "text": "",
         "url": ""
       }
+    },
+    "headerCta": {
+      "show": true,
+      "text": "",
+      "url": ""
+    },
+    "features": {
+      "items": [],
+      "eyebrow": "",
+      "title": "",
+      "intro": ""
+    },
+    "profile": {
+      "points": [],
+      "eyebrow": "",
+      "title": "",
+      "text": "",
+      "image": "",
+      "button": {
+        "text": "",
+        "url": ""
+      }
+    },
+    "catalog": {
+      "eyebrow": "",
+      "title": "",
+      "intro": "",
+      "count": 6,
+      "columns": "3",
+      "viewAllText": "",
+      "viewAllUrl": ""
+    },
+    "location": {
+      "eyebrow": "",
+      "title": "",
+      "text": "",
+      "address": "",
+      "phone": "",
+      "whatsapp": "",
+      "email": "",
+      "hours": "",
+      "mapEmbed": "",
+      "mapUrl": ""
+    },
+    "cta": {
+      "title": "",
+      "text": "",
+      "button": {
+        "text": "",
+        "url": ""
+      }
+    },
+    "sidebar": {
+      "enabled": true,
+      "title": "Gudangweb",
+      "logo": "/public/images/1781257447665-logo-gudangweb-1.png",
+      "text": "Hubungi kami sekarang",
+      "address": "JL. Curug Raya",
+      "phone": "087741135796",
+      "whatsapp": "6287741135796",
+      "email": "support@gudangweb.com",
+      "hours": "Senin - Jumat 09.00 - 20.00",
+      "button": {
+        "text": "Hubungi Sekarang",
+        "url": "https://wa.me/6287741135796"
+      },
+      "showRecent": false,
+      "recentCount": 4
     }
   },
   "footerText": "Dibuat dengan GitCMS — konten tersimpan di GitHub."
