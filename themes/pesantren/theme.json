@@ -17,6 +17,7 @@
     },
     "sections": [
       {
+        "id": "hero",
         "label": "Hero (Beranda Atas)",
         "fields": [
           { "key": "hero.eyebrow", "type": "text", "label": "Label kecil (eyebrow)", "placeholder": "Pondok Pesantren" },
@@ -27,12 +28,14 @@
         ]
       },
       {
+        "id": "slider",
         "label": "Slider Hero",
         "fields": [
           { "key": "slides", "type": "repeater", "label": "Slide gambar", "addLabel": "+ Tambah Slide", "itemLabel": "Slide", "fields": [ { "key": "image", "type": "image", "label": "Gambar" }, { "key": "title", "type": "text", "label": "Judul (opsional)" }, { "key": "caption", "type": "text", "label": "Keterangan (opsional)" } ] }
         ]
       },
       {
+        "id": "headerCta",
         "label": "Tombol CTA Header",
         "fields": [
           { "key": "headerCta.show", "type": "checkbox", "label": "Tampilkan tombol CTA di header", "default": true },
@@ -40,12 +43,14 @@
         ]
       },
       {
+        "id": "stats",
         "label": "Statistik",
         "fields": [
           { "key": "stats", "type": "repeater", "label": "Statistik", "addLabel": "+ Tambah Statistik", "itemLabel": "Statistik", "fields": [ { "key": "value", "type": "text", "label": "Angka", "placeholder": "1.250" }, { "key": "label", "type": "text", "label": "Keterangan", "placeholder": "Santri Aktif" } ] }
         ]
       },
       {
+        "id": "programs",
         "label": "Program Unggulan",
         "fields": [
           { "key": "programsEyebrow", "type": "text", "label": "Label kecil", "placeholder": "Apa yang Kami Ajarkan" },
@@ -55,6 +60,7 @@
         ]
       },
       {
+        "id": "profil",
         "label": "Profil Singkat",
         "fields": [
           { "key": "profil.eyebrow", "type": "text", "label": "Label kecil", "placeholder": "Tentang Kami" },
@@ -65,6 +71,7 @@
         ]
       },
       {
+        "id": "fasilitas",
         "label": "Fasilitas Penunjang",
         "fields": [
           { "key": "fasilitasEyebrow", "type": "text", "label": "Label kecil", "placeholder": "Sarana & Prasarana" },
@@ -74,6 +81,7 @@
         ]
       },
       {
+        "id": "pengajar",
         "label": "Pengajar (Asatidz)",
         "fields": [
           { "key": "pengajarEyebrow", "type": "text", "label": "Label kecil", "placeholder": "Dewan Asatidz" },
@@ -83,6 +91,7 @@
         ]
       },
       {
+        "id": "berita",
         "label": "Berita & Kegiatan",
         "fields": [
           { "key": "berita.enabled", "type": "checkbox", "label": "Tampilkan seksi berita di beranda", "default": true },
@@ -91,6 +100,7 @@
         ]
       },
       {
+        "id": "testimoni",
         "label": "Testimoni",
         "fields": [
           { "key": "testimoniEyebrow", "type": "text", "label": "Label kecil", "placeholder": "Kata Mereka" },
@@ -99,6 +109,7 @@
         ]
       },
       {
+        "id": "kontak",
         "label": "Lokasi & Kontak",
         "fields": [
           { "key": "kontak.eyebrow", "type": "text", "label": "Label kecil", "placeholder": "Kunjungi Kami" },
@@ -113,6 +124,7 @@
         ]
       },
       {
+        "id": "pendaftaran",
         "label": "Pendaftaran Santri",
         "fields": [
           { "key": "pendaftaran.intro", "type": "textarea", "label": "Pengantar halaman pendaftaran", "rows": 2 },
@@ -122,6 +134,7 @@
         ]
       },
       {
+        "id": "ctaBand",
         "label": "CTA (Ajakan Bertindak)",
         "fields": [
           { "key": "cta.title", "type": "text", "label": "Judul CTA", "placeholder": "Siap Bergabung Bersama Kami?" },
@@ -130,6 +143,7 @@
         ]
       },
       {
+        "id": "sidebar",
         "label": "Bilah Sisi (Sidebar)",
         "fields": [
           { "key": "sidebar.enabled", "type": "checkbox", "label": "Tampilkan bilah sisi — muncul di semua halaman kecuali beranda", "default": true },
