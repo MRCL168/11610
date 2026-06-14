@@ -6,7 +6,7 @@ status: published
 category: Pengumuman
 author: Nama Anda
 tags: ["getting-started", "blog"]
-excerpt: Artikel pembuka yang menjelaskan tentang blog ini dan apa saja yang akan Anda temukan di sini.
+excerpt: Artikel pembuka yang menjelaskan tentang blog ini dan apa saja yang akan Anda temukan di sini. Blog ini menjadi tempat saya berbagi catatan, tutorial, dan opini seputar pengembangan web dan SEO. Setiap artikel ditulis dalam Markdown lalu dipublikasikan otomatis ke web.
 featured_image: /public/images/1781259068865-promo.png
 ---
 
