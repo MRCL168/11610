@@ -446,9 +446,25 @@
           "url": ""
         },
         "features": {
-          "items": [],
-          "eyebrow": "",
-          "title": "",
+          "items": [
+            {
+              "icon": "truck",
+              "title": "Pengiriman cepat",
+              "text": "proses pengiriman cepat"
+            },
+            {
+              "icon": "globe",
+              "title": "Ke seluruh indonesia",
+              "text": "kami melakukan pengiriman ke seluruh indonesia"
+            },
+            {
+              "icon": "shield",
+              "title": "Pembayaran Aman",
+              "text": "Pembayaran aman dan terenscript"
+            }
+          ],
+          "eyebrow": "Kenapa Memilih Kami ?",
+          "title": "Keunggulan layanan kami",
           "intro": ""
         },
         "profile": {
@@ -595,9 +611,25 @@
       "url": ""
     },
     "features": {
-      "items": [],
-      "eyebrow": "",
-      "title": "",
+      "items": [
+        {
+          "icon": "truck",
+          "title": "Pengiriman cepat",
+          "text": "proses pengiriman cepat"
+        },
+        {
+          "icon": "globe",
+          "title": "Ke seluruh indonesia",
+          "text": "kami melakukan pengiriman ke seluruh indonesia"
+        },
+        {
+          "icon": "shield",
+          "title": "Pembayaran Aman",
+          "text": "Pembayaran aman dan terenscript"
+        }
+      ],
+      "eyebrow": "Kenapa Memilih Kami ?",
+      "title": "Keunggulan layanan kami",
       "intro": ""
     },
     "profile": {
