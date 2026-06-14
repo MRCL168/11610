@@ -5,7 +5,9 @@
   "author": "Admin",
   "language": "id",
   "theme": "kuliner",
-  "themeOptions": {},
+  "themeOptions": {
+    "accent": "#268729"
+  },
   "themeData": {
     "company": {
       "options": {},
@@ -527,8 +529,21 @@
       }
     },
     "kuliner": {
-      "options": {},
-      "content": {}
+      "options": {
+        "accent": "#268729"
+      },
+      "content": {
+        "categories": {
+          "items": [],
+          "enabled": true,
+          "eyebrow": "",
+          "title": ""
+        },
+        "search": {
+          "enabled": true,
+          "placeholder": ""
+        }
+      }
     }
   },
   "baseUrl": "https://blog.akularis.com",
@@ -577,6 +592,17 @@
       "url": "/#lokasi"
     }
   ],
-  "profile": {},
+  "profile": {
+    "categories": {
+      "items": [],
+      "enabled": true,
+      "eyebrow": "",
+      "title": ""
+    },
+    "search": {
+      "enabled": true,
+      "placeholder": ""
+    }
+  },
   "footerText": "Dibuat dengan GitCMS — konten tersimpan di GitHub."
 }
