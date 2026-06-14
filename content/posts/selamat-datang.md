@@ -10,6 +10,7 @@ excerpt: Artikel pembuka yang menjelaskan tentang blog ini dan apa saja yang aka
 featured_image: /public/images/1781259068865-promo.png
 ---
 
+"25,000"
 Halo dan selamat datang! Ini adalah artikel pertama di blog yang dibangun sepenuhnya di atas **GitHub** — tanpa database, tanpa server, dan tanpa biaya hosting.
 
 ## Kenapa Blog Ini Ada
