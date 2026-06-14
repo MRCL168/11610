@@ -408,7 +408,39 @@
     },
     "distributor": {
       "options": {},
-      "content": {}
+      "content": {
+        "topbar": {
+          "enabled": false,
+          "text": "",
+          "phone": "",
+          "whatsapp": ""
+        },
+        "hero": {
+          "slides": [
+            {
+              "image": "/public/images/1780956696509-hero-gudangweb-com.png",
+              "alt": ""
+            },
+            {
+              "image": "/public/images/1780969203798-jasa-perbaikan-website-rusak-error-dan-terkena-hack.jpg",
+              "alt": ""
+            }
+          ],
+          "eyebrow": "",
+          "title": "",
+          "subtitle": "",
+          "autoplay": true,
+          "interval": 5,
+          "primaryCta": {
+            "text": "",
+            "url": ""
+          },
+          "secondaryCta": {
+            "text": "",
+            "url": ""
+          }
+        }
+      }
     }
   },
   "baseUrl": "https://blog.akularis.com",
@@ -457,6 +489,38 @@
       "url": "/kontak"
     }
   ],
-  "profile": {},
+  "profile": {
+    "topbar": {
+      "enabled": false,
+      "text": "",
+      "phone": "",
+      "whatsapp": ""
+    },
+    "hero": {
+      "slides": [
+        {
+          "image": "/public/images/1780956696509-hero-gudangweb-com.png",
+          "alt": ""
+        },
+        {
+          "image": "/public/images/1780969203798-jasa-perbaikan-website-rusak-error-dan-terkena-hack.jpg",
+          "alt": ""
+        }
+      ],
+      "eyebrow": "",
+      "title": "",
+      "subtitle": "",
+      "autoplay": true,
+      "interval": 5,
+      "primaryCta": {
+        "text": "",
+        "url": ""
+      },
+      "secondaryCta": {
+        "text": "",
+        "url": ""
+      }
+    }
+  },
   "footerText": "Dibuat dengan GitCMS — konten tersimpan di GitHub."
 }
