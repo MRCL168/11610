@@ -542,6 +542,13 @@
         "search": {
           "enabled": true,
           "placeholder": ""
+        },
+        "order": {
+          "whatsapp": "6287741135796",
+          "storeName": "Gudang Resto",
+          "greeting": "Halo Saya ingin memesan :",
+          "currency": "Rp",
+          "note": ""
         }
       }
     }
@@ -602,6 +609,13 @@
     "search": {
       "enabled": true,
       "placeholder": ""
+    },
+    "order": {
+      "whatsapp": "6287741135796",
+      "storeName": "Gudang Resto",
+      "greeting": "Halo Saya ingin memesan :",
+      "currency": "Rp",
+      "note": ""
     }
   },
   "footerText": "Dibuat dengan GitCMS — konten tersimpan di GitHub."
