@@ -27,3 +27,4 @@ Blog ini menjadi tempat saya berbagi catatan, tutorial, dan opini seputar pengem
 ## Selanjutnya
 
 Jelajahi artikel-artikel lain, dan jangan lupa berlangganan RSS untuk mendapat pembaruan terbaru. Selamat membaca!
+harga: 25000
